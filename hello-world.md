@@ -35,6 +35,6 @@ class: impact
 # Links
 
 - [Google](https://www.google.fr)
-- [A Clean Dev Env PResentation](https://sinedied.github.io/talk-clean-dev-env/)
-
+- [A Clean Dev Env Presentation](https://sinedied.github.io/talk-clean-dev-env/)
+- [remark.js documentation](https://github.com/gnab/remark)
 ]
