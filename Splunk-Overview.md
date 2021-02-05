@@ -1,6 +1,3 @@
-> source: apm-team.com
-
-# 4 main tools
 
 ## 1. Universal Forwarder
 
