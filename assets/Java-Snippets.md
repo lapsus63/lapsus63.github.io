@@ -30,10 +30,12 @@ Info supplémentaire : [StackOverflow](https://stackoverflow.com/questions/58250
 ### Memory dump and analysis
 
 - Command line
+
 ```bash
 jmap -dump:live,file=<file-path> <pid>
 ```
 - Capture **OutOfMemoryError**
+
 ```bash
 # JVM Options :
 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/logs/heapdump
@@ -46,6 +48,7 @@ jmap -dump:live,file=<file-path> <pid>
 
 - From attached console : Ctrl-Break (except if -Xrs JVM argument)
 - Command Line with *JDK*
+
 ```bash
 # must be the same user who owns the JVM process or have sufficient privileges to access it (and Administrator for example)
 # Windows Server 2008R2 : may need to use PsExec.exe tool
@@ -56,6 +59,7 @@ jstack -l JAVA_PID > thread-dump.out
 C:\PSTools>psexec -s c:\Java\jdkX.Y.Z_W\bin\jstack.exe -l JAVA_PID >dump.txt
 ```
 - Command Line with **JRE**
+
 ```bash
 jcmd JAVA_PID
 # or JRE 16+
