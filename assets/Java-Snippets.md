@@ -70,7 +70,7 @@ C:\PSTools>psexec -s c:\jre\path\bin\jcmd.exe JAVA_PID Thread.dump >dump.txt
 
 ### Activation de JMX
 
-*source : [StackOverflow](https://stackoverflow.com/questions/856881/how-to-activate-jmx-on-my-jvm-for-access-with-jconsole)#
+*source : [StackOverflow](https://stackoverflow.com/questions/856881/how-to-activate-jmx-on-my-jvm-for-access-with-jconsole)*
 
 ```bash
 -Dcom.sun.management.jmxremote
