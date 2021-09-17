@@ -14,10 +14,15 @@ docker image push docker.artifactory.michelin.com/docker/image-name:1.0
 docker pull docker.artifactory.michelin.com/docker/image-name:1.0
 ```
 
-### Tips
+# Tips
 
-1. Execute a bash shell in a stopped container, without foreground process :
+### Execute a bash shell in a stopped container
+
 ```bash
 docker run -it --entrypoint /bin/bash mkoperski/robotframework:latest
 docker run -it --entrypoint /bin/bash robotframework-docker_server
+```
+Start a shell from a fresh linux distro :
+```bash
+docker run -it --entrypoint /bin/bash docker.artifactory.michelin.com/michelin-tools:1.4-alpine3.10
 ```
