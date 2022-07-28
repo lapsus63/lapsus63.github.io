@@ -1,5 +1,5 @@
 
-1. Gitlab CI files for multi-module project with maven and Spring
+# Gitlab CI files for multi-module project with maven and Spring
 
 <p>
 <details>
