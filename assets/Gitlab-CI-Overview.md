@@ -345,6 +345,7 @@ git push "https://gitlab-ci:${CI_GIT_TOKEN}@${CI_REPOSITORY_URL#*@}"
 <p>
 <details>
 <summary>The main pom.xml parts</summary>
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -434,8 +435,8 @@ git push "https://gitlab-ci:${CI_GIT_TOKEN}@${CI_REPOSITORY_URL#*@}"
 	</build>
 
 </project>
-
 ```
+
 </details>
 </p>
   
