@@ -1,4 +1,6 @@
-# Overview
+# IBM EAI 
+
+### Overview
 
 - EAI permet de faire communiquer applis entre elles + appliquer des transformations  
 - Entreperise Application Integration = solutions + méthodes  
@@ -8,7 +10,7 @@
 - Norme OAGIS : Open Application Group Integration Specification. = structure du XML ; norme mondiale.  
 - Pas de XSD, compliqué à maintenir  
 
-## Types de flux IIB
+### Types de flux IIB
 
 - Flux publication / souscription (1/2 flux)
   - publication: `Appli > MQ > Queue Manager > IIB Flow > Queue Manager IIB`
@@ -17,7 +19,7 @@
   - Connexion directe entre deux applis par des Queue Manager interconnectés
 - Flux request / reply (rare)
 
-## Contenu d'un projet EAI (Eclipse)
+### Contenu d'un projet EAI (Eclipse)
 
 - Divers projets :
   - MsgFlow: pour les messages type XML
@@ -35,7 +37,7 @@
   - Utilisé pour le monitoring par exemple
   - Fournit des variables de contexte
 
-# Quelques commandes MQ :
+### Quelques commandes MQ :
 
 ```
 crtmqm: création d'un qm
@@ -45,13 +47,13 @@ endmqm: arret d'un qm
 dspmq: affichage des mq
 sqlmqver: affichage des versions de mq
 ```
-# Outils 
+### Outils 
 
 - Client MQ RFHUtil
 - IDE Eclipse IIB (IBM Integration Toolkit)
   - Debugger : `Integration Nodes > NAME > Connexion > Launch debugger`
 
-# IBM WebSphere Message Queuing (MQ)
+### IBM WebSphere Message Queuing (MQ)
 
 - WMB: WebSphere Message Broker = End-point d'envoi ou de réception de demi-flux.
 - Service de messagerie inter-applicatif
