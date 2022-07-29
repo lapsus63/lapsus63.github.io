@@ -110,7 +110,7 @@
   - Least common values: terms | rare
   - Statistics: count, distinct_count, sum, average, list (values of a field), values (unique values of field): terms | stats <keyword> (as "label") (by \<field>)
 
-# Search examples
+## Search examples
 
 - Date & Time
   - `earliest=-2h latest=-1@h (@: round down)`
@@ -131,7 +131,7 @@ or `| eventcount summarize=false index=* | stats sum(count) as c by index | sort
   - `timechart span=1h sum(price) by sourcetype /// timechart span=1s count  ///`
   - `stats count as "Units sols" sum(price) as "Gross Sales" by procuct_name`
 
-# Dashboards
+## Dashboards
 
 - Collection of reports
   - Create report, customize visualization, and save as Dashboard panel
@@ -147,7 +147,7 @@ or `| eventcount summarize=false index=* | stats sum(count) as c by index | sort
   - Instant Pivot : from statistics/Visualization tab for non-transforming searches.
   - Data Models provide data structure for Pivot.
 
-# Lookups
+## Lookups
 
 - Associates data to external sets (User RFID from username, ...)
 - terms `| inputlookup <lookupname> <lookup_column> as <field_name> (OUTPUT (NEW) <lookup_column> as <label>)`
@@ -157,7 +157,7 @@ or `| eventcount summarize=false index=* | stats sum(count) as c by index | sort
   - Settings > Lookups > Lookup definitions > Add New
 - Automatic lookups: Settings > Lookups > Automatic Lookups
  
-# FAQ
+## FAQ
 
 How to delete data from indexes ?
 
