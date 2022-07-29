@@ -82,3 +82,27 @@ C:\PSTools>psexec -s c:\jre\path\bin\jcmd.exe JAVA_PID Thread.dump >dump.txt
 -Djava.rmi.server.hostname=127.0.0.1
 ```
 
+### LDAP Connection
+
+```java
+/*
+ * import javax.naming.*;
+ * VM possible options : -Dhttps.protocols=TLSv1 -Djavax.net.debug=all
+ */
+Hashtable env = new Hashtable();
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+		env.put(Context.PROVIDER_URL, "ldaps://localhost:636");
+		try {
+			//bind to the domain controller
+			LdapContext ctx = new InitialLdapContext(env, null);
+			ctx = new InitialLdapContext(env, null);
+			SearchControls controls = new SearchControls();
+			controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+			NamingEnumeration<SearchResult> result = ctx.search("", "(uid=username)", controls);
+			System.out.println("LDAP Connection Successful : " + result);
+			System.exit(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+```
