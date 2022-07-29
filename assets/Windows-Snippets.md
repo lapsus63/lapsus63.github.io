@@ -10,3 +10,14 @@ reg.exe ADD "HKEY_USERS\.DEFAULT\Control Panel\Keyboard" /f /v "InitialKeyboardI
 
 pause
 ```
+
+### ipconfig cache cleaner
+
+```cmd
+ipconfig /registerdns
+ipconfig /release
+ipconfig /renew
+netsh winsock reset
+
+pause
+```
