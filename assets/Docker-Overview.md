@@ -91,6 +91,7 @@ Optimize-VHD -Path c:\path\to\data.vhdx -Mode Full
 
 <p><details>
   <summary>Docker toolbox for building and managing simple images</summary>
+  
 ```bash
 #!/bin/bash
 
