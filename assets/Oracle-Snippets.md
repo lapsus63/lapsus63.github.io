@@ -39,7 +39,7 @@ select dbms_metadata.get_ddl(object_type, object_name, owner) from (
             object_type
         ) object_type
     from dba_objects 
-    where owner in ('UDH_DBA')
+    where owner in ('OWNER_NAME_HERE')
         --These objects are included with other object types.
         and object_type not in ('INDEX PARTITION','INDEX SUBPARTITION','LOB','LOB PARTITION','TABLE PARTITION','TABLE SUBPARTITION')
         --Ignore system-generated types that support collection processing.
@@ -96,6 +96,31 @@ spool off;
 SELECT 'ALTER SYSTEM KILL SESSION '''||sid||','||serial#||''' IMMEDIATE;' FROM v$session;
 ```
 
+Kill sessions from server directly
+
+```bash
+ssh oracle-db
+sudo su - oracle
+ps -ef | grep oracleNAME_OF_SID | awk '{print $2}' | xargs kill -9
+```
+
+## Shutdown and restart from server (CLI)
+
+```bash
+sudo su - oracle
+. ORAENV NAME_OF_SID
+sqlplus '/ as sysdba'
+shutdown immediate; -- si ca met trop de temps : shutdwon abort
+startup
+```
+
+## Debugging with SqlDeveloper
+
+- [Oracle Tutorial](https://www.oracle.com/webfolder/technetwork/tutorials/obe/db/sqldev/r30/plsql_debug_OBE/plsql_debug_otn.htm)
+- [Failure establishing connection](http://www.dba-oracle.com/t_ora_30683_failure_establishing_connection_to_debugger.htm)
+
+
+
 ## Table Definitions
 
 ```sql
@@ -105,4 +130,34 @@ select dbms_metadata.get_ddl( 'TABLE', 'TABLENAME', 'OWNER_NAME' ) from dual;
 SELECT * FROM all_indexes WHERE owner = 'OWNER_NAME' AND table_name = 'TABLENAME';
 ```
 
+
+## Get Current Locks
+
+```sql
+select c.owner, c.object_name, c.object_type, b.sid, b.serial#, b.status, b.osuser, b.machine
+from v$locked_object a , v$session b, dba_objects c
+where b.sid = a.session_id
+and a.object_id = c.object_id;
+```
+
+## Full database text search
+
+```sql
+-- see https://stackoverflow.com/questions/208493/search-all-fields-in-all-tables-for-a-specific-value-oracle
+
+SET SERVEROUTPUT ON SIZE 100000;
+DECLARE
+  match_count INTEGER;
+BEGIN
+  FOR t IN (SELECT owner, table_name, column_name FROM all_tab_columns WHERE owner = 'xxxxxxxxxx' and data_type LIKE '%CHAR%') LOOP
+    EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM ' || t.owner || '.' || t.table_name || ' WHERE '||t.column_name||' LIKE :1'
+      INTO match_count USING '%xxxxx-search-string-here-xxxxxx%';
+    IF match_count > 0 THEN
+      dbms_output.put_line( t.table_name ||' '||t.column_name||' '||match_count );
+    END IF;
+  END LOOP;
+END;
+/
+
+```
 
