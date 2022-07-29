@@ -1,4 +1,6 @@
-## Full Schema Extraction
+# Oracle Snippets
+
+### Full Schema Extraction
 
 ```sql
 -- see https://stackoverflow.com/questions/10886450/how-to-generate-entire-ddl-of-an-oracle-schema-scriptable
@@ -58,7 +60,7 @@ EOF
 ```
 
 
-## Create User From Scratch
+### Create User From Scratch
 
 ```sql
 DROP USER MY_NAME CASCADE;
@@ -69,7 +71,7 @@ GRANT RESOURCE TO MY_NAME;
 ```
 
 
-## Explain Query (Plan Table)
+### Explain Query (Plan Table)
 
 ```sql
 EXPLAIN PLAN FOR 
@@ -77,7 +79,7 @@ SELECT ...;
 SELECT * FROM TABLE(dbms_xplan.display);
 ```
 
-## Query to File
+### Query to File
 
 ```sql
 set heading on
@@ -90,7 +92,7 @@ spool C:\Users\User\Desktop\myoutputfile.txt
 spool off;
 ```
 
-## Session Killer
+### Session Killer
 
 ```sql
 SELECT 'ALTER SYSTEM KILL SESSION '''||sid||','||serial#||''' IMMEDIATE;' FROM v$session;
@@ -104,7 +106,7 @@ sudo su - oracle
 ps -ef | grep oracleNAME_OF_SID | awk '{print $2}' | xargs kill -9
 ```
 
-## Shutdown and restart from server (CLI)
+### Shutdown and restart from server (CLI)
 
 ```bash
 sudo su - oracle
@@ -114,14 +116,14 @@ shutdown immediate; -- si ca met trop de temps : shutdwon abort
 startup
 ```
 
-## Debugging with SqlDeveloper
+### Debugging with SqlDeveloper
 
 - [Oracle Tutorial](https://www.oracle.com/webfolder/technetwork/tutorials/obe/db/sqldev/r30/plsql_debug_OBE/plsql_debug_otn.htm)
 - [Failure establishing connection](http://www.dba-oracle.com/t_ora_30683_failure_establishing_connection_to_debugger.htm)
 
 
 
-## Table Definitions
+### Table Definitions
 
 ```sql
 -- Show CREATE TABLE
@@ -131,7 +133,7 @@ SELECT * FROM all_indexes WHERE owner = 'OWNER_NAME' AND table_name = 'TABLENAME
 ```
 
 
-## Get Current Locks
+### Get Current Locks
 
 ```sql
 select c.owner, c.object_name, c.object_type, b.sid, b.serial#, b.status, b.osuser, b.machine
@@ -140,7 +142,7 @@ where b.sid = a.session_id
 and a.object_id = c.object_id;
 ```
 
-## Full database text search
+### Full database text search
 
 ```sql
 -- see https://stackoverflow.com/questions/208493/search-all-fields-in-all-tables-for-a-specific-value-oracle
