@@ -7,7 +7,7 @@
 
 ## CLI operations
 
-### Common variables initiatization [↑](#kafka)
+### Common variables initiatization
 
 ```bash
 export MY_TOPIC=ocr-topic
