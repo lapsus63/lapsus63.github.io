@@ -1,24 +1,27 @@
+# Splunk
 
-## 1. Universal Forwarder
+## Overview
+
+### 1. Universal Forwarder
 
 - Fewer hardware resources than other tools
 - = Agent to collect log files
 
 
-## 2. Indexer
+### 2. Indexer
 
 - Clustering indexation for replication
 
-## 3. Search Head
+### 3. Search Head
 
 - Required by Indexers
 
 
-# Registering a new application
+## Registering a new application
 
 - Set current users as power users (dashboard crud) or standard user (dashboard read-only)
 
-# How to connect logs to Splunk
+## How to connect logs to Splunk
 
 - Main ways to follow the logs :
 
@@ -31,25 +34,25 @@
   - Configure Indexer
   - Configure Agent.
 
-# Configuring Dashboards
+## Configuring Dashboards
 
 - /!\ Follow naming conventions
 
-# Using Splunk: How to search from logs
+## Using Splunk: How to search from logs
 
 - See Cheat sheets, Youtube tutorials, ... (links below)
 - SQL to Splunk (http://docs.splunk.com/Documentation/Splunk/latest/SearchReference/SQLtoSplunk): 
 
 ![Sql2SplSyntax](Sql2SplSyntax.png)
 
-# To go further...
+## To go further...
 
 - Youtube channel: "Splunk How-To": https://www.youtube.com/channel/UCjwOFZzLPnji1EstaVyyvAw
 - Reference Manual: http://docs.splunk.com/Documentation/Splunk/7.1.2/SearchReference
 - Cheat sheets : http://wiki.splunk.com/images/a/a3/Splunk_4.x_cheatsheet.pdf and https://www.splunk.com/pdfs/solution-guides/splunk-quick-reference-guide.pdf
 - Training Fundamentals One : https://www.splunk.com/en_us/training/free-courses/splunk-fundamentals-1.html
  
-# Fundamentals One
+## Fundamentals One
 
 ### Introduction
 
