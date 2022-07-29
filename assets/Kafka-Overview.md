@@ -1,11 +1,13 @@
-# Documentation
+# Kafka Overview
+
+## Documentation
 
 - https://docs.confluent.io/platform/current/streams/developer-guide/dsl-api.html
 
 
-# CLI operations
+## CLI operations
 
-## Common variables initiatization [↑](#kafka)
+### Common variables initiatization [↑](#kafka)
 
 ```bash
 export MY_TOPIC=ocr-topic
@@ -14,7 +16,7 @@ export ZOOKEEPER_SERVER=zookeeper:2181
 export REGISTRY_SERVER=http://schema-registry:8081
 ```
 
-## TOPICS
+### TOPICS
 
 From kafka-connect :
 
