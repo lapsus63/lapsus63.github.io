@@ -85,3 +85,8 @@ Run Powershell in admin mode:
 ```powershell
 Optimize-VHD -Path c:\path\to\data.vhdx -Mode Full
 ```
+
+
+## Snippets
+
+Docker toolbox for building and managing simple images : [docker-toolbox.sh](/assets/docker/docker-toolbox.sh]
