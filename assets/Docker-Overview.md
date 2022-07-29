@@ -14,8 +14,6 @@ docker image push docker/image-name:1.0
 docker pull docker/image-name:1.0
 ```
 
-# Tips
-
 ### Execute a bash shell in a stopped container
 
 ```bash
