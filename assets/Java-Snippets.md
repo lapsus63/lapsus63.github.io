@@ -1,4 +1,6 @@
-# JDK Cheat Sheet
+# Java Snippets
+
+### JDK Cheat Sheet
 
 - Liens de téléchargement
 
