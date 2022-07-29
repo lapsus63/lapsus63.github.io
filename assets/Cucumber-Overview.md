@@ -1,4 +1,6 @@
-# Documentation
+# Cucumber
+
+### Documentation
 
 - https://cucumber.io/ ; http://docs.cucumber.io/guides/
 - installation: npm install --save-dev cucumber
@@ -8,7 +10,7 @@
 - Selenium WebDriver
 - Intégré à Jenkins (Cucumber report plugin)
 
-# Using with maven and 
+### Using with maven and 
 
 Portions of `pom.xml` file:
 
