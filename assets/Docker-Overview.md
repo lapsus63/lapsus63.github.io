@@ -26,3 +26,62 @@ Start a shell from a fresh linux distro :
 ```bash
 docker run -it --entrypoint /bin/bash linux:1.4-alpine3.10
 ```
+
+### Force container to keep running on a TTY
+
+In `docker-compose.yml` :
+
+```yaml
+entrypoint: /bin/bash
+stdin_open: true # docker run -i
+tty: true        # docker run -t
+```
+
+### Statistics
+
+Show each layer size :
+
+```bash
+docker system df
+```
+
+Show container CPU and RAM consumption in live :
+
+```bash
+docker stats
+```
+
+Show image layer sizes :
+
+```bash
+docker history <image_name>
+```
+
+### Docker for Windows : move ext4 partition
+
+source: https://stackoverflow.com/questions/62441307/how-can-i-change-the-location-of-docker-images-when-using-docker-desktop-on-wsl2
+
+Stop Docker Service
+
+```bash
+wsl  --shutdown
+# check : 
+wsl --list -v
+```
+Export docker-desktop-data into a file
+
+```bash
+wsl --export docker-desktop-data "D:\Docker\wsl\data\docker-desktop-data.tar"
+wsl --unregister docker-desktop-data
+wsl --import docker-desktop-data "D:\Docker\wsl\data" "D:\Docker\wsl\data\docker-desktop-data.tar" --version 2
+```
+
+### Docker for Windows : reduce size of ext4 partition
+
+Stop Docker service
+
+Run Powershell in admin mode:
+
+```powershell
+Optimize-VHD -Path c:\path\to\data.vhdx -Mode Full
+```
