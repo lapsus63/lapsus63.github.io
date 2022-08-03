@@ -130,6 +130,20 @@ or `| eventcount summarize=false index=* | stats sum(count) as c by index | sort
   - `stats list{product_name} as "Games Sold"`
   - `timechart span=1h sum(price) by sourcetype /// timechart span=1s count  ///`
   - `stats count as "Units sols" sum(price) as "Gross Sales" by procuct_name`
+  
+### Convert now() into GMT string
+
+```splunk
+| eval _="--- compute server timezone offset ---"
+| eval curdate=now()
+| eval curdateStr=strftime(curdate,"%F %T %:::z") | eval _="--- 2022-08-03T14:50:23 +02 ---"
+| eval offset = substr(curdateStr,21,23)
+| eval time_args = if( -1 * offset >= 0, "+".substr(offset,2,3), printf("%03d",-1 * offset)) | eval _="--- -02 ---"
+
+| eval _="--- utilisation de now en GMT ---"
+| eval GMTstr = strftime(ceil(relative_time(now(), time_args."h")), "%Y-%m-%d %H:%M:%S") + " Z" | eval _="--- 2022-08-03 12:50:23 Z ---"
+| eval GMT = strptime(GMTstr, "%Y-%m-%d %H:%M:%S %Z")
+```
 
 ## Dashboards
 
