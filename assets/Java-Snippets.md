@@ -110,7 +110,7 @@ Hashtable env = new Hashtable();
 ```
 
 
-### Azure Event Data Hub Receiver
+### Azure Event Data Hub Receiver/Producer
 
 <p><details>
 <summary>pom.xml</summary>
@@ -275,3 +275,102 @@ LOG.info("End of Publication job");
 ```
 </details>
 </p>
+
+	
+### Azure Storage Account Queue Listener
+	
+
+<p><details>
+<summary>pom.xml</summary>
+	
+```xml
+<!-- https://docs.microsoft.com/fr-fr/azure/storage/queues/storage-java-how-to-use-queue-storage?tabs=java -->
+<dependency>
+  <groupId>com.azure</groupId>
+  <artifactId>azure-storage-queue</artifactId>
+  <version>12.6.0</version>
+</dependency>
+```
+	
+</details>
+</p>
+
+
+<p><details>
+<summary>Listener.java</summary>
+	
+```java
+
+import com.azure.core.util.Base64Util;
+import com.azure.storage.queue.QueueClient;
+import com.azure.storage.queue.QueueClientBuilder;
+import com.azure.storage.queue.models.PeekedMessageItem;
+import com.azure.storage.queue.models.QueueMessageItem;
+import com.azure.storage.queue.models.QueueProperties;
+import com.azure.storage.queue.models.QueueStorageException;
+
+import java.nio.charset.StandardCharsets;
+	
+final static String connectStr = "DefaultEndpointsProtocol=https;AccountName=******;AccountKey=******";
+	
+public static void getQueueLength(String queueName) {
+        try {
+            // Instantiate a QueueClient which will be used to create and manipulate the queue
+            QueueClient queueClient = new QueueClientBuilder().connectionString(connectStr).queueName(queueName).buildClient();
+
+            QueueProperties properties = queueClient.getProperties();
+            long messageCount = properties.getApproximateMessagesCount();
+
+            System.out.println(String.format("Queue length: %d", messageCount));
+        } catch (QueueStorageException e) {
+            // Output the exception message and stack trace
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void peekQueueMessage(String queueName) {
+        try {
+            // Instantiate a QueueClient which will be used to create and manipulate the queue
+            QueueClient queueClient = new QueueClientBuilder()
+                    .connectionString(connectStr)
+                    .queueName(queueName)
+                    .buildClient();
+
+            // Peek at the first message
+            PeekedMessageItem receivedMessage = queueClient.peekMessage();
+            System.out.println("Peeked message: " + receivedMessage.getMessageText());
+
+        } catch (QueueStorageException e) {
+            // Output the exception message and stack trace
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void receiveThenDeleteQueueMessage(String queueName) {
+        try {
+            // Instantiate a QueueClient which will be used to create and manipulate the queue
+            QueueClient queueClient = new QueueClientBuilder()
+                    .connectionString(connectStr)
+                    .queueName(queueName)
+                    .buildClient();
+
+            // Receive the first message (masked for 30 seconds unless deleted is performed)
+            QueueMessageItem receivedMessage = queueClient.receiveMessage();
+            System.out.println("Received message: " + new String(Base64Util.decodeString(receivedMessage.getMessageText()), StandardCharsets.UTF_8));
+
+            // queueClient.deleteMessage(receivedMessage.getMessageId(), receivedMessage.getPopReceipt());
+            // System.out.println("Deleted message: " + receivedMessage.getMessageText());
+        } catch (QueueStorageException e) {
+            // Output the exception message and stack trace
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+```
+	
+</details>
+</p>
+	
