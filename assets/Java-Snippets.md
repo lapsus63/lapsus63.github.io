@@ -108,3 +108,104 @@ Hashtable env = new Hashtable();
 			System.exit(1);
 		}
 ```
+
+
+### Azure Event Data Hub Receiver
+
+<p><details>
+<summary>pom.xml</summary>
+
+```xml
+    <!-- https://docs.microsoft.com/fr-fr/azure/event-hubs/event-hubs-java-get-started-send -->
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-messaging-eventhubs</artifactId>
+      <version>5.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-messaging-eventhubs-checkpointstore-blob</artifactId>
+      <version>1.6.0</version>
+    </dependency>
+```
+</details>
+</p>
+
+<p><details>
+<summary>Receiver.java</summary>
+
+```java
+
+import com.azure.core.amqp.AmqpTransportType;
+import com.azure.messaging.eventhubs.EventData;
+import com.azure.messaging.eventhubs.EventProcessorClient;
+import com.azure.messaging.eventhubs.EventProcessorClientBuilder;
+import com.azure.messaging.eventhubs.checkpointstore.blob.BlobCheckpointStore;
+import com.azure.messaging.eventhubs.models.ErrorContext;
+import com.azure.messaging.eventhubs.models.EventContext;
+import com.azure.messaging.eventhubs.models.PartitionContext;
+import com.azure.storage.blob.BlobContainerAsyncClient;
+import com.azure.storage.blob.BlobContainerClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.function.Consumer;
+
+import static com.azure.messaging.eventhubs.EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME;
+
+// Define the connection-string with your values (azure: Event Hub Namespace | Shared access policies | RootManageSharedAccessKey)
+public final static String connectionString = "Endpoint=sb://******.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=******";
+public final static String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=******;AccountKey=******";
+public static final String eventHubName = "******";
+public static final String storageContainerName = "******";
+	
+public static void receiveEvents() throws Exception {
+        // Create a blob container client that you use later to build an event processor client to receive and process events
+        BlobContainerAsyncClient blobContainerAsyncClient = new BlobContainerClientBuilder()
+                .connectionString(Config.storageConnectionString)
+                .containerName(Config.storageContainerName)
+                .buildAsyncClient();
+
+        // Create a builder object that you will use later to build an event processor client to receive and process events and errors.
+        EventProcessorClientBuilder eventProcessorClientBuilder = new EventProcessorClientBuilder()
+                .connectionString(Config.connectionString, Config.eventHubName)
+                .transportType(AmqpTransportType.AMQP_WEB_SOCKETS)
+                .consumerGroup(DEFAULT_CONSUMER_GROUP_NAME)
+                .processEvent(PARTITION_PROCESSOR)
+                .processError(ERROR_HANDLER)
+                .checkpointStore(new BlobCheckpointStore(blobContainerAsyncClient));
+
+        // Use the builder object to create an event processor client
+        EventProcessorClient eventProcessorClient = eventProcessorClientBuilder.buildEventProcessorClient();
+
+        LOG.info("Starting event processor");
+        eventProcessorClient.start();
+
+        System.out.println("Press enter to stop.");
+        System.in.read();
+
+        LOG.info("Stopping event processor");
+        eventProcessorClient.stop();
+        LOG.info("Event processor stopped.");
+
+        LOG.info("Exiting process");
+    }
+
+    public static final Consumer<EventContext> PARTITION_PROCESSOR = eventContext -> {
+        PartitionContext partitionContext = eventContext.getPartitionContext();
+        EventData eventData = eventContext.getEventData();
+
+        LOG.info("Processing event from partition {} with sequence number {} with body: {}", partitionContext.getPartitionId(), eventData.getSequenceNumber(), eventData.getBodyAsString());
+
+        // Every 10 events received, it will update the checkpoint stored in Azure Blob Storage.
+        if (eventData.getSequenceNumber() % 10 == 0) {
+            eventContext.updateCheckpoint();
+        }
+    };
+
+    public static final Consumer<ErrorContext> ERROR_HANDLER = errorContext -> {
+        LOG.info("Error occurred in partition processor for partition {}, {}", errorContext.getPartitionContext().getPartitionId(), errorContext.getThrowable());
+    };
+```
+</details>
+</p>
