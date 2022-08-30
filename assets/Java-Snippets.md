@@ -209,3 +209,69 @@ public static void receiveEvents() throws Exception {
 ```
 </details>
 </p>
+
+	
+
+
+<p><details>
+<summary>EventProducer.java</summary>
+
+```java
+	
+import com.azure.core.amqp.AmqpTransportType;
+import com.azure.messaging.eventhubs.EventData;
+import com.azure.messaging.eventhubs.EventDataBatch;
+import com.azure.messaging.eventhubs.EventHubClientBuilder;
+import com.azure.messaging.eventhubs.EventHubProducerClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.List;
+
+// Define the connection-string with your values (azure: Event Hub Namespace | Shared access policies | RootManageSharedAccessKey)
+public final static String connectionString = "Endpoint=sb://******.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=******";
+public final static String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=******;AccountKey=******";
+public static final String eventHubName = "******";
+public static final String storageContainerName = "******";
+	
+public static void publishEvents() {
+
+// create a producer client
+EventHubProducerClient producer = new EventHubClientBuilder()
+	.connectionString(Config.connectionString, Config.eventHubName)
+	.transportType(AmqpTransportType.AMQP_WEB_SOCKETS)
+	.consumerGroup(DEFAULT_CONSUMER_GROUP_NAME)
+	.buildProducerClient();
+
+// sample events in an array
+List<EventData> allEvents = Arrays.asList(new EventData("Hello"), new EventData("World"));
+
+// create a batch
+EventDataBatch eventDataBatch = producer.createBatch();
+
+for (EventData eventData : allEvents) {
+    // try to add the event from the array to the batch
+    if (!eventDataBatch.tryAdd(eventData)) {
+	// if the batch is full, send it and then create a new batch
+	producer.send(eventDataBatch);
+	eventDataBatch = producer.createBatch();
+
+	// Try to add that event that couldn't fit before.
+	if (!eventDataBatch.tryAdd(eventData)) {
+	    throw new IllegalArgumentException("Event is too large for an empty batch. Max size: " + eventDataBatch.getMaxSizeInBytes());
+	}
+    }
+}
+// send the last batch of remaining events
+if (eventDataBatch.getCount() > 0) {
+    producer.send(eventDataBatch);
+}
+producer.close();
+
+LOG.info("End of Publication job");
+}
+
+```
+</details>
+</p>
