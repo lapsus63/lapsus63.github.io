@@ -11,6 +11,15 @@ reg.exe ADD "HKEY_USERS\.DEFAULT\Control Panel\Keyboard" /f /v "InitialKeyboardI
 pause
 ```
 
+### Use  clipboard
+
+```cmd
+REM Paste clipboard content :
+powershell -command "Get-Clipboard"
+REM store result to clipboard 
+command | clip
+```
+
 ### ipconfig cache cleaner
 
 ```cmd
