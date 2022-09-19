@@ -51,7 +51,7 @@ sed -n '/^## /{p; :loop n; p; /^## /q; b loop}' THE_FILE
 
 ### Use Windows clipboard (git bash)
 
-```
+```bash
 # Paste clipboard as script argument, and store the result to the clipboard
 ./myscript.sh $(powershell -command "Get-Clipboard") | clip
 ```
