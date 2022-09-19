@@ -167,5 +167,5 @@ END;
 
 ```sql
 select distinct step_name from STEP_EXECUTION;
-select * from STEP_EXECUTION WHERE step_name LIKE 'stepMoveCsvToDb' ORDER BY start_time desc;
+select * from STEP_EXECUTION WHERE step_name LIKE 'xxxxx' ORDER BY start_time desc;
 ```
