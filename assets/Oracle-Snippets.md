@@ -163,3 +163,9 @@ END;
 
 ```
 
+### Debug Spring batch jobs
+
+```sql
+select distinct step_name from STEP_EXECUTION;
+select * from STEP_EXECUTION WHERE step_name LIKE 'stepMoveCsvToDb' ORDER BY start_time desc;
+```
