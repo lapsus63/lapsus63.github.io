@@ -48,3 +48,10 @@ sed -n '/^## /{p; :loop n; p; /^## /q; b loop}' THE_FILE
 # remove empty lines:
 | grep -v -e '^$'
 ```
+
+### Use Windows clipboard (git bash)
+
+```
+# Paste clipboard as script argument, and store the result to the clipboard
+./myscript.sh $(powershell -command "Get-Clipboard") | clip
+```
