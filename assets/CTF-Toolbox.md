@@ -3,23 +3,23 @@
 
 ### ENcode/DEcode tools
 
-* [https://www.urlencoder.org/](URL Encoder)
-* [https://www.md5online.org/md5-decrypt.html](MD5 decoder)
-* [https://www.jsonwebtoken.io/](JWT decoder)
+* [URL Encoder](https://www.urlencoder.org/)
+* [MD5 decoder](https://www.md5online.org/md5-decrypt.html)
+* [JWT decoder](https://www.jsonwebtoken.io/)
 
 ### General resources
 
-* [https://owasp.org](OWASP) Testing Guide : Open Web Application Security Project.
-* [https://portswigger.net/blog/server-side-template-injection](portswigger.net) Tests de moteurs de templates
-* [https://exploit-db.com](exploit-db.com) Vulnérabilités connues
+* [OWASP](https://owasp.org) Testing Guide : Open Web Application Security Project.
+* [portswigger.net](https://portswigger.net/blog/server-side-template-injection) Tests de moteurs de templates
+* [exploit-db.com](https://exploit-db.com) Vulnérabilités connues
 
 
 ## Passwords
 
 ### Resources
 
-* [https://github.com/zxcvbn-ts](zxcvbn) Low-Budget Password Strength Estimation
-* [https://haveibeenpwned.com](haveibeenpwned.com) Tester la compromission de son adresse mail
+* [zxcvbn](https://github.com/zxcvbn-ts) Low-Budget Password Strength Estimation
+* [haveibeenpwned.com](https://haveibeenpwned.com) Tester la compromission de son adresse mail
 
 
 ## Privilege Escalation
@@ -52,7 +52,7 @@ cat /proc/self/environ (environnement envoyé par les requetes HTTP par ex) ; fd
 
 ### Resources
 
-* [https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae](medium.com) Windows Privileges Escalation
+* [medium.com](https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae) Windows Privileges Escalation
 
 
 
@@ -132,8 +132,8 @@ hashcat -m 16500 hash.txt -a 3 -w 3 ?a?a?a?a?a?a
 
 ### Resources
 
-* [https://archive.org/web/](archive.org) view old versions of web pages
-* [https://www.jsonwebtoken.io/](JWT decoder)
+* [archive.org](https://archive.org/web/) view old versions of web pages
+* [JWT decoder](https://www.jsonwebtoken.io/)
 
 
 
@@ -210,20 +210,20 @@ var_dump(serialize($obj));
 
 ```bash
 \immediate\write18{cat /etc/passwd | base64 > /tmp/ouned.tex}
-# pour sécuriser: option -no-shell-escape [https://0day.work/hacking-with-latex](hacking-with-latex) ; [https://linux.die.net/man/1/pdflatex](pdflatex)
+# pour sécuriser: option -no-shell-escape [hacking-with-latex](https://0day.work/hacking-with-latex) ; [pdflatex](https://linux.die.net/man/1/pdflatex)
 ```
 
 ### Resources
 
-* [https://ripstech.com](ripstech.com) Validation sécurité PHP
+* [ripstech.com](https://ripstech.com) Validation sécurité PHP
 
 
 ## Steganography
 
 ### Resources
 
-* [https://virtualabs.fr/Nasty-bulletproof-Jpegs-l](virtualabs.fr) Bulletproof JPEGs
-* [https://stylesuxx.github.io/steganography/](stylesuxx)
+* [virtualabs.fr](https://virtualabs.fr/Nasty-bulletproof-Jpegs-l) Bulletproof JPEGs
+* [stylesuxx](https://stylesuxx.github.io/steganography/)
 
 
 
