@@ -4,8 +4,12 @@
 ### ENcode/DEcode tools
 
 * [URL Encoder](https://www.urlencoder.org/)
+* [Base 64, Hex, Binary](https://string-functions.com/)
 * [MD5 decoder](https://www.md5online.org/md5-decrypt.html)
 * [JWT decoder](https://www.jsonwebtoken.io/)
+* [DevToys App](https://devtoys.app/) (Windows local installation)
+* [stylesuxx](https://stylesuxx.github.io/steganography/) Steganography Online
+* [pdf tools](https://www.pdfzero.com/split)
 
 ### General resources
 
@@ -223,7 +227,7 @@ var_dump(serialize($obj));
 ### Resources
 
 * [virtualabs.fr](https://virtualabs.fr/Nasty-bulletproof-Jpegs-l) Bulletproof JPEGs
-* [stylesuxx](https://stylesuxx.github.io/steganography/)
+* [stylesuxx](https://stylesuxx.github.io/steganography/) Steganography Online
 
 
 
