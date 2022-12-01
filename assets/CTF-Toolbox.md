@@ -1,6 +1,7 @@
 # CTF Toolbox
 
 * [CTF Tools](https://github.com/zardus/ctf-tools) CTF tools in git repo
+* [Snyk CTF-101](https://101.ctf-snyk.io/) Learn how to solve web and pwn capture the flag challenges
 
 
 ### ENcode/DEcode tools
