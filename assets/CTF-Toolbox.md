@@ -1,5 +1,7 @@
 # CTF Toolbox
 
+* [CTF Tools](https://github.com/zardus/ctf-tools) CTF tools in git repo
+
 
 ### ENcode/DEcode tools
 
@@ -24,6 +26,9 @@
 
 * [zxcvbn](https://github.com/zxcvbn-ts) Low-Budget Password Strength Estimation
 * [haveibeenpwned.com](https://haveibeenpwned.com) Tester la compromission de son adresse mail
+* [password list 1](https://github.com/berzerk0/Probable-Wordlists/tree/master/Real-Passwords)
+* [password list 2](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
+* [cisco password crack](http://www.firewall.cx/cisco-technical-knowledgebase/cisco-routers/358-cisco-type7-password-crack.html)
 
 
 ## Privilege Escalation
@@ -42,7 +47,6 @@ icacls "C:\Program Files (x86)\Common Files"
 # vulnérabilité présente si utilisateur BUILTIN\Users:(W)
 ```
 
-
 ### Sensitive files to inspect
 
 ```bash
@@ -50,9 +54,6 @@ cat /var/log/apache2
 cat /var/log/auth.log
 cat /proc/self/environ (environnement envoyé par les requetes HTTP par ex) ; fd (open files)
 ```
-
-
-
 
 ### Resources
 
@@ -158,6 +159,19 @@ Lire des fichiers sur le serveur
 ```
 
 
+## Network analysis
+
+*Goals:* Scan the network and identify open doors
+
+```
+# port scanning
+nmap 172.30.0.14/28 -p- -sC -sV
+
+# get the tree from runnning web application
+dirb http://172.30.0.2/
+
+
+```
 
 
 ## Remote server injections
@@ -217,9 +231,19 @@ var_dump(serialize($obj));
 # pour sécuriser: option -no-shell-escape [hacking-with-latex](https://0day.work/hacking-with-latex) ; [pdflatex](https://linux.die.net/man/1/pdflatex)
 ```
 
+### Binary code analysis
+
+*Goals:* Decompiler des applications binaires
+
+* [ida-free](https://hex-rays.com/ida-free/) The free binary code analysis tool to kickstart your reverse engineering experience.
+
 ### Resources
 
 * [ripstech.com](https://ripstech.com) Validation sécurité PHP
+* strings: Permet de sortir les caractères affichables d’un fichier ou d’un flux
+* binwalk: Permet d’identifier les codes/données incorporés dans le fichier et et rechercher les images, binaires, code exécutable, ...
+* hd, Ghex: Outil de manipulation hexadécimal d'une image
+* Dumpzilla: Outil manipulant les données de profiles firefox (dump password, historique, ...)
 
 
 ## Steganography
@@ -228,16 +252,56 @@ var_dump(serialize($obj));
 
 * [virtualabs.fr](https://virtualabs.fr/Nasty-bulletproof-Jpegs-l) Bulletproof JPEGs
 * [stylesuxx](https://stylesuxx.github.io/steganography/) Steganography Online
-
-
+* [Audiostego](https://github.com/danielcardeenas/AudioStego) Outil permettant de cacher/trouver de la donnée cachée dans un fichier WAV/MP3
+* [spectrology](https://github.com/solusipse/spectrology) Encoder une image dans un spectrogramme audio
+* [mp3stego](https://www.petitcolas.net/steganography/mp3stego/) Outil Windows permettant de cacher de la donnée dans un mp3 ou wav. Disponible sous Windows only
+* [LSB-Steganographie](https://github.com/RobinDavid/LSB-Steganography) encoder/décoder de la data en modifiant les bits de couleur (LSB)
+* unzip
+* exiftool
+* gimp
+* Steghide Permet de dissimuler du texte dans un fichier (image ou son)
+* [Stegsolve](http://www.caesum.com/handbook/Stegsolve.jar) Permet de manipuler des images en fonction des pixels, filtres, ...
+* [stegoveritas](https://github.com/bannsec/stegoVeritas) Outil disposant de nombreuses fonctionnalités :  vérifier les métadonnées, créer de nombreuses images transformées, Brute forces LSB, ...
+* [jphide / jpseek](http://linux01.gwdg.de/~alatham/stego.html) [ssak](https://github.com/mmayfield1/SSAK) Permet de dissimuler/extraire de la donnée cachée dans un JPG
+* [jsteg](https://github.com/lukechampine/jsteg) Permet de cacher / extraire via le LSB d'un JPG
+* [openstego](https://github.com/syvaidya/openstego) Permet de manipuler le LSB (sous plusieurs algorithme) d'un PNG
+* outguess
+* [stegano](https://github.com/cedricbonhomme/Stegano) Cacher/extraire de la donnée via LSB (Plusieurs methodes) d'un fichier PNG
+* [cloackedpixel](https://github.com/livz/cloacked-pixel) Outil de manipulation LSB pour PNG
+* pdf-parser, peepdf: Outil d'analyse de pdf (avec un mode interactif) Très utile pour tracer les liens des catalogues, stream, objects, ...
+* stegsnow: Permet d'insérer de la donnée ASCII invisible dans du texte
+* TweakPNG (Windows): Valider la structure d'un PNG, voir l'intégralité des chunks (blocs IDAT présents par exemple)
 
 ## Cipher
 
 *Goals:* Attaque possible par bourrage si couple PKCS7/CBC (Cipher Block Chaining) utilisé.
 
+## Disk tools
+
+*Goals:* Retrieve deleted files from disk
+
+### Resources
+
+* Foremost: Outil permettant de récupérer des fichiers qui ont été supprimés
+* dd_rescue: Outil permettant de récupérer des fichiers qui ont été supprimés
+* scalpel: Outil permettant de disséquer les fichiers stockés sur le disque dur
+* ntfsundelete: Outil permettant de récupérer des fichiers effacés sur le système de fichier NTFS
+* fatback: Outil permettant de récupérer des fichiers effacés sur le système de ficher FAT
+* sleuthkit: Ensemble d’outil permettant d’investiguer sur des partition NTFS, FAT, EXT2, EXT3, EXT4, FFS, ...
+* Photorec: Permet de retrouver des fichiers supprimés sur des disques dur, CDROM, Caméra digital, ...
+* kpartx: Permet de monter une partition avec un fichier image (Like Daemon Tool)
+* [chainbreaker](https://github.com/AppLeU0/chainbreaker): Pour ouvrir un keychain MacOS sous linux
+* plistutil: Permet de lire des fichiers Apple Binary Property en XML
+* [MacInHash](https://github.com/JMagers/MacinHash): Permet de convertir un mot de passe plist en fichier hash pour cracking
 
 
 ## To go further
+
+### Other tools
+
+* [Awesome CTF](https://github.com/apsdehal/awesome-ctf)
+* [CTF Tools](https://github.com/zardus/ctf-tools)
+* [CTF examples](https://k-lfa.info/tag/ctf/) Quelques CTFs
 
 ### Kali Linux Tools
 
