@@ -101,7 +101,11 @@ git reset --soft HEAD~2
 # or
 git reset --soft <first-commit-id>
 
+# Keep the <first-commit-id> and create a new commitid:
 git commit -m "new commit message"
+# or replace the <first-commit-id> with the squashed commits:
+git commit --amend
+
 git push -f
 ```
 
