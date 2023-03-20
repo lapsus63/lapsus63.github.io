@@ -121,6 +121,12 @@ information_schema.schemata, information_schema.columns, ...
 VERSION(), USER()
 ```
 
+### Cross-site scripting
+
+- Reflected cross site scripting (using legitimate server with malicious requests from malicious link)
+- Stored cross site scripting (stored in application : blog post, ...)
+- DOM based cross site scripting (javascript from page sent from user browser)
+
 
 ### Cross-Site Request Forgery (CSRF)
 
