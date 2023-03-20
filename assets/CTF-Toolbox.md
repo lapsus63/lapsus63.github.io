@@ -270,6 +270,12 @@ var_dump(serialize($obj));
 # pour sécuriser: option -no-shell-escape [hacking-with-latex](https://0day.work/hacking-with-latex) ; [pdflatex](https://linux.die.net/man/1/pdflatex)
 ```
 
+### Springboot back doors
+
+- Spring Boot provides actuator endpoints to monitor a Spring Boot application, this could result in the heap of the application being dumped.
+
+
+
 ### Binary code analysis
 
 *Goals:* Decompiler des applications binaires
