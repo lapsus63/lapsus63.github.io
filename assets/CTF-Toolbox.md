@@ -127,6 +127,11 @@ VERSION(), USER()
 - Stored cross site scripting (stored in application : blog post, ...)
 - DOM based cross site scripting (javascript from page sent from user browser)
 
+How to prevent:
+
+- sanitize inputs (disable scripts, etc.)
+- encode outputs (replace special chars)
+
 
 ### Cross-Site Request Forgery (CSRF)
 
