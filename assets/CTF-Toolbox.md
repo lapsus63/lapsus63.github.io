@@ -161,6 +161,9 @@ Outil: BurpSuite + Intruder:
 http://ip.locale:port
 ```
 
+- Vulnerability example: `URL url = new URL(location);` (can be local file://, or a localhost service, etc.)
+  - Secured by `if (!url.getHost().endsWith(".example.com") || !url.getProtocol().equals("http") && !url.getProtocol().equals("https")) { throw new Exception("Forbidden remote source"); }`
+
 ### File Injection
 
 *Goals:* Utiliser la fonction d'import de fichier pour injecter du code interprétable.
