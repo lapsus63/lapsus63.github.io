@@ -132,7 +132,8 @@ How to prevent:
 - sanitize inputs (disable scripts, etc.)
 - encode outputs (replace special chars)
   HTML: Convert &to &amp; ; <to &lt; ; >to &gt; ;  " to &quot; ; ' to &#x27; ;  / to &#x2F;
-
+- Content Security Policy (CSP)
+  `Content-Security-Policy: default-src: 'self'; script-src: 'self' static.domain.tld` (see [content-security-policy.com](https://content-security-policy.com/))
 
 ### Cross-Site Request Forgery (CSRF)
 
