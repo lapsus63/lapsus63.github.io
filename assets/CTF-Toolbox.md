@@ -131,9 +131,11 @@ How to prevent:
 
 - sanitize inputs (disable scripts, etc.)
 - encode outputs (replace special chars)
-  HTML: Convert &to &amp; ; <to &lt; ; >to &gt; ;  " to &quot; ; ' to &#x27; ;  / to &#x2F;
+  - HTML: Convert &to &amp; ; <to &lt; ; >to &gt; ;  " to &quot; ; ' to &#x27; ;  / to &#x2F;
+  - JAVA: Use OWASP Java Encoder : `Encode.forHtmlAttribute` , ...
 - Content Security Policy (CSP)
-  `Content-Security-Policy: default-src: 'self'; script-src: 'self' static.domain.tld` (see [content-security-policy.com](https://content-security-policy.com/))
+  - `Content-Security-Policy: default-src: 'self'; script-src: 'self' static.domain.tld` (see [content-security-policy.com](https://content-security-policy.com/))
+- Modern frameworks have robust built-in protections against Reflected Cross-Site Scripting.
 
 ### Cross-Site Request Forgery (CSRF)
 
