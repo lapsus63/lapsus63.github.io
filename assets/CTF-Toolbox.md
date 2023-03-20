@@ -131,6 +131,7 @@ How to prevent:
 
 - sanitize inputs (disable scripts, etc.)
 - encode outputs (replace special chars)
+-- HTML: Convert &to &amp; ; <to &lt; ; >to &gt; ;  " to &quot; ; ' to &#x27; ;  / to &#x2F;
 
 
 ### Cross-Site Request Forgery (CSRF)
