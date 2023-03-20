@@ -74,6 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
           .authorizeRequests()
           .antMatchers("/admin/**").hasRole("ROLE_ADMIN");
+          
+        // Prevent broken authentication:
+        http
+          .antMatchers(HttpMethod.GET, "/", "/index.html", "/css/**", "/js/**").permitAll()
+          .anyRequest().authenticated(); // instead of simple "/admin/other-action".authenticated
     }
     ...
 }
