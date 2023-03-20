@@ -61,7 +61,30 @@ cat /proc/self/environ (environnement envoyé par les requetes HTTP par ex) ; fd
 * [medium.com](https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae) Windows Privileges Escalation
 
 
+### Springboot prevention
 
+Allow access to pages only for authenticated users with granted roles.
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity security) throws Exception {
+        http
+          .authorizeRequests()
+          .antMatchers("/admin/**").hasRole("ROLE_ADMIN");
+    }
+    ...
+}
+
+@Service
+public class AdminService {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<Organization> findAllOrganizations() { ... }
+    ...
+}
+```
 
 
 
