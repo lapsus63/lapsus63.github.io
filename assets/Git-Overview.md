@@ -117,3 +117,12 @@ git tag new old
 git tag -d old
 git push origin new :old
 ```
+
+
+### Stash only selected chunks
+
+```bash
+git stash push -p -m "my temporary stash"
+# debug your work, unstash all, restash , ...
+git stash pop
+```
