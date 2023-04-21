@@ -1,6 +1,103 @@
 # Oracle Snippets
 
-### Full Schema Extraction
+## System Maintenance
+
+
+#### Shutdown and restart from server (CLI)
+
+```bash
+sudo su - oracle
+. ORAENV NAME_OF_SID
+sqlplus '/ as sysdba'
+shutdown immediate; -- si ca met trop de temps : shutdwon abort
+startup
+```
+
+
+#### Check filesystem full and clean audit files
+
+```bash
+su oracle
+# List fileystem with inode option to see all reserved blocks
+df -i
+# check
+find <...>/oracle/admin/{audit,adump}/ -type f -name '*.aud' -mtime +15
+# delete
+find <...>/oracle/admin/{audit,adump}/ -type f -name '*.aud' -mtime +15 -exec rm {} \;
+```
+
+
+## User management
+
+
+#### Create User From Scratch
+
+```sql
+DROP USER MY_NAME CASCADE;
+
+CREATE USER MY_NAME IDENTIFIED BY MY_PASSWORD DEFAULT TABLESPACE TS_NAME TEMPORARY TABLESPACE TMP01 PROFILE MY_PROFILE ACCOUNT UNLOCK;
+GRANT CONNECT TO MY_NAME;
+GRANT RESOURCE TO MY_NAME; 
+```
+
+
+
+## Sessions, Locks
+
+
+#### Get Current Locks
+
+```sql
+select c.owner, c.object_name, c.object_type, b.sid, b.serial#, b.status, b.osuser, b.machine
+from v$locked_object a , v$session b, dba_objects c
+where b.sid = a.session_id
+and a.object_id = c.object_id;
+```
+
+
+#### Session Killer
+
+```sql
+SELECT 'ALTER SYSTEM KILL SESSION '''||sid||','||serial#||''' IMMEDIATE;' FROM v$session;
+```
+
+Kill sessions from server directly
+
+```bash
+ssh oracle-db
+sudo su - oracle
+ps -ef | grep oracleNAME_OF_SID | awk '{print $2}' | xargs kill -9
+```
+
+
+## Queries
+
+
+
+#### Full database text search
+
+```sql
+-- see https://stackoverflow.com/questions/208493/search-all-fields-in-all-tables-for-a-specific-value-oracle
+
+SET SERVEROUTPUT ON SIZE 100000;
+DECLARE
+  match_count INTEGER;
+BEGIN
+  FOR t IN (SELECT owner, table_name, column_name FROM all_tab_columns WHERE owner = 'xxxxxxxxxx' and data_type LIKE '%CHAR%') LOOP
+    EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM ' || t.owner || '.' || t.table_name || ' WHERE '||t.column_name||' LIKE :1'
+      INTO match_count USING '%xxxxx-search-string-here-xxxxxx%';
+    IF match_count > 0 THEN
+      dbms_output.put_line( t.table_name ||' '||t.column_name||' '||match_count );
+    END IF;
+  END LOOP;
+END;
+/
+
+```
+
+
+
+#### Full Schema Extraction
 
 ```sql
 -- see https://stackoverflow.com/questions/10886450/how-to-generate-entire-ddl-of-an-oracle-schema-scriptable
@@ -60,18 +157,9 @@ EOF
 ```
 
 
-### Create User From Scratch
-
-```sql
-DROP USER MY_NAME CASCADE;
-
-CREATE USER MY_NAME IDENTIFIED BY MY_PASSWORD DEFAULT TABLESPACE TS_NAME TEMPORARY TABLESPACE TMP01 PROFILE MY_PROFILE ACCOUNT UNLOCK;
-GRANT CONNECT TO MY_NAME;
-GRANT RESOURCE TO MY_NAME; 
-```
 
 
-### Explain Query (Plan Table)
+#### Explain Query (Plan Table)
 
 ```sql
 EXPLAIN PLAN FOR 
@@ -79,7 +167,7 @@ SELECT ...;
 SELECT * FROM TABLE(dbms_xplan.display);
 ```
 
-### Query to File
+#### Query to File
 
 ```sql
 set heading on
@@ -92,80 +180,30 @@ spool C:\Users\User\Desktop\myoutputfile.txt
 spool off;
 ```
 
-### Session Killer
+
+#### Debug Spring batch jobs
 
 ```sql
-SELECT 'ALTER SYSTEM KILL SESSION '''||sid||','||serial#||''' IMMEDIATE;' FROM v$session;
+select distinct step_name from STEP_EXECUTION;
+select * from STEP_EXECUTION WHERE step_name LIKE 'xxxxx' ORDER BY start_time desc;
 ```
 
-Kill sessions from server directly
 
-```bash
-ssh oracle-db
-sudo su - oracle
-ps -ef | grep oracleNAME_OF_SID | awk '{print $2}' | xargs kill -9
-```
+## Other documentations 
 
-### Shutdown and restart from server (CLI)
 
-```bash
-sudo su - oracle
-. ORAENV NAME_OF_SID
-sqlplus '/ as sysdba'
-shutdown immediate; -- si ca met trop de temps : shutdwon abort
-startup
-```
-
-### Debugging with SqlDeveloper
+#### Debugging with SqlDeveloper
 
 - [Oracle Tutorial](https://www.oracle.com/webfolder/technetwork/tutorials/obe/db/sqldev/r30/plsql_debug_OBE/plsql_debug_otn.htm)
 - [Failure establishing connection](http://www.dba-oracle.com/t_ora_30683_failure_establishing_connection_to_debugger.htm)
 
 
 
-### Table Definitions
+#### Table Definitions
 
 ```sql
 -- Show CREATE TABLE
 select dbms_metadata.get_ddl( 'TABLE', 'TABLENAME', 'OWNER_NAME' ) from dual;
 -- Show Indexes
 SELECT * FROM all_indexes WHERE owner = 'OWNER_NAME' AND table_name = 'TABLENAME';
-```
-
-
-### Get Current Locks
-
-```sql
-select c.owner, c.object_name, c.object_type, b.sid, b.serial#, b.status, b.osuser, b.machine
-from v$locked_object a , v$session b, dba_objects c
-where b.sid = a.session_id
-and a.object_id = c.object_id;
-```
-
-### Full database text search
-
-```sql
--- see https://stackoverflow.com/questions/208493/search-all-fields-in-all-tables-for-a-specific-value-oracle
-
-SET SERVEROUTPUT ON SIZE 100000;
-DECLARE
-  match_count INTEGER;
-BEGIN
-  FOR t IN (SELECT owner, table_name, column_name FROM all_tab_columns WHERE owner = 'xxxxxxxxxx' and data_type LIKE '%CHAR%') LOOP
-    EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM ' || t.owner || '.' || t.table_name || ' WHERE '||t.column_name||' LIKE :1'
-      INTO match_count USING '%xxxxx-search-string-here-xxxxxx%';
-    IF match_count > 0 THEN
-      dbms_output.put_line( t.table_name ||' '||t.column_name||' '||match_count );
-    END IF;
-  END LOOP;
-END;
-/
-
-```
-
-### Debug Spring batch jobs
-
-```sql
-select distinct step_name from STEP_EXECUTION;
-select * from STEP_EXECUTION WHERE step_name LIKE 'xxxxx' ORDER BY start_time desc;
 ```
