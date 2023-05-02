@@ -2,10 +2,11 @@
 
 ### Angular setup dev from existing project
 
-<p>Prerequisites:  install correct version of npm.</p>
+<p>Setup script to RAZ current system installation to required project angular version and dependancies</p>
+<p><b>Prerequisites:</b>  install correct version of npm.</p>
 <p>
 <details>
-  <summary>Setup script to RAZ current system installtion to required project angular version and dependancies</summary>
+  <summary>Show bash script</summary>
 
 ```bash
 NOW=$(date +'%Y%m%d%H%M%S')
