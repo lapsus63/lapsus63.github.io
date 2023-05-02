@@ -1,5 +1,35 @@
 # Javascript Snippets
 
+### Angular setup dev from existing project
+
+<p>Prerequisites:  install correct version of npm.</p>
+<p>
+<details>
+  <summary>Setup script to RAZ current system installtion to required project angular version and dependancies</summary>
+
+```bash
+NOW=$(date +'%Y%m%d%H%M%S')
+NPM_FILE=${HOME}/.npmrc
+
+# backup existing before overwrite
+[ -f "${HOME}/.npmrc" ] && cp ${HOME}/.npmrc ${HOME}/.npmrc_bak${NOW}
+[ -d "${HOME}/AppData/Roaming/npm" ] && mv ${HOME}/AppData/Roaming/npm ${HOME}/AppData/Roaming/npm_bak${NOW}
+[ -d "${HOME}/AppData/Roaming/npm-cache" ] && mv ${HOME}/AppData/Roaming/npm ${HOME}/AppData/Roaming/npm-cache_bak${NOW}
+
+cat <<EOF > ${NPM_FILE}
+strict-ssl=false
+EOF
+
+# init angular and node modules
+rm -rf node_modules package-lock.json
+npm install --save-dev
+npm install --save-dev @angular-devkit/build-angular
+./node_modules/.bin/ng version
+  
+# Start project: ./node_modules/.bin/ng serve
+
+```  
+
 ### sigma.js graphs
 
 <p>
