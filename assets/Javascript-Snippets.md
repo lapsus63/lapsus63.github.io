@@ -27,8 +27,9 @@ npm install --save-dev @angular-devkit/build-angular
 ./node_modules/.bin/ng version
   
 # Start project: ./node_modules/.bin/ng serve
-
-```  
+```
+</details>
+</p>
 
 ### sigma.js graphs
 
