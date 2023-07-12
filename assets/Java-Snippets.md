@@ -255,6 +255,49 @@ src/test/{java,resources}
 </profiles>
 ```
 
+- DatabaseTestUtils.java:
+
+```java
+public static void executeScripts(String... scriptPaths) throws Exception {
+	DriverManagerDataSource dataSource = getDataSource();
+	Connection conn = dataSource.getConnection();
+	for (String scriptPath: scriptPaths) {
+	    ScriptUtils.executeSqlScript(conn, new ClassPathResource(scriptPath));
+	}
+	JdbcUtils.closeConnection(conn);
+}
+
+private static DriverManagerDataSource getDataSource() {
+	DriverManagerDataSource dataSource = new DriverManagerDataSource();
+	dataSource.setUrl("jdbc:h2:tcp://localhost:1521/db;Mode=Oracle;DB_CLOSE_DELAY=-1;SCHEMA_SEARCH_PATH=<MY_DEFAULT_SID>");
+	dataSource.setUsername("sa");
+	dataSource.setPassword("sa");
+	dataSource.setDriverClassName("org.h2.Driver");
+	return dataSource;
+}
+```
+
+- MySkeletonIT.java:
+
+```java
+@SpringBootTest
+@ContextConfiguration(classes= {MyMainApplication.class})
+// ...
+@BeforeEach
+// SpringBatch
+new JobLauncherTestUtils().setJob(job).setJobLauncher(jobLauncher);
+// ...
+@Test @DisplayName("Test description")
+public void scenarioOneTest() throws Exception {
+	/* given */
+	/* when */
+	/* then */
+	// SpringBoot: AssertFile.assertFileEquals(new ClassPathResource("...").getFile(), expectedFile);
+}
+
+
+```
+
 </details></p>
 
 ### LDAP Connection
