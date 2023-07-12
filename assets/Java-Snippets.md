@@ -84,7 +84,183 @@ C:\PSTools>psexec -s c:\jre\path\bin\jcmd.exe JAVA_PID Thread.dump >dump.txt
 -Djava.rmi.server.hostname=127.0.0.1
 ```
 
+### Integration testing 
+
+<p><details>
+<summary>Spring 2.7 + JUnit 5 framework</summary>
+
+- project hierarchy:
+
+```
+src/main/{java,resources}
+src/tao/{docker,java,resources}
+src/test/{java,resources}
+```
+
+- pom.xml dependencies:
+
+```xml
+<!-- Unit testing -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+    <exclusions>
+	<exclusion>
+	    <groupId>org.junit.vintage</groupId>
+	    <artifactId>junit-vintage-engine</artifactId>
+	</exclusion>
+    </exclusions>
+</dependency>
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.194</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <!-- allow to mock final classes and other -->
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-inline</artifactId>
+    <version>4.3.1</version>
+    <scope>test</scope>
+</dependency>
+```
+ 
+- pom.xml build:
+
+```xml
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-surefire-plugin</artifactId>
+<version>2.22.0</version>
+<configuration>
+    <excludes>
+	<exclude>**/*IT.java</exclude>
+    </excludes>
+</configuration>
+</plugin>
+
+<plugin>
+<artifactId>maven-failsafe-plugin</artifactId>
+<version>2.22.2</version>
+</plugin>
+
+<plugin>
+<groupId>org.jacoco</groupId>
+<artifactId>jacoco-maven-plugin</artifactId>
+<version>0.8.4</version>
+<executions>
+    <execution>
+	<id>prepare-agent</id>
+	<goals>
+	    <goal>prepare-agent</goal>
+	</goals>
+    </execution>
+    <execution>
+	<id>report</id>
+	<phase>prepare-package</phase>
+	<goals>
+	    <goal>report</goal>
+	</goals>
+    </execution>
+    <execution>
+	<id>post-unit-test</id>
+	<phase>test</phase>
+	<goals>
+	    <goal>report</goal>
+	</goals>
+	<configuration>
+	    <!-- Sets the path to the file which contains the execution data. -->
+	    <dataFile>target/jacoco.exec</dataFile>
+	    <!-- Sets the output directory for the code coverage report. -->
+	    <outputDirectory>target/jacoco-ut</outputDirectory>
+	</configuration>
+    </execution>
+</executions>
+</plugin>
+```
+
+- pom.xml profiles:
+
+```xml
+<profiles>
+<profile>
+    <id>failsafe</id>
+    <build>
+	<plugins>
+	    <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<configuration>
+		    <!-- we want only tao in this profile --> 
+		    <skipTests>true</skipTests>
+		</configuration>
+	    </plugin>
+	    <plugin>
+		<artifactId>maven-failsafe-plugin</artifactId>
+		<version>2.22.2</version>
+		<executions>
+		    <execution>
+			<goals>
+			    <goal>integration-test</goal>
+			    <goal>verify</goal>
+			</goals>
+			<configuration>
+			    <forkCount>0</forkCount>
+			    <useSystemClassLoader>false</useSystemClassLoader>
+			    <includes>
+				<include>**/*IT</include>
+			    </includes>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+	    <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>build-helper-maven-plugin</artifactId>
+		<version>3.2.0</version>
+		<executions>
+		    <execution>
+			<id>add-integration-test-source</id>
+			<phase>generate-test-sources</phase>
+			<goals>
+			    <goal>add-test-source</goal>
+			</goals>
+			<configuration>
+			    <sources>
+				<source>src/tao/java</source>
+			    </sources>
+			</configuration>
+		    </execution>
+		    <execution>
+			<id>add-integration-test-resource</id>
+			<phase>generate-test-resources</phase>
+			<goals>
+			    <goal>add-test-resource</goal>
+			</goals>
+			<configuration>
+			    <resources>
+				<resource>
+				    <directory>src/tao/resources</directory>
+				</resource>
+			    </resources>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+	</plugins>
+    </build>
+</profile>
+</profiles>
+```
+
+</details></p>
+
 ### LDAP Connection
+
+<p><details>
+<summary>LdapConnect.java</summary>
 
 ```java
 /*
@@ -108,6 +284,8 @@ Hashtable env = new Hashtable();
 			System.exit(1);
 		}
 ```
+</details>
+</p>
 
 
 ### Azure Event Data Hub Receiver/Producer
