@@ -21,6 +21,12 @@ curl -k url
 curl --insecure url
 ```
 
+npm:
+
+```bash
+npm config set proxy "http://proxy-xxxx.com"
+```
+
 APT:
 
 ```bash
