@@ -108,7 +108,8 @@ public class AdminService {
 
 *Goals:* Récupérations d'informations sensibles de la base de données
 
-Basic Login hacking:
+- Basic Login hacking:
+
 ```sql
 -- test 1
 ' OR 1=1; -- -
@@ -118,7 +119,11 @@ Basic Login hacking:
 ... ORDER BY 1, 2, 3, 4, 5, 6, ... 10, 15
 ```
 
-NoSQL Injection:
+- NoSQL Injection:
+
+Create a user with a specially crafted email that, when used in the above query, facilitates the return of all the records instead of just those belonging to the current user.
+In order to do that, we can leverage the zero_terms_query parameter, which dictates what is returned when the post-analysis query produces no terms. Since this also depends on the default type used by the index, we can adopt the following strategy: set whitespace as the analyzer and submit an empty query.
+
 ```json
 {
   "user": "username",
@@ -127,7 +132,8 @@ NoSQL Injection:
 }
 ```
 
-Extract data to file and read it:
+- Extract data to file and read it:
+
 ```sql
 SELECT ... INTO OUTFILE ;
 SELECT LOAD_FILE ...;
