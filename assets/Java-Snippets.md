@@ -300,6 +300,20 @@ public void scenarioOneTest() throws Exception {
 
 </details></p>
 
+### Java Keytool cheat sheet
+
+<p><details>
+	<summary>Listing</summary>
+</details>
+
+```bash
+# Show trusted certificates
+/path/to/jdk/bin/keytool -list -keystore cacerts | grep -v fingerprint
+```
+
+
+</p>
+
 ### LDAP Connection
 
 <p><details>
