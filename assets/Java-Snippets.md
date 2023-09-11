@@ -308,7 +308,10 @@ public void scenarioOneTest() throws Exception {
 
 ```bash
 # Show trusted certificates
+# bash
 /path/to/jdk/bin/keytool -list -keystore cacerts | grep -v fingerprint
+# batch
+path\to\jdk\bin\keytool.exe -list -keystore cacerts | find /V "Empreinte"
 ```
 
 
