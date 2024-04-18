@@ -35,9 +35,22 @@
 
 
 
-### template
-- who:
-- 
+### test containers
+- who: Clarence Dimitri Charles 
+- tests intégration sans ressources partagées tq oracle dev.
+- librairie java permettant de prov dB, etc.
+- module officiel Spring boot 3, junit5
+- maven org.testcontainers : oracle-xe junit-jupiter, ...
+- déléguer cycle vie Springboot `@Springboottest +@Testcontainers,  @ServiceConnection @Bean OracleContainer .withReuse`
+- @DynamicPropertySource
+- AppTest : main : `SApp.from(App::main).with(...)`
+- @RestartScope pour live reload sans reboot containers
+- TcpProxy bean pour surcharger port au lieu d'utiliser un port aléatoire 
+- couplé Docker : démon Docker 
+- Tests plus longs 
+- customisation possible docker compose
+
+
 
 ### template
 - who:
