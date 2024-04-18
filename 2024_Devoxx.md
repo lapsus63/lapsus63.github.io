@@ -192,9 +192,13 @@ return New JavaIsoVisitor(){
 
 
 
-## template
-- who:
-- 
+## BOF Gitlab past present future 
+- who: JP Baconnais,*
+- depuis 2013 25k
+- 2014 100k
+- plateforme 50aine services (manage,plan,create,verify,packagé,release,configure,monitor,secure)
+- catalog: réutilisabilite, 
+
 
 
 ## template
