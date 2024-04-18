@@ -20,9 +20,11 @@
 - side Channel attacks : analyse conso CPU sur décryptage RSA pour déduire clé privée (square moins consommateur que square&multiply)
 
 
-### template
-- who:
+### architecture simple
+- who: Bertrand Delacrétaz
 - 
+
+
 
 ### template
 - who:
