@@ -145,6 +145,10 @@ var_handle.get(segment, 0, index)
 
 ## OpenRewrite
 - who: Frédéric Mencier
+- cf image photo
+- estimation migration manuelle eao vers quarkus : 34ans 6 personnes : 6ans.
+- écriture recettes openrewrite custom (cookbook, cf photo)
+- 30 recettes du catalogue + 23 recettes custom
 - 
 
 
