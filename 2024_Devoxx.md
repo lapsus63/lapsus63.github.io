@@ -1,18 +1,17 @@
 # Devoxx 2024
 
-### keynote 1 greatest mistakes
+## keynote 1 greatest mistakes
 - who: mark rendle
 - bugs les plus couteux
 
-
-### keynote 2 monde shooté metaux
+## keynote 2 monde shooté metaux
 - who: Agnès crepet guillaume pitron
 - indium (tactile)
 - 70 métaux smartphone, 182kg matière 
 - fairphone env 25 métaux, meilleures conditions de travail,..
 
 
-### cybersecurité
+## cybersecurité
 - who:Sonia seddiki
 - dns tunneling : ping ne passe pas mais dans résolu. ex attaque solarwings 2020.
 - échange de messages en fonction des IP résolues par le faux serveur, ou requête txt dans pour récupérer code malveillant, envoi credentials sur dns en Hexa puis ping dns avec URL contenant de Hexa.
@@ -20,7 +19,7 @@
 - side Channel attacks : analyse conso CPU sur décryptage RSA pour déduire clé privée (square moins consommateur que square&multiply)
 
 
-### architecture simple
+## architecture simple
 - who: Bertrand Delacrétaz
 - système compliqué difficile à remplacer 
 - ex de simplicité : cmd linux, Lego, le kazoo,... perdurent, mais équilibre à trouver, ne pas se limiter au passé trop simple.
@@ -34,8 +33,7 @@
 - non compatible cycle agile, travail de recherche sur une période négociée 
 
 
-
-### test containers
+## test containers
 - who: Clarence Dimitri Charles 
 - tests intégration sans ressources partagées tq oracle dev.
 - librairie java permettant de prov dB, etc.
@@ -52,7 +50,7 @@
 
 
 
-### C4 modeles architecture 
+## C4 modeles architecture 
 - who: Jérôme Gauthier 
 - c4model.com 4 niveaux d'abstraction 
 - zoom : context / container / component / code
@@ -65,21 +63,18 @@
 
 
 
-
-### duckentacle fabriquons le futur
+## duckentacle fabriquons le futur
 - who: Rémi Forax José Paumard
 - dev.java
 - youtube road to 21
 
-#### unnamed classes jep (463) 445 458
+### unnamed classes & patterns jep (463) 445 458 456
 - jep 463 : classes implicites
 - var sans nom. ex. var de lambda non utilisée : _ au lieu d'un nom inutile `(_, _) ->`
 - classe sans nom : pas de déclaration public class ... dans le .java
-- 
 
-#### unnamed patterns jep 456
 
-#### string template jep 465 -> 459
+### string template jep 465 -> 459
 - htmx librairie js pour traiter la vue sans js, côté serveur
   - hx-trigger, hx-post, hx-get, hx-target, ...
   - React force utilisation nodejs côté serveur 
@@ -96,7 +91,7 @@
   - avantage auto complétion intégrée car intégré au code.
 
 
-#### constructions: statements before super jep 447 (panama)
+### constructions: statements before super jep 447 (panama)
 - java22 preview
 - pas de calculs avant d'appeler le super, par exemple avec des arguments calculés 
 - bytecode: 11e instruction après stockage des paramètres en mémoire 
@@ -104,7 +99,7 @@
 - nécessaire pour valueTypes ex. Optionals, pour que le classe soit garantie non modifiable (project Valhalla)
 
 
-#### (foreign func) & memory api jep 454
+### (foreign func) & memory api jep 454
 - dispo java22
 - foreign func: exécuter code non java
 - mémoire off heap non gérée par le gc
@@ -137,39 +132,39 @@ s.getAtIndex(ValueLayout.long, index)
 
 
 
-### template
+## OpenRewrite
+- who: Frédéric Mencier
+- 
+
+## template
 - who:
 - 
 
-### template
+## template
 - who:
 - 
 
-### template
+## template
 - who:
 - 
 
-### template
+## template
 - who:
 - 
 
-### template
+## template
 - who:
 - 
 
-### template
+## template
 - who:
 - 
 
-### template
+## template
 - who:
 - 
 
-### template
-- who:
-- 
-
-### template
+## template
 - who:
 - 
 
