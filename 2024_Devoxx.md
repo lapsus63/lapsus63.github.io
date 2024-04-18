@@ -52,9 +52,15 @@
 
 
 
-### template
-- who:
+### C4 modeles architecture 
+- who: Jérôme Gauthier 
+- c4model.com 4 niveaux d'abstraction 
+- zoom : context / container / component / code
+- outil agnostique as-code : mermaid, c4builder, structurizr, ...
 - 
+
+
+
 
 ### template
 - who:
