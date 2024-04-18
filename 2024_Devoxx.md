@@ -16,6 +16,8 @@
 - who:Sonia seddiki
 - dns tunneling : ping ne passe pas mais dans résolu. ex attaque solarwings.
 - échange de messages en fonction des IP résolues par le faux serveur, ou requête txt dans pour récupérer code malveillant, envoi credentials sur dns en Hexa puis ping dns avec URL contenant de Hexa.
+- steganographie
+
 
 ### template
 - who:
