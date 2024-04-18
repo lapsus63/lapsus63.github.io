@@ -2,7 +2,7 @@
 
 ## keynote 1 greatest mistakes
 - who: mark rendle
-- bugs les plus couteux
+- bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
 
 ## keynote 2 monde shooté metaux
 - who: Agnès crepet guillaume pitron
@@ -64,7 +64,7 @@
 
 
 ## duckentacle fabriquons le futur
-- who: Rémi Forax José Paumard
+- who: Rémi Forax & José Paumard
 - dev.java
 - youtube road to 21
 
@@ -136,9 +136,6 @@ s.getAtIndex(ValueLayout.long, index)
 - who: Frédéric Mencier
 - 
 
-## template
-- who:
-- 
 
 ## template
 - who:
@@ -148,9 +145,11 @@ s.getAtIndex(ValueLayout.long, index)
 - who:
 - 
 
+
 ## template
 - who:
 - 
+
 
 ## template
 - who:
@@ -160,9 +159,41 @@ s.getAtIndex(ValueLayout.long, index)
 - who:
 - 
 
+
 ## template
 - who:
 - 
+
+
+## template
+- who:
+- 
+
+
+## template
+- who:
+- 
+
+
+## template
+- who:
+- 
+
+
+## template
+- who:
+- 
+
+
+## template
+- who:
+- 
+
+
+## template
+- who:
+- 
+
 
 ## template
 - who:
