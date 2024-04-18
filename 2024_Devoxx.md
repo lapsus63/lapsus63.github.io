@@ -66,9 +66,12 @@
 
 
 
-### template
-- who:
+### duckentacle fabriquons le futur
+- who: Rémi Forax José Paumard
 - 
+
+
+
 
 ### template
 - who:
