@@ -31,7 +31,7 @@
 - penser: on peut faire plus simple. maintenance moins chère, mais plus d'ingénierie. nécessaire pour du code durable.
 - mesurer complexité du code
 - se demander s'il n'y a rien à enlever sans casser 
-- 
+- non compatible cycle agile, travail de recherche sur une période négociée 
 
 
 
