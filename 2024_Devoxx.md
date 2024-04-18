@@ -57,7 +57,11 @@
 - c4model.com 4 niveaux d'abstraction 
 - zoom : context / container / component / code
 - outil agnostique as-code : mermaid, c4builder, structurizr, ...
-- 
+- cf exemple structurizr photo 
+- fichier dsl -> container docker structurizr -> localhost:8080
+- graphviz utilisé pour layout
+- adapté pour plusieurs apps, pour contribuer, rétro modéliser 
+- moins adapté pour monolithes
 
 
 
