@@ -132,7 +132,7 @@ s.getAtIndex(ValueLayout.long, index)
 - shared et confined .close la mémoire est libérée, Arena tjrs dans le heap. confined utilisé que par thread qui l'a créée.
 - MemorySegment : mémoire continue, on heap:  `MemorySegment.array(), memorylayout.structlayout(ValueLayout.java_int.withname("x"), ...)`
 - VarHandle pour calculer `MEM_LAYOUT.varHandle(MemoryLayout.PathRlement.groupElement("x")).withInvokeExactBehavior()"` puis `var_handle1.set(segment, 0, index, value1), var_handle2.set(segment, 0,index,value2)` pour lire : `var_handle.get(segment, 0, index)`
-
+- 
 
 
 
