@@ -22,6 +22,11 @@
 
 ### architecture simple
 - who: Bertrand Delacrétaz
+- système compliqué difficile à remplacer 
+- ex de simplicité : cmd linux, Lego, le kazoo,... perdurent, mais équilibre à trouver, ne pas se limiter au passé trop simple.
+- 2e ex: rtp pour enregistrer flux audio en peu de ligne de code (1999) avec contraintes perso (15sec par fichier, enr continu), stockage hdd
+- apache sling servlets (généricité) simplicité basé sur des standards. standards+spécialité 
+- web components et templates html, cf web-platform-zoo sur https://open source.adobe.com
 - 
 
 
