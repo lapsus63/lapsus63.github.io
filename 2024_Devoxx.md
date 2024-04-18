@@ -125,11 +125,22 @@ s.getAtIndex(ValueLayout.long, index)
 - on libère toute l'aréna d'un coup, pas par segment.
 - Arena dans gc, mémoire adressée hors gc
 - shared et confined .close la mémoire est libérée, Arena tjrs dans le heap. confined utilisé que par thread qui l'a créée.
-- MemorySegment : mémoire continue, on heap:  `MemorySegment.array(), memorylayout.structlayout(ValueLayout.java_int.withname("x"), ...)`
-- VarHandle pour calculer `MEM_LAYOUT.varHandle(MemoryLayout.PathRlement.groupElement("x")).withInvokeExactBehavior()"` puis `var_handle1.set(segment, 0, index, value1), var_handle2.set(segment, 0,index,value2)` pour lire : `var_handle.get(segment, 0, index)`
-- utilisable avec filechannel
-- use case: charger un milliard de données, les streamer, calculer: 6 secondes
+- MemorySegment : mémoire continue, on heap:  ```java
+MemorySegment.array()
+MemoryLayout.structlayout(ValueLayout.java_int.withname("x"), ...)
+```
+- VarHandle pour calculer
+ ```java
+MEM_LAYOUT.varHandle(MemoryLayout
+   .PathElement.groupElement("x"))
+   .withInvokeExactBehavior();
 
+// écriture :
+var_handle1.set(segment, 0, index, value1); var_handle2.set(segment, 0,index,value2)
+// lecture :
+var_handle.get(segment, 0, index)
+```
+- utilisable avec filechannel. Use case: charger un milliard de données, les streamer, calculer: 6 secondes.
 
 
 ## OpenRewrite
