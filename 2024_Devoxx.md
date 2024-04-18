@@ -9,7 +9,60 @@
 - who: Agnès crepet guillaume pitron
 - indium (tactile)
 - 70 métaux smartphone, 182kg matière 
+- fairphone env 25 métaux, meilleures conditions de travail,..
 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
+
+### template
+- who:
+- 
 
 ### template
 - who:
