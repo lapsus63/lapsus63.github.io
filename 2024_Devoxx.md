@@ -68,12 +68,24 @@
 
 ### duckentacle fabriquons le futur
 - who: Rémi Forax José Paumard
+- dev.java
+- youtube road to 21
 
-#### unnamed classes jep 445 458
+#### unnamed classes jep (463) 445 458
+- jep 463 : classes implicites
+- var sans nom. ex. var de lambda non utilisée : _ au lieu d'un nom inutile `(_, _) ->`
+- classe sans nom : pas de déclaration public class ... dans le .java
+- 
 
 #### unnamed patterns jep 456
 
 #### string template jep 465
+- htmx librairie js pour traiter la vue sans js, côté serveur
+-- hx-trigger, hx-post, hx-get, hx-target, ...
+-- React force utilisation nodejs côté serveur 
+-- on veut rendering serveur side sans utiliser JavaScript.
+
+
 
 #### statements before super jep 447
 
