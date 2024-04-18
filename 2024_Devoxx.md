@@ -79,11 +79,19 @@
 
 #### unnamed patterns jep 456
 
-#### string template jep 465
+#### string template jep 465 -> 459
 - htmx librairie js pour traiter la vue sans js, côté serveur
- - hx-trigger, hx-post, hx-get, hx-target, ...
- - React force utilisation nodejs côté serveur 
- - on veut rendering serveur side sans utiliser JavaScript.
+  - hx-trigger, hx-post, hx-get, hx-target, ...
+  - React force utilisation nodejs côté serveur 
+  - on veut rendering serveur side sans utiliser JavaScript.
+- string template processor (old jep)
+  - générer HTML/XML.. sans avoir besoin d'escape et sans PB d'injection 
+  - processeurs : `str (string), fmt (format), ComponentTemplateProcessor` return un `Renderer`.
+  - interface qui valide des fragments (objets inclus dans le string), et escape correctement les valeurs 
+- string templates
+  - `public static Renderer render(StringTemplate tpl) {}`
+  - Ex. XMLDom,...
+  -`"$### ..."`
 
 
 
