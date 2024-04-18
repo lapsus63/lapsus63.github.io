@@ -7,7 +7,9 @@
 
 ### monde shooté metaux
 - who: Agnès crepet guillaume pitron
-- 
+- indium (tactile)
+- 70 métaux smartphone, 182kg matière 
+
 
 ### template
 - who:
