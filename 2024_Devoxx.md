@@ -180,13 +180,15 @@ return New JavaIsoVisitor(){
 - CSS -> CSS -> affichage browser
 - vérifier CSS généré (test auto sur fonctions scss)
 - verif rendu d'un élément, d'une page 
-- jest, nodesass, ts/js, ...
+- jest, nodesass, ts/js, puppeteer ...
 - jest: `renderSync({...})` 
 - `npm run test:unit --function`
 - Snapshot testing : fichier référence pour vérifier non régression. `expect(cssstring).toMatchSnapshot('snapshotname')`. fichier généré lors du premier test. a comitter. -- testname -u pour maj Snapshot.
+- test de rendu: ex tester sur tous les boutons dont la même hauteur. `await.page.evaluate... btn: queryselector..getboundingsclientrect.`
+- screenshot : pas le plus pertinent. Utile quand mise à jour de librairie, utilisation ponctuelle sans commit. `toMatchImageSnaphot`
+- tester les urls dans les CSS, `existSync`
+- puppeteer peut simuler différents navigateurs 
 - 
-
-
 
 
 
