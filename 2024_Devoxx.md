@@ -154,7 +154,24 @@ var_handle.get(segment, 0, index)
 - estimation migration manuelle eao vers quarkus : 34ans 6 personnes : 6ans.
 - écriture recettes openrewrite custom (cookbook, cf photo)
 - 30 recettes du catalogue + 23 recettes custom
-- 
+- nouvelle recette : 
+
+```java
+class MyRecette extends Recipes
+
+public TreeVisotor getVisitor() {
+return New JavaIsoVisitor(){
+    @Override
+    public J.ClassDeclzration visitclassdeclaration {
+   r= super.visit...
+   if ...
+      r.with...
+   
+}
+}
+
+}
+```
 
 
 ## template
