@@ -89,10 +89,11 @@
   - processeurs : `str (string), fmt (format), ComponentTemplateProcessor` return un `Renderer`.
   - interface qui valide des fragments (objets inclus dans le string), et escape correctement les valeurs 
 - string templates
+  - reimplementation en cours, pas de preview en 23. pas en GA en LTS 25.
   - `public static Renderer render(StringTemplate tpl) {}`
   - Ex. XMLDom,...
   -`"$### ..."`
-
+  - avantage auto complétion intégrée car intégré au code.
 
 
 #### statements before super jep 447
