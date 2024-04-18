@@ -197,7 +197,17 @@ return New JavaIsoVisitor(){
 - depuis 2013 25k
 - 2014 100k
 - plateforme 50aine services (manage,plan,create,verify,packagé,release,configure,monitor,secure)
-- catalog: réutilisabilite, 
+- catalog: réutilisabilite, include: component: ... (avantage testable)
+- Gitlab ci local outil indépendant de Gitlab mais pouvant aider
+- éviter only et except, conflits avec rules
+- dora metrics sur ultimate (lead Times MR, etc)
+- Gitlab duo : with AI : autocompletion, summary, modèles personnalisés 
+- Gitlab intégré Google cloud 
+- Gitops FluxCD communautaire 
+- evols project management (jira)
+- remote développent
+- investissement sur l'IA 
+
 
 
 
