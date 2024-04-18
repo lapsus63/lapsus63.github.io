@@ -145,6 +145,9 @@ var_handle.get(segment, 0, index)
 
 ## OpenRewrite
 - who: Frédéric Mencier
+- (!) données perdues, cf replay
+- www moderne.io
+- openrewrite.io
 - cf image photo
 - estimation migration manuelle eao vers quarkus : 34ans 6 personnes : 6ans.
 - écriture recettes openrewrite custom (cookbook, cf photo)
