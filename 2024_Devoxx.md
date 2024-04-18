@@ -96,10 +96,42 @@
   - avantage auto complétion intégrée car intégré au code.
 
 
-#### statements before super jep 447
+#### constructions: statements before super jep 447 (panama)
+- java22 preview
+- pas de calculs avant d'appeler le super, par exemple avec des arguments calculés 
+- bytecode: 11e instruction après stockage des paramètres en mémoire 
+- ex. pouvoir faire objets.requirenonnull avant appel au super
+- nécessaire pour valueTypes ex. Optionals, pour que le classe soit garantie non modifiable (project Valhalla)
 
-#### foreign func & memory api jep 454
 
+#### (foreign func) & memory api jep 454
+- dispo java22
+- foreign func: exécuter code non java
+- mémoire off heap non gérée par le gc
+- le gc compacte la mem, la déplace. pas d'arithmétique sur pointeurs possible 
+- avtg: stockée raw data, stockage direct i/o, lecture et traitement rapides
+- java4: bytebuffer, limité 2go, pointeur vers bytebuffer géré par le gc; sun.misc.Unsafe
+- memory api : rapide, pas limité à 2go, octet par octet, ou via structures (+safe), libération mémoire manuelle
+- lecture/écriture :
+```java
+Arena a = Arena.global(); // de base
+.ofAuto
+.ofConfined
+.ofShared
+segment s = a.allocate(80L, 1L);
+s.allocate(10*4, 1L) // 10 entiers
+// pls APIs :
+s.setAtIndex(ValueLayout.Long, index, value);
+index++ // pointeur se déplace de 8 octets
+// lecture
+s.getAtIndex(ValueLayout.long, index)
+```
+- Arena, autocloseable contient MemorySegment contient des tableaux de int, des long, des struct, types mixés int/long/doubles/...
+- on libère toute l'aréna d'un coup, pas par segment.
+- Arena dans gc, mémoire adressée hors gc
+- shared et confined .close la mémoire est libérée, Arena tjrs dans le heap. confined utilisé que par thread qui l'a créée.
+- MemorySegment : mémoire continue, on heap:  `MemorySegment.array(), memorylayout.structlayout(ValueLayout.java_int.withname("x"), ...)`
+- VarHandle pour calculer `MEM_LAYOUT.varHandle(MemoryLayout.PathRlement.groupElement("x")).withInvokeExactBehavior()"` puis `var_handle1.set(segment, 0, index, value1), var_handle2.set(segment, 0,index,value2)` pour lire : `var_handle.get(segment, 0, index)`
 
 
 
