@@ -27,6 +27,10 @@
 - 2e ex: rtp pour enregistrer flux audio en peu de ligne de code (1999) avec contraintes perso (15sec par fichier, enr continu), stockage hdd
 - apache sling servlets (généricité) simplicité basé sur des standards. standards+spécialité 
 - web components et templates html, cf web-platform-zoo sur https://open source.adobe.com
+
+- penser: on peut faire plus simple. maintenance moins chère, mais plus d'ingénierie. nécessaire pour du code durable.
+- mesurer complexité du code
+- se demander s'il n'y a rien à enlever sans casser 
 - 
 
 
