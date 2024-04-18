@@ -81,9 +81,9 @@
 
 #### string template jep 465
 - htmx librairie js pour traiter la vue sans js, côté serveur
--- hx-trigger, hx-post, hx-get, hx-target, ...
--- React force utilisation nodejs côté serveur 
--- on veut rendering serveur side sans utiliser JavaScript.
+ - hx-trigger, hx-post, hx-get, hx-target, ...
+ - React force utilisation nodejs côté serveur 
+ - on veut rendering serveur side sans utiliser JavaScript.
 
 
 
