@@ -5,7 +5,7 @@
 - bugs les plus couteux
 
 
-### monde shooté metaux
+### keynote 2 monde shooté metaux
 - who: Agnès crepet guillaume pitron
 - indium (tactile)
 - 70 métaux smartphone, 182kg matière 
@@ -68,7 +68,17 @@
 
 ### duckentacle fabriquons le futur
 - who: Rémi Forax José Paumard
-- 
+
+#### unnamed classes jep 445 458
+
+#### unnamed patterns jep 456
+
+#### string template jep 465
+
+#### statements before super jep 447
+
+#### foreign func & memory api jep 454
+
 
 
 
