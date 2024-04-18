@@ -133,6 +133,7 @@ s.getAtIndex(ValueLayout.long, index)
 - MemorySegment : mémoire continue, on heap:  `MemorySegment.array(), memorylayout.structlayout(ValueLayout.java_int.withname("x"), ...)`
 - VarHandle pour calculer `MEM_LAYOUT.varHandle(MemoryLayout.PathRlement.groupElement("x")).withInvokeExactBehavior()"` puis `var_handle1.set(segment, 0, index, value1), var_handle2.set(segment, 0,index,value2)` pour lire : `var_handle.get(segment, 0, index)`
 - utilisable avec filechannel
+- use case: charger un milliard de données, les streamer, calculer: 6 secondes
 
 
 
