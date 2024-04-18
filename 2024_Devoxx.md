@@ -176,7 +176,16 @@ return New JavaIsoVisitor(){
 
 ## testing css
 - who: Fabien Zibi
-- langage déclaratif, pas testable 
+- langage déclaratif, pas testable
+- CSS -> CSS -> affichage browser
+- vérifier CSS généré (test auto sur fonctions scss)
+- verif rendu d'un élément, d'une page 
+- jest, nodesass, ts/js, ...
+- jest: `renderSync({...})` 
+- `npm run test:unit --function`
+- Snapshot testing : fichier référence pour vérifier non régression. `expect(cssstring).toMatchSnapshot('snapshotname')`. fichier généré lors du premier test. a comitter. -- testname -u pour maj Snapshot.
+- 
+
 
 
 
