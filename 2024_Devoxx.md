@@ -130,7 +130,7 @@ MemorySegment.array()
 MemoryLayout.structlayout(ValueLayout.java_int.withname("x"), ...)
 ```
 - VarHandle pour calculer
- ```java
+```java
 MEM_LAYOUT.varHandle(MemoryLayout
    .PathElement.groupElement("x"))
    .withInvokeExactBehavior();
