@@ -251,6 +251,12 @@ return New JavaIsoVisitor(){
 - model 4.0 plus fort mais plus cher, pas souvent utile 
 - abonnement chatgpt (mensuel) != abonnement openAi(à la conso)
 ### Générer des images
+- `ImageModel, OpenAiImageModel, model.generate("image description"), `
+- URL générée
+- modelname dall-e-2, ...
+- `persistTo` pour sauver localement 
+### Feedbackanalyzer
+- feedback.shoggi.monster/feedback.html
 - 
 
 
