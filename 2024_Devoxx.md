@@ -311,8 +311,7 @@ assistant.chat("my message")
 - ia peut aider à proposer solutions 
 - contexte : limites, coûts, charges, besoins 
 - conséquences : besoin de se former, utilisable de suite, risques, etc.
-
-
+- ex voir photo 
 
 
 
