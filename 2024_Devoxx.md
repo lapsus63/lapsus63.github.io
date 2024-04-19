@@ -374,11 +374,8 @@ assistant.chat("my message")
 
 
 
-
-
-
-## template
-> who:
+## API Vector programmation parallèle SIMD
+> who: José Paumard 
 - 
 
 
