@@ -410,9 +410,12 @@ v1.add(v2)  // un cycle CPU
 - calcul matriciel manuel 
 
 
-## template
-> who:
+## Kafka SQL Parquet 
+> who: François Teychene
 - 
+
+
+
 
 
 ## template
