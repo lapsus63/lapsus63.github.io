@@ -362,6 +362,7 @@ assistant.chat("my message")
 - aot + jit = java
 - principe cf photo 
 - ex définition de bytecode photo
+- architecture cf photo 
 
 
 
