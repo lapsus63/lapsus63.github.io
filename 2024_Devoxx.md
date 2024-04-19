@@ -361,6 +361,7 @@ assistant.chat("my message")
 - juste un Time : bytecode ou autre, transfo binaire à l'exec. 2nd fois directement binaire 
 - aot + jit = java
 - principe cf photo 
+- ex définition de bytecode photo
 
 
 
