@@ -239,7 +239,8 @@ return New JavaIsoVisitor(){
 ## LangChain4j LLMs
 > who: Marie Alice Blete Lize Raes Vincent Peres
 - [Springboot exemple](https://github.com/langchain4j/langchain4j-examples/tree/main/spring-boot-example/src/main/java/dev/langchain4j/example)
-- 
+- gitpod.io#lien-vers-repo
+- [Lab github](https://github.com/LizeRaes/)
 
 
 
