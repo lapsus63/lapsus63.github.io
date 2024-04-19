@@ -317,15 +317,21 @@ assistant.chat("my message")
 
 ## Infra sans secrets
 > who: Thibault Lengagne
-- zéro credentials
-  - plus de leak plus d'outils type git guardian, gitleaks... nécessaire 
-  - cred valable 15 min
-  - single sign on
-  - auth -> autor
-  - token + refresh token ald pwd
-  - un seul mdp sso à se souvenir 
-- emplacement des secrets 
-- secrets développeur 
+### zéro credentials
+- plus de leak plus d'outils type git guardian, gitleaks... nécessaire 
+- cred valable 15 min
+- single sign on
+- auth -> autor
+- token + refresh token ald pwd
+- un seul mdp sso à se souvenir 
+- clés d'Api de services externe restent
+### secrets développeur 
+- webapp, cloud IAM, tools.
+- sso single point of failure (mep double authent)
+- oauth2-proxy permet de se pluguer sur sso et mettre barrière entre sso et outils on premier (bdd,...)
+- boundary + vault
+### secrets cicd
+### secrets workload
 
 
 
