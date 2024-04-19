@@ -264,6 +264,25 @@ return New JavaIsoVisitor(){
 - @SystemMessage : instruction générale 
 - @V injection des valeurs pour les templates, @UserMessage
 - typage des retours en Liste<String>, LocalDateTime, etc.
+### mémoire 
+- pratique pour les sessions de chat
+- `ChatMemory, MessageWindowChatMemory.withChatMessages(10), ChatLanguageModel, Assistant`
+- `assistant.chat("i like chocolate"); assistant.chat("qu'est-ce que j'aime ?");`
+- créer une fausse mémoire pour entraîner le modèle 
+- `Tokenizer, OpenAiTokenizer("gpt-3.5-turbo"), TokenWindowChatMemory`
+- maxTokens;
+- créer un SystemMessage pour identifier le type de personne qui va répondre 
+```java
+chatMemory.add(systemMessage);
+chatMemory.add(UserMessage.from("input..."))
+chatMemory.add(AiMessage.from("réponse..."))
+
+AiServiceWithMemory assistant = AiService.builder...;
+assistant.chat("my message")
+```
+
+
+
 
 
 ## template 
