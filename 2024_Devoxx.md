@@ -262,8 +262,8 @@ return New JavaIsoVisitor(){
 - `ChatAssistant AiServices.create(MyInterfaceTranslator.class), @SystemMessage("you are a professional translatorinto {{lang}}"). @UserMessage("translate this texte: {{texte}}"), @V, AiMessage`
 - orienté Service pour spécialisation (méthode translate, summarize, extractFateTime, ...)
 - @SystemMessage : instruction générale 
-- @V injection des valeurs pour les templates 
-- 
+- @V injection des valeurs pour les templates, @UserMessage
+- typage des retours en Liste<String>, LocalDateTime, etc.
 
 
 ## template 
