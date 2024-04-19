@@ -352,6 +352,7 @@ assistant.chat("my message")
 
 ## propre vm avec compilation jit
 > who: Olivier Poncet 
+- https://github.com/ponceto/rpn-calculator-with-jit
 - jit : trafsfo lgg en lg machine à la volée 
 - avantages :
   - augmentation portabilité 
