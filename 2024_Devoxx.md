@@ -236,8 +236,9 @@ return New JavaIsoVisitor(){
 
 
 
-## LangChain4j LLMs
+## LangChain4j LLMs Hands on lab
 > who: Marie Alice Blete Lize Raes Vincent Peres
+- revoir présentation slides d'hier 
 - [Springboot exemple](https://github.com/langchain4j/langchain4j-examples/tree/main/spring-boot-example/src/main/java/dev/langchain4j/example)
 - readme indique liste providers compatibles autres que openai
 - gitpod.io#lien-vers-repo
@@ -271,6 +272,8 @@ return New JavaIsoVisitor(){
 - créer une fausse mémoire pour entraîner le modèle 
 - `Tokenizer, OpenAiTokenizer("gpt-3.5-turbo"), TokenWindowChatMemory`
 - maxTokens;
+- bien restreindre le SystemMessage pour éviter l'injection de prompt.
+- coûts: mémoire renvoyée au modèle à chaque appel, api stateless. fine tuning possible sur openAi directement mais plus grosse artillerie.
 - créer un SystemMessage pour identifier le type de personne qui va répondre 
 ```java
 chatMemory.add(systemMessage);
@@ -280,7 +283,15 @@ chatMemory.add(AiMessage.from("réponse..."))
 AiServiceWithMemory assistant = AiService.builder...;
 assistant.chat("my message")
 ```
-
+### tools
+- `@Tool, aiService.tools()` sur methodes. nom méthode et description interprétées.
+- define tools pour trouver des méthodes à appeler si conditions réunies
+### rag
+- `EmbeddingModel, InMemoryEmbeddedStored, EmbeddingStoreInjector`
+- injection de documentation 
+- ex. Feedbackanalyzer
+- https://github.com/LizeRaes/feedback-analyzer
+- 
 
 
 
