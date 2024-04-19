@@ -320,6 +320,7 @@ assistant.chat("my message")
 - récupérer slides
 ### zéro credentials
 - plus de leak plus d'outils type git guardian, gitleaks... nécessaire 
+- privilégier les mdp générés à la volée aux mdp long terme.
 - cred valable 15 min
 - single sign on
 - auth -> autor
@@ -344,7 +345,8 @@ assistant.chat("my message")
 - vault csi provider
 - vault-agent + vault: Sync les secrets et les gère en var d'environnement dans l'application 
 - comparaison des outils sur site hashicorp
-- 
+- DB : créer un rôle. vault: générer un user/MDP à la volée avec le rôle 
+
 
 
 
