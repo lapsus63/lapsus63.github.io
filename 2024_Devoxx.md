@@ -244,11 +244,14 @@ return New JavaIsoVisitor(){
 - [Lab github](https://github.com/LizeRaes/lc4j-lab-intro-assignments) cf README.md
 - [Lab github solution](https://github.com/LizeRaes/lc4j-lab-intro-solution)
 - avoir une clé openAi, clé "démo" permet quelques tests.
+### Converser avec un modèle
 - main objetcts: `ChatLanguageModel, OpenAiChatModel, OpenAiChatModelName, StreamingChatLanguageModel, StreamingResponseHandler, `, `model.generate("dis bonjour")`
 - model.temperature: vers 0 juste, vers 1 plus créatif.
 - streaming : permet de streamer une réponse longue
 - model 4.0 plus fort mais plus cher, pas souvent utile 
 - abonnement chatgpt (mensuel) != abonnement openAi(à la conso)
+### Générer des images
+- 
 
 
 ## Java Flightrecorder 
