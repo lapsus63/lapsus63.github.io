@@ -343,7 +343,8 @@ assistant.chat("my message")
 - vault operator
 - vault csi provider
 - vault-agent + vault: Sync les secrets et les gère en var d'environnement dans l'application 
-- comparaison des outils hashicorp
+- comparaison des outils sur site hashicorp
+- 
 
 
 
