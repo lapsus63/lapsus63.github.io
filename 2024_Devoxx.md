@@ -257,7 +257,7 @@ return New JavaIsoVisitor(){
 - `persistTo` pour sauver localement 
 ### Feedbackanalyzer
 - feedback.shoggi.monster/feedback.html
-- 
+- voir résultats analyse photos 
 
 
 ## Java Flightrecorder 
