@@ -350,9 +350,21 @@ assistant.chat("my message")
 
 
 
-## template
-> who:
+## propre vm avec compilation jit
+> who: Olivier Poncet 
+- jit : trafsfo lgg en lg machine à la volée 
+- avantages :
+  - augmentation portabilité 
+  - acc interpréteur de code
+  - translation dynamique de code
+- ahead of Time : compilation c, c++, ...
+- juste un Time : bytecode ou autre, transfo binaire à l'exec. 2nd fois directement binaire 
+- aot + jit= java
 - 
+
+
+
+
 
 
 ## template
