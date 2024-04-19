@@ -213,6 +213,7 @@ return New JavaIsoVisitor(){
 
 ## keynote 1 état du monde 2100 rapport meadows
 - who:Anatole Chouard 
+- youtube: chez Anatole 
 - club of Rome, 1968, comprendre impacts sur le futur. dynamique des systèmes 
 - 5 systèmes : population, ressources, industrie, pollution, système alimentaire 
 - modélisation 5 courbes 1970-2100 selon efforts portés sur utilisation des ressources etc. chute des ressources, baisse population, etc.
