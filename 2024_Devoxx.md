@@ -1,7 +1,7 @@
 # Devoxx 2024
 
 ## keynote 1 greatest mistakes
-- who: mark rendle
+> who: mark rendle
 - bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
 
 ## keynote 2 monde shooté metaux
@@ -12,7 +12,7 @@
 
 
 ## cybersecurité
-- who:Sonia seddiki
+> who:Sonia seddiki
 - dns tunneling : ping ne passe pas mais dans résolu. ex attaque solarwings 2020.
 - échange de messages en fonction des IP résolues par le faux serveur, ou requête txt dans pour récupérer code malveillant, envoi credentials sur dns en Hexa puis ping dns avec URL contenant de Hexa.
 - steganographie texte e2808b efbbbf espaces sans chasse
@@ -20,7 +20,7 @@
 
 
 ## architecture simple
-- who: Bertrand Delacrétaz
+> who: Bertrand Delacrétaz
 - système compliqué difficile à remplacer 
 - ex de simplicité : cmd linux, Lego, le kazoo,... perdurent, mais équilibre à trouver, ne pas se limiter au passé trop simple.
 - 2e ex: rtp pour enregistrer flux audio en peu de ligne de code (1999) avec contraintes perso (15sec par fichier, enr continu), stockage hdd
@@ -34,7 +34,7 @@
 
 
 ## test containers
-- who: Clarence Dimitri Charles 
+> who: Clarence Dimitri Charles 
 - tests intégration sans ressources partagées tq oracle dev.
 - librairie java permettant de prov dB, etc.
 - module officiel Spring boot 3, junit5
@@ -51,7 +51,7 @@
 
 
 ## C4 modeles architecture 
-- who: Jérôme Gauthier 
+> who: Jérôme Gauthier 
 - c4model.com 4 niveaux d'abstraction 
 - zoom : context / container / component / code
 - outil agnostique as-code : mermaid, c4builder, structurizr, ...
@@ -64,7 +64,7 @@
 
 
 ## duckentacle fabriquons le futur
-- who: Rémi Forax & José Paumard
+> who: Rémi Forax & José Paumard
 - dev.java
 - youtube road to 21
 
@@ -144,7 +144,7 @@ var_handle.get(segment, 0, index)
 
 
 ## OpenRewrite
-- who: Frédéric Mencier
+> who: Frédéric Mencier
 - (!) données perdues, cf replay
 - www moderne.io
 - https://docs.openrewrite.org (/recipes)
@@ -175,7 +175,7 @@ return New JavaIsoVisitor(){
 
 
 ## testing css
-- who: Fabien Zibi
+> who: Fabien Zibi
 - langage déclaratif, pas testable
 - CSS -> CSS -> affichage browser
 - vérifier CSS généré (test auto sur fonctions scss)
@@ -193,7 +193,7 @@ return New JavaIsoVisitor(){
 
 
 ## BOF Gitlab past present future 
-- who: JP Baconnais,*
+> who: JP Baconnais,*
 - depuis 2013 25k
 - 2014 100k
 - plateforme 50aine services (manage,plan,create,verify,packagé,release,configure,monitor,secure)
@@ -212,7 +212,7 @@ return New JavaIsoVisitor(){
 
 
 ## keynote 1 état du monde 2100 rapport meadows
-- who:Anatole Chouard 
+> who:Anatole Chouard 
 - youtube: chez Anatole 
 - club of Rome, 1968, comprendre impacts sur le futur. dynamique des systèmes 
 - 5 systèmes : population, ressources, industrie, pollution, système alimentaire 
@@ -237,7 +237,7 @@ return New JavaIsoVisitor(){
 
 
 ## LangChain4j LLMs
-- who: Marie Alice Blete Lize Raes Vincent Peres
+> who: Marie Alice Blete Lize Raes Vincent Peres
 - 
 
 
@@ -245,42 +245,42 @@ return New JavaIsoVisitor(){
 
 
 ## Java Flightrecorder 
-- who:
+> who:
 - 
 
 
 
 ## template
-- who:
+> who:
 - 
 
 
 ## template
-- who:
+> who:
 - 
 
 
 ## template
-- who:
+> who:
 - 
 
 
 ## template
-- who:
+> who:
 - 
 
 
 ## template
-- who:
+> who:
 - 
 
 
 ## template
-- who:
+> who:
 - 
 
 
 ## template
-- who:
+> who:
 - 
 
