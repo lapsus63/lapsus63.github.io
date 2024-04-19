@@ -315,9 +315,19 @@ assistant.chat("my message")
 
 
 
-## template
-> who:
-- 
+## Infra sans secrets
+> who: Thibault Lengagne
+- zéro credentials
+  - plus de leak plus d'outils type git guardian, gitleaks... nécessaire 
+  - cred valable 15 min
+  - single sign on
+  - auth -> autor
+  - token + refresh token ald pwd
+  - un seul mdp sso à se souvenir 
+- emplacement des secrets 
+- secrets développeur 
+
+
 
 
 ## template
