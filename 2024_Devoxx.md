@@ -376,6 +376,14 @@ assistant.chat("my message")
 
 ## API Vector programmation parallèle SIMD
 > who: José Paumard 
+- en preview jep 469 8e incubation, stable et en version finale en Valhalla 
+- https://speakerdeck.com/josepaumard
+- API de calcul 
+- SIMD: single instruction multiple data
+- stream parallel , bcp données et adaptées à parallélisation 
+- arrays.parallelsort
+- toujours bencher les perfs quand on fait du parallèle sur équiv. prod
+- stream et array : api découpe et traite dans deux threads, subdivisions succ. pls hypothèses : fct associatives, partage en deux pas garanti sur hashsets. avoir des coeurs dispos, ne pas utiliser i/o dans stream.
 - 
 
 
