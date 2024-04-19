@@ -330,7 +330,14 @@ assistant.chat("my message")
 - sso single point of failure (mep double authent)
 - oauth2-proxy permet de se pluguer sur sso et mettre barrière entre sso et outils on premier (bdd,...)
 - boundary + vault
+- cf photo
+
 ### secrets cicd
+- secrets en clair dans code vs mécanisme cicd 
+- outils pour scanner gitlabhub
+- sops (mozilla) pour chiffrer si nécessaire, privilégier vault depuis application directement
+- 
+
 ### secrets workload
 
 
