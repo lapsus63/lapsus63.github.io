@@ -390,7 +390,17 @@ assistant.chat("my message")
 - algo écrite sur vecteurs au lieu de nombres.
 - chaque CPU a son implémentation, connaître son CPU.
 - pas de concurrence, pas de multithread 
-- 
+- on peut cumuler stream et parallélisation SIMD 
+- traiter 32bitd en parallèle=traiter 4long en parallèle 
+```java
+specis=IntVector.SPECIES_PREFERRED
+IntVector.fromArray(specis, array, 0)
+v1.add(v2)  // un cycle CPU 
+  .intoArray(result,0)
+```
+- large arrays : use for loops de 8 et 8 (int), selon taille du registre CPU : `species.length()`
+- si tableau < nb registres : `mask = species.indexInRange` masking pas supporté par tous les CPU.
+- `species.loopBound` 
 
 
 ## template
