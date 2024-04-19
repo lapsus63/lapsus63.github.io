@@ -291,13 +291,20 @@ assistant.chat("my message")
 - injection de documentation 
 - ex. Feedbackanalyzer
 - https://github.com/LizeRaes/feedback-analyzer
-- 
 
 
 
 
-## template 
-> who:
+## ADR
+> who: Sylvain Aurat
+- architecture, important décision record, créé 2011
+- rendre compte, focaliser sur le pourquoi 
+- se protéger (turn-over, retrouver contexte)
+- offensif : base de connaissances, planification des changements 
+- piloter 
+- pas (que) pour architectes
+- choix librairie, etc.
+- conservation historique des ADR 
 - 
 
 
