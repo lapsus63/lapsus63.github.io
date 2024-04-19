@@ -258,9 +258,15 @@ return New JavaIsoVisitor(){
 ### Feedbackanalyzer
 - feedback.shoggi.monster/feedback.html
 - voir résultats analyse photos 
+### aiServices
+- `ChatAssistant AiServices.create(MyInterfaceTranslator.class), @SystemMessage("you are a professional translatorinto {{lang}}"). @UserMessage("translate this texte: {{texte}}"), @V, AiMessage`
+- orienté Service pour spécialisation (méthode translate, summarize, extractFateTime, ...)
+- @SystemMessage : instruction générale 
+- @V injection des valeurs pour les templates 
+- 
 
 
-## Java Flightrecorder 
+## template 
 > who:
 - 
 
