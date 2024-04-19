@@ -360,9 +360,16 @@ assistant.chat("my message")
 - ahead of Time : compilation c, c++, ...
 - juste un Time : bytecode ou autre, transfo binaire à l'exec. 2nd fois directement binaire 
 - aot + jit = java
+- bytecode : instr codée sur un octet (OpCode)
 - principe cf photo 
 - ex définition de bytecode photo
 - architecture cf photo 
+- ISA: architecture matérielle du processeur
+- ABI: def types de données, registres 
+- bien connaître ISA et ABI pour écrire le compilateur, spécifications x86-64 à connaître.
+- prolog prépare stack mémoire 
+- corps stock fct dans mémoire et appeler mémoire 
+- eoilog restaure la pile
 
 
 
