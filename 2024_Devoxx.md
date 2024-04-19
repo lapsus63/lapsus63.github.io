@@ -336,6 +336,7 @@ assistant.chat("my message")
 - secrets en clair dans code vs mécanisme cicd 
 - outils pour scanner gitlabhub
 - sops (mozilla) pour chiffrer si nécessaire, privilégier vault depuis application directement
+- cloud providers : oidc. ex. autoriser repo sur branche donnée, rôle IAM.
 - 
 
 ### secrets workload
