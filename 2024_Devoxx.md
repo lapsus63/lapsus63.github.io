@@ -239,9 +239,17 @@ return New JavaIsoVisitor(){
 ## LangChain4j LLMs
 > who: Marie Alice Blete Lize Raes Vincent Peres
 - [Springboot exemple](https://github.com/langchain4j/langchain4j-examples/tree/main/spring-boot-example/src/main/java/dev/langchain4j/example)
+- readme indique liste providers compatibles autres que openai
 - gitpod.io#lien-vers-repo
-- [Lab github](https://github.com/LizeRaes/lc4j-lab-intro-assignments)
+- [Lab github](https://github.com/LizeRaes/lc4j-lab-intro-assignments) cf README.md
 - [Lab github solution](https://github.com/LizeRaes/lc4j-lab-intro-solution)
+- avoir une clé openAi, clé "démo" permet quelques tests.
+- main objetcts: `ChatLanguageModel, OpenAiChatModel, OpenAiChatModelName, StreamingChatLanguageModel, StreamingResponseHandler, `, `model.generate("dis bonjour")`
+- model.temperature: vers 0 juste, vers 1 plus créatif.
+- streaming : permet de streamer une réponse longue
+- model 4.0 plus fort mais plus cher, pas souvent utile 
+- abonnement chatgpt (mensuel) != abonnement openAi(à la conso)
+
 
 ## Java Flightrecorder 
 > who:
