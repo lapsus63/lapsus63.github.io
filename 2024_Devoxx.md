@@ -406,7 +406,8 @@ v1.add(v2)  // un cycle CPU
 - lane-wise opérations // crosslane opérations (comparer des vecteurs, `v.reduceLanes`)
 - utiliser jnh pour benchmarker
 - use case: algèbre linéaire, réseau neurones, ai,...
-- 
+- projet Babylon : traitements GPU openjdk.
+- calcul matriciel manuel 
 
 
 ## template
