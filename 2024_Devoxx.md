@@ -216,6 +216,9 @@ return New JavaIsoVisitor(){
 - club of Rome, 1968, comprendre impacts sur le futur. dynamique des systèmes 
 - 5 systèmes : population, ressources, industrie, pollution, système alimentaire 
 - modélisation 5 courbes 1970-2100 selon efforts portés sur utilisation des ressources etc. chute des ressources, baisse population, etc.
+- calculé sur des moyennes en fonction de la présence de calcul de l'époque
+- rapport revu 2008 , courbes confirmées.
+- earth for all: 2022. nouveau rapport. nouveaux indicateurs.
 
 
 
