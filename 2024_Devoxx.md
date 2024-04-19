@@ -376,7 +376,9 @@ assistant.chat("my message")
 
 ## API Vector programmation parallèle SIMD
 > who: José Paumard 
+- bit.ly/vector-api
 - en preview jep 469 8e incubation, stable et en version finale en Valhalla 
+- principe utilisé par le jit depuis java5
 - https://speakerdeck.com/josepaumard
 - API de calcul 
 - SIMD: single instruction multiple data
@@ -402,6 +404,8 @@ v1.add(v2)  // un cycle CPU
 - si tableau < nb registres : `mask = species.indexInRange` masking pas supporté par tous les CPU.
 - `species.loopBound` pour les proc sans masking
 - lane-wise opérations // crosslane opérations (comparer des vecteurs, `v.reduceLanes`)
+- utiliser jnh pour benchmarker
+- use case: algèbre linéaire, réseau neurones, ai,...
 - 
 
 
