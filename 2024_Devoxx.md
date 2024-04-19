@@ -412,12 +412,16 @@ v1.add(v2)  // un cycle CPU
 
 ## Kafka SQL Parquet 
 > who: François Teychene
-- conduktor-sql faire du SQL sur données Kafka en conservant acl et sécurité rbac
+### duckdb:
 - jdbc:duckdb avec parquet : 7sec 1miliard de tuples
 - ex. `select * from fichier*.parquet`
 - ex. `select * from http://Host:port/fichier*.parquet`
 - on peut donc distribuer la donnée 
 - `copy (select...) to file.parquet`
+### gestion sécurité et ownership
+- clickhouse-server
+- conduktor-sql faire du SQL sur données Kafka en conservant acl et sécurité rbac
+- 
 
 
 
