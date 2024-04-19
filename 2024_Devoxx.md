@@ -386,6 +386,10 @@ assistant.chat("my message")
 - stream et array : api découpe et traite dans deux threads, subdivisions succ. pls hypothèses : fct associatives, partage en deux pas garanti sur hashsets. avoir des coeurs dispos, ne pas utiliser i/o dans stream.
 - SIMD est différent. pas de multithread.
 - CPU SIMD. plusieurs unités [ALU reg1 reg2 et result] 1 LOAD = n UC chargent en mm temps
+- photo archi
+- algo écrite sur vecteurs au lieu de nombres.
+- chaque CPU a son implémentation, connaître son CPU.
+- pas de concurrence, pas de multithread 
 - 
 
 
