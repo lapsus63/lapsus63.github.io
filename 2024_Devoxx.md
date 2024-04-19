@@ -359,8 +359,8 @@ assistant.chat("my message")
   - translation dynamique de code
 - ahead of Time : compilation c, c++, ...
 - juste un Time : bytecode ou autre, transfo binaire à l'exec. 2nd fois directement binaire 
-- aot + jit= java
-- 
+- aot + jit = java
+- principe cf photo 
 
 
 
