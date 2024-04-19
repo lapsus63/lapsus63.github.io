@@ -241,8 +241,7 @@ return New JavaIsoVisitor(){
 - [Springboot exemple](https://github.com/langchain4j/langchain4j-examples/tree/main/spring-boot-example/src/main/java/dev/langchain4j/example)
 - gitpod.io#lien-vers-repo
 - [Lab github](https://github.com/LizeRaes/lc4j-lab-intro-assignments)
-
-
+- [Lab github solution](https://github.com/LizeRaes/lc4j-lab-intro-solution)
 
 ## Java Flightrecorder 
 > who:
