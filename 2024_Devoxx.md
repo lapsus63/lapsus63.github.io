@@ -384,6 +384,8 @@ assistant.chat("my message")
 - arrays.parallelsort
 - toujours bencher les perfs quand on fait du parallèle sur équiv. prod
 - stream et array : api découpe et traite dans deux threads, subdivisions succ. pls hypothèses : fct associatives, partage en deux pas garanti sur hashsets. avoir des coeurs dispos, ne pas utiliser i/o dans stream.
+- SIMD est différent. pas de multithread.
+- CPU SIMD. plusieurs unités [ALU reg1 reg2 et result] 1 LOAD = n UC chargent en mm temps
 - 
 
 
