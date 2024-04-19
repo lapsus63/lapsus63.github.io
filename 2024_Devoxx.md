@@ -400,7 +400,9 @@ v1.add(v2)  // un cycle CPU
 ```
 - large arrays : use for loops de 8 et 8 (int), selon taille du registre CPU : `species.length()`
 - si tableau < nb registres : `mask = species.indexInRange` masking pas supporté par tous les CPU.
-- `species.loopBound` 
+- `species.loopBound` pour les proc sans masking
+- lane-wise opérations // crosslane opérations (comparer des vecteurs, `v.reduceLanes`)
+- 
 
 
 ## template
