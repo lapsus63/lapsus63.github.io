@@ -5,7 +5,7 @@
 - bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
 
 ## keynote 2 monde shooté metaux
-- who: Agnès crepet guillaume pitron
+> who: Agnès crepet guillaume pitron
 - indium (tactile)
 - 70 métaux smartphone, 182kg matière 
 - fairphone env 25 métaux, meilleures conditions de travail,..
