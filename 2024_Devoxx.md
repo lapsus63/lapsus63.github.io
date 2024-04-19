@@ -317,6 +317,7 @@ assistant.chat("my message")
 
 ## Infra sans secrets
 > who: Thibault Lengagne
+- récupérer slides
 ### zéro credentials
 - plus de leak plus d'outils type git guardian, gitleaks... nécessaire 
 - cred valable 15 min
@@ -337,10 +338,12 @@ assistant.chat("my message")
 - outils pour scanner gitlabhub
 - sops (mozilla) pour chiffrer si nécessaire, privilégier vault depuis application directement
 - cloud providers : oidc. ex. autoriser repo sur branche donnée, rôle IAM.
-- 
 
 ### secrets workload
-
+- vault operator
+- vault csi provider
+- vault-agent + vault: Sync les secrets et les gère en var d'environnement dans l'application 
+- comparaison des outils hashicorp
 
 
 
