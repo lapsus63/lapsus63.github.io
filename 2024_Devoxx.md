@@ -223,18 +223,29 @@ return New JavaIsoVisitor(){
 
 
 
-## template
-- who:
+## keynote 2 cybersecurité 
+> who: guillaume Poupard (ancien directeur ansii)
+- docaposte
+- exemple zone de bon droit : Crimée, officiellement ukrainienne mais qui n'a pas possibilité d'aider les autres pays sur ce territoire. 
+- livre blanc sécurité et défense nationale, 2008. aborde cyber, toutes les menaces qui peuvent venir sur le France (pandémie,etc).
+- loi portée : opérateurs d'importance vitale c doivent se protéger des attaques cyber.
+- ex TV5Monde 2015 écran noir revendication djihadiste, créée par pays de l'Est.
+- ex Ukraine
 - 
+
+
+
 
 ## template
 - who:
 - 
 
 
+
 ## template
 - who:
 - 
+
 
 
 ## template
