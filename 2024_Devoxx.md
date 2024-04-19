@@ -305,7 +305,14 @@ assistant.chat("my message")
 - pas (que) pour architectes
 - choix librairie, etc.
 - conservation historique des ADR 
-- 
+- format : cf photo. beaucoup de formats existent.
+- +justifications (PB envisageable et pourquoi non bloquant, ...), +alternatives (défensif)
+- stockage : git markdown. 
+- ia peut aider à proposer solutions 
+- contexte : limites, coûts, charges, besoins 
+- conséquences : besoin de se former, utilisable de suite, risques, etc.
+
+
 
 
 
