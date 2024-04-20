@@ -293,8 +293,8 @@ assistant.chat("my message")
 - injection de documentation 
 - ex. Feedbackanalyzer
 - https://github.com/LizeRaes/feedback-analyzer
-
-
+![feedback analyzer](2024_devoxx/feedback_analyzer.webp)
+![feedback_analysis](2024_devoxx/feedback_analysis.webp)
 
 
 ## ADR
