@@ -88,22 +88,22 @@
   -`"$### ..."`
   - avantage des templates dans le code : auto complétion intégrée dans l'IDE.
 
-### constructions: statements before super jep 447 (panama)
-- java22 preview
-- pas de calculs avant d'appeler le super, par exemple avec des arguments calculés 
-- bytecode: 11e instruction après stockage des paramètres en mémoire 
-- ex. pouvoir faire objets.requirenonnull avant appel au super
-- nécessaire pour valueTypes ex. Optionals, pour que le classe soit garantie non modifiable (project Valhalla)
+### constructions: statements before super - JEP 447 (panama)
+- Java22 preview
+- Aujourd'hui pas de calculs avant d'appeler le super, par exemple avec des arguments calculés à passer 
+- Dans le bytecode: l'appel au super est la 11e instruction après stockage des paramètres en mémoire 
+- Ex. pouvoir faire `Objets.requireNonNull` avant de faire l'appel au super
+- Serait nécessaire pour les ValueTypes (ex. `Optionals`), pour que le classe soit garantie non modifiable (cible : project Valhalla)
 
-### (foreign func) & memory api jep 454
-- dispo java22
-- foreign func: exécuter code non java
-- mémoire off heap non gérée par le gc
-- le gc compacte la mem, la déplace. pas d'arithmétique sur pointeurs possible 
-- avtg: stockée raw data, stockage direct i/o, lecture et traitement rapides
-- java4: bytebuffer, limité 2go, pointeur vers bytebuffer géré par le gc; sun.misc.Unsafe
-- memory api : rapide, pas limité à 2go, octet par octet, ou via structures (+safe), libération mémoire manuelle
-- lecture/écriture :
+### (Foreign functions) & Memory API - JEP 454
+- Dispo en Java 22
+- Foreign functions: exécuter du code non java exterieur.
+- Mémoire off-heap non gérée par le GC
+- Le GC compacte la mémoire, la déplace. Pas d'arithmétique sur les pointeurs possible 
+- Avantages: stocker de la raw data, stockage direct depuis I/O, lecture et traitement rapides
+- En Java 4: `ByteBuffer` limité à 2 Go, pointeur vers ByteBuffer géré par le GC ; et `sun.misc.Unsafe`
+- Memory API : rapide, pas limité à 2 Go, gestion octet par octet, ou via structures (+safe), libération de la mémoire manuelle
+- Lecture / Ecriture :
 
 ```java
 Arena a = Arena.global(); // de base
@@ -112,23 +112,23 @@ Arena a = Arena.global(); // de base
 .ofShared
 segment s = a.allocate(80L, 1L);
 s.allocate(10*4, 1L) // 10 entiers
-// pls APIs :
+// écriture :
 s.setAtIndex(ValueLayout.Long, index, value);
-index++ // pointeur se déplace de 8 octets
-// lecture
+index++ // le pointeur se déplace de 8 octets
+// lecture :
 s.getAtIndex(ValueLayout.long, index)
 ```
-- Arena, autocloseable contient MemorySegment contient des tableaux de int, des long, des struct, types mixés int/long/doubles/...
-- on libère toute l'aréna d'un coup, pas par segment.
-- Arena dans gc, mémoire adressée hors gc
-- shared et confined .close la mémoire est libérée, Arena tjrs dans le heap. confined utilisé que par thread qui l'a créée.
-- MemorySegment : mémoire continue, on heap:
+- `Arena`, `AutoCloseable`, contient `MemorySegment`,  contient des tableaux de int, des long, des struct, types mixés int/long/doubles/...
+- On libère toute l'Arena d'un coup, pas par segment.
+- Arena est un objet dans le GC, sa mémoire est adressée hors GC
+- `shared` et `confined` : `.close()` la mémoire est libérée, Arena reste dans le heap. `confined` utilisé que par le thread qui l'a créée.
+- `MemorySegment` : mémoire continue, on-heap:
 
 ```java
 MemorySegment.array()
 MemoryLayout.structlayout(ValueLayout.java_int.withname("x"), ...)
 ```
-- VarHandle pour calculer
+- `VarHandle` pour calculer
 
 ```java
 MEM_LAYOUT.varHandle(MemoryLayout
@@ -140,89 +140,82 @@ var_handle1.set(segment, 0, index, value1); var_handle2.set(segment, 0,index,val
 // lecture :
 var_handle.get(segment, 0, index)
 ```
-- utilisable avec filechannel. Use case: charger un milliard de données, les streamer, calculer: 6 secondes.
+- utilisable avec `FileChannel`. Use case possible: charger un milliard de données, les streamer, calculer: **6 secondes**.
 
 
 ## OpenRewrite
 > who: Frédéric Mencier
 - (!) données perdues, cf replay
-- www moderne.io
-- https://docs.openrewrite.org (/recipes)
+- [www moderne.io](https://www.moderne.io/)
+- [docs.openrewrite.org](https://docs.openrewrite.org/) ([recipes](https://docs.openrewrite.org/recipes))
 - utilisé avec maven
-- dryRun : rewrite.patch
-- cf image photo
-- estimation migration manuelle eao vers quarkus : 34ans 6 personnes : 6ans.
-- écriture recettes openrewrite custom (cookbook, cf photo)
-- 30 recettes du catalogue + 23 recettes custom
+- dryRun : génère un `rewrite.patch`
+- REX estimation migration manuelle EAP vers Quarkus : 34ans 6 personnes : 6ans.
+  - Ecriture recettes openrewrite custom (cookbook, cf photo)
+  - 30 recettes du catalogue + 23 recettes custom
 - nouvelle recette : 
 
 ```java
 class MyRecette extends Recipes
-
 public TreeVisotor getVisitor() {
 return New JavaIsoVisitor(){
     @Override
     public J.ClassDeclzration visitclassdeclaration {
-   r= super.visit...
-   if ...
-      r.with...
-   
-}
-}
-
+       r= super.visit...
+       if ... {
+           r.with...
+       }
+    }
 }
 ```
 
 
-## testing css
+## Testing CSS
 > who: Fabien Zibi
 - langage déclaratif, pas testable
-- CSS -> CSS -> affichage browser
-- vérifier CSS généré (test auto sur fonctions scss)
-- verif rendu d'un élément, d'une page 
-- jest, nodesass, ts/js, puppeteer ...
+- SCSS -> CSS -> affichage browser
+- Vérifier le CSS généré (test auto sur fonctions scss)
+- Vérifier le rendu d'un élément, d'une page 
+- outils principaux : `jest, nodesass, ts/js, puppeteer ...`
 - jest: `renderSync({...})` 
-- `npm run test:unit --function`
-- Snapshot testing : fichier référence pour vérifier non régression. `expect(cssstring).toMatchSnapshot('snapshotname')`. fichier généré lors du premier test. a comitter. -- testname -u pour maj Snapshot.
-- test de rendu: ex tester sur tous les boutons dont la même hauteur. `await.page.evaluate... btn: queryselector..getboundingsclientrect.`
-- screenshot : pas le plus pertinent. Utile quand mise à jour de librairie, utilisation ponctuelle sans commit. `toMatchImageSnaphot`
-- tester les urls dans les CSS, `existSync`
-- puppeteer peut simuler différents navigateurs 
+- `npm run test:unit --testName`
+- Snapshot testing : on crée fichier référence pour vérifier de la non-régression. `expect(css_string).toMatchSnapshot('snapshot_name')`. fichier généré lors du premier test. `-- testName -u` pour maj Snapshot.
+- test de rendu: ex tester que tous les boutons ont la même hauteur. `await.page.evaluate... btn: queryselector..getboundingsclientrect.`
+- Vérifier screenshot : pas le test le plus pertinent. Utile quand mise à jour de librairie, utilisation ponctuelle. `toMatchImageSnaphot`
+- Vérifier les urls (fonts, images, etc) dans les CSS, `existSync`
+- `puppeteer` peut simuler différents navigateurs 
 
 
 ## BOF Gitlab past present future 
-> who: JP Baconnais,*
-- depuis 2013 25k
-- 2014 100k
-- plateforme 50aine services (manage,plan,create,verify,packagé,release,configure,monitor,secure)
-- catalog: réutilisabilite, include: component: ... (avantage testable)
-- Gitlab ci local outil indépendant de Gitlab mais pouvant aider
+> who: JP Baconnais, *
+- Depuis 2013 ; utilisé par 25k users
+- En 2014 100k users
+- La plateforme propose une 50aine de services (manage,plan,create,verify,packagé,release,configure,monitor,secure)
+- catalog: réutilisabilité, include: component: ... (avantage = testable)
+- Gitlab CI local outil indépendant de Gitlab mais pouvant aider
 - éviter only et except, conflits avec rules
-- dora metrics sur ultimate (lead Times MR, etc)
-- Gitlab duo : with AI : autocompletion, summary, modèles personnalisés 
-- Gitlab intégré Google cloud 
+- dora metrics sur ultimate (lead Times sur les MR, etc)
+- Gitlab Duo, with AI : autocompletion, summary, modèles personnalisés 
+- Gitlab intégré à Google Cloud 
 - Gitops FluxCD communautaire 
 - evols project management (jira)
-- remote développent
-- investissement sur l'IA 
+- Remote développement
+- Forts investissement sur l'IA 
 
 
-
-## keynote 1 état du monde 2100 rapport meadows
+## keynote 1 - Etat du monde en 2100 : Rapport Meadows
 > who:Anatole Chouard 
-- youtube: chez Anatole 
-- club of Rome, 1968, comprendre impacts sur le futur. dynamique des systèmes 
+- youtube: [chez Anatole](https://www.youtube.com/c/chezanatole)
+- Club of Rome (Suisse), 1968, comprendre impacts sur le futur. dynamique des systèmes 
 - 5 systèmes : population, ressources, industrie, pollution, système alimentaire 
-- modélisation 5 courbes 1970-2100 selon efforts portés sur utilisation des ressources etc. chute des ressources, baisse population, etc.
-- calculé sur des moyennes en fonction de la présence de calcul de l'époque
-- rapport revu 2008 , courbes confirmées.
-- earth for all: 2022. nouveau rapport. nouveaux indicateurs.
+- modélisation de 5 courbes entre 1970 et 2100 selon efforts portés sur utilisation des ressources etc. Chute des ressources, baisse population, etc.
+- Calculs simplifiés en raison des capacités de calculs de l'époque
+- Rapport revu et 2008 et courbes confirmées.
+- Nouveau rapport `Earth For All` en 2022 avec nouveaux indicateurs, peut-être moins objectif.
 
 
-
-## keynote 2 cybersecurité 
-> who: guillaume Poupard (ancien directeur ansii)
-- docaposte
+## keynote 2 - Cybersecurité 
+> who: guillaume Poupard (ancien directeur ansii, docaposte)
 - exemple zone de bon droit : Crimée, officiellement ukrainienne mais qui n'a pas possibilité d'aider les autres pays sur ce territoire. 
 - livre blanc sécurité et défense nationale, 2008. aborde cyber, toutes les menaces qui peuvent venir sur le France (pandémie,etc).
 - loi portée : opérateurs d'importance vitale c doivent se protéger des attaques cyber.
