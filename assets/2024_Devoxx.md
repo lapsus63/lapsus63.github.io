@@ -1,5 +1,7 @@
 # Devoxx 2024
 
+![crowd](2024_devoxx/devoxx_crowd.webp)
+
 ## keynote 1 greatest mistakes
 > who: mark rendle
 - bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
