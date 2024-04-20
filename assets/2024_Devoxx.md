@@ -334,7 +334,9 @@ assistant.chat("my message")
 - sso single point of failure (mep double authent)
 - oauth2-proxy permet de se pluguer sur sso et mettre barrière entre sso et outils on premier (bdd,...)
 - boundary + vault
-- cf photo
+![vault1](2024_devoxx/vault_1.webp)
+![vault2](2024_devoxx/vault_2.webp)
+
 
 ### secrets cicd
 - secrets en clair dans code vs mécanisme cicd 
