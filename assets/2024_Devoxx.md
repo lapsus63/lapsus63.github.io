@@ -8,7 +8,7 @@
 - [youtube](https://www.youtube.com/watch?v=Y9clBHENy4Q)
 
 ## Keynote 2 - Monde shooté aux metaux
-> who: Agnès Crepet Guillaume Pitron
+> Agnès Crepet Guillaume Pitron
 - métaux rares : indium (tactile)
 - 70 métaux dans un smartphone (~6 euros), 182kg matière pour en fabriquer un.
 - Efforts Fairphone : env 25 métaux, meilleures conditions de travail,..
