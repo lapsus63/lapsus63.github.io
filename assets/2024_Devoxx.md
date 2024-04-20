@@ -2,12 +2,12 @@
 
 ![crowd](/assets/2024_devoxx/devoxx_crowd.webp)
 
-## keynote 1 - Greatest mistakes
+## Keynote 1 - Greatest mistakes
 > who: mark rendle
 - bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
 - [youtube](https://www.youtube.com/watch?v=Y9clBHENy4Q)
 
-## keynote 2 - Monde shooté aux metaux
+## Keynote 2 - Monde shooté aux metaux
 > who: Agnès Crepet Guillaume Pitron
 - métaux rares : indium (tactile)
 - 70 métaux dans un smartphone (~6 euros), 182kg matière pour en fabriquer un.
@@ -62,7 +62,7 @@
 - moins adapté pour des applications monolithes
 
 
-## duckentacle fabriquons le futur
+## Duckentacle : Fabriquons le futur
 > who: Rémi Forax & José Paumard
 - [dev.java](https://dev.java/)
 - youtube [road to 21](https://www.youtube.com/playlist?list=PLX8CzqL3ArzVHAHWowaXwYFlLk78D8RvL)
@@ -95,7 +95,7 @@
 - Ex. pouvoir faire `Objets.requireNonNull` avant de faire l'appel au super
 - Serait nécessaire pour les ValueTypes (ex. `Optionals`), pour que le classe soit garantie non modifiable (cible : project Valhalla)
 
-### (Foreign functions) & Memory API - JEP 454
+### (foreign functions) & Memory API - JEP 454
 - Dispo en Java 22
 - Foreign functions: exécuter du code non java exterieur.
 - Mémoire off-heap non gérée par le GC
@@ -203,7 +203,7 @@ return New JavaIsoVisitor(){
 - Forts investissement sur l'IA 
 
 
-## keynote 1 - Etat du monde en 2100 : Rapport Meadows
+## Keynote 1 - Etat du monde en 2100 : Rapport Meadows
 > who:Anatole Chouard 
 - youtube: [chez Anatole](https://www.youtube.com/c/chezanatole)
 - Club of Rome (Suisse), 1968, comprendre impacts sur le futur. dynamique des systèmes 
@@ -214,7 +214,7 @@ return New JavaIsoVisitor(){
 - Nouveau rapport `Earth For All` en 2022 avec nouveaux indicateurs, peut-être moins objectif.
 
 
-## keynote 2 - Cybersecurité 
+## Keynote 2 - Cybersecurité 
 > who: guillaume Poupard (ancien directeur ansii, docaposte)
 - exemple zone de bon droit : Crimée, officiellement ukrainienne mais qui n'a pas possibilité d'aider les autres pays sur ce territoire. 
 - livre blanc sécurité et défense nationale, 2008. aborde cyber, toutes les menaces qui peuvent venir sur le France (pandémie,etc).
@@ -224,7 +224,7 @@ return New JavaIsoVisitor(){
 
 
 
-## LangChain4j LLMs Hands on lab
+## LangChain4j LLMs - Hands on lab
 > who: Marie Alice Blete Lize Raes Vincent Peres
 - revoir présentation slides d'hier 
 - [Springboot exemple](https://github.com/langchain4j/langchain4j-examples/tree/main/spring-boot-example/src/main/java/dev/langchain4j/example)
@@ -341,7 +341,7 @@ assistant.chat("my message")
 
 
 
-## propre vm avec compilation jit
+## Propre vm avec compilation JIT
 > who: Olivier Poncet 
 - https://github.com/ponceto/rpn-calculator-with-jit
 - jit : trafsfo lgg en lg machine à la volée 
