@@ -2,94 +2,91 @@
 
 ![crowd](/assets/2024_devoxx/devoxx_crowd.webp)
 
-## keynote 1 greatest mistakes
+## keynote 1 - Greatest mistakes
 > who: mark rendle
 - bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
+- [youtube](https://www.youtube.com/watch?v=Y9clBHENy4Q)
 
-## keynote 2 monde shooté metaux
-> who: Agnès crepet guillaume pitron
-- indium (tactile)
-- 70 métaux smartphone, 182kg matière 
-- fairphone env 25 métaux, meilleures conditions de travail,..
+## keynote 2 - Monde shooté aux metaux
+> who: Agnès Crepet Guillaume Pitron
+- métaux rares : indium (tactile)
+- 70 métaux dans un smartphone (~6 euros), 182kg matière pour en fabriquer un.
+- Efforts Fairphone : env 25 métaux, meilleures conditions de travail,..
 
 
-## cybersecurité
-> who:Sonia seddiki
+## Cybersecurité
+> who: Sonia Seddiki
 - dns tunneling : ping ne passe pas mais dans résolu. ex attaque solarwings 2020.
 - échange de messages en fonction des IP résolues par le faux serveur, ou requête txt dans pour récupérer code malveillant, envoi credentials sur dns en Hexa puis ping dns avec URL contenant de Hexa.
-- steganographie texte e2808b efbbbf espaces sans chasse
-- side Channel attacks : analyse conso CPU sur décryptage RSA pour déduire clé privée (square moins consommateur que square&multiply)
+- steganographie dans du texte e2808b efbbbf : espaces sans chasse
+- Side Channel attacks : analyse conso CPU sur décryptage RSA pour en déduire la clé privée (algo square moins consommateur que algo square&multiply)
 
 
-## architecture simple
+## Vers une architecture simple
 > who: Bertrand Delacrétaz
 - système compliqué difficile à remplacer 
-- ex de simplicité : cmd linux, Lego, le kazoo,... perdurent, mais équilibre à trouver, ne pas se limiter au passé trop simple.
-- 2e ex: rtp pour enregistrer flux audio en peu de ligne de code (1999) avec contraintes perso (15sec par fichier, enr continu), stockage hdd
-- apache sling servlets (généricité) simplicité basé sur des standards. standards+spécialité 
-- web components et templates html, cf web-platform-zoo sur https://open source.adobe.com
+- ex de simplicité : cmd linux, Lego, l'instrumient Kazoo,... perdurent, mais équilibre à trouver, ne pas se limiter au passé trop simple.
+- 2e ex: rtp pour enregistrer flux audio en peu de ligne de code (en 1999) avec contraintes perso (15 sec max par fichier, enregistrement continu), stockage sur hdd
+- Apache sling servlets (généricité) simplicité basé sur des standards. standards+spécialité 
+- Web components et templates HTML, cf web-platform-zoo sur [le site Adobe](https://opensource.adobe.com/web-platform-zoo/)
 
 - penser: on peut faire plus simple. maintenance moins chère, mais plus d'ingénierie. nécessaire pour du code durable.
-- mesurer complexité du code
+- mesurer la complexité du code
 - se demander s'il n'y a rien à enlever sans casser 
-- non compatible cycle agile, travail de recherche sur une période négociée 
+- Non compatible cycle agile : travail de recherche sur une période plus ou moins longue timeboxée.
 
 
-## test containers
+## Test Containers
 > who: Clarence Dimitri Charles 
-- tests intégration sans ressources partagées tq oracle dev.
-- librairie java permettant de prov dB, etc.
-- module officiel Spring boot 3, junit5
-- maven org.testcontainers : oracle-xe junit-jupiter, ...
-- déléguer cycle vie Springboot `@Springboottest +@Testcontainers,  @ServiceConnection @Bean OracleContainer .withReuse`
-- @DynamicPropertySource
-- AppTest : main : `SApp.from(App::main).with(...)`
-- @RestartScope pour live reload sans reboot containers
-- TcpProxy bean pour surcharger port au lieu d'utiliser un port aléatoire 
-- couplé Docker : démon Docker 
+- lancer des tests intégration sans ressources partagées telles qu'une base oracle de dev.
+- librairie java permettant de provisionner une dB, d'autres services.
+- module officiel intégré à Spring boot 3, JUnit5
+- maven org.testcontainers : `oracle-xe junit-jupiter`, ...
+- Déléguer au cycle vie Springboot `@Springboottest +@Testcontainers,  @ServiceConnection @Bean OracleContainer .withReuse, @DynamicPropertySource, ...`
+- ApplicationTest avec son main : `SpringTestApp.from(SpringApp::main).with(...)`
+- `@RestartScope` pour live reload sans reboot containers
+- Bean `TcpProxy` pour surcharger le port utilisé sur la DB provisionée au lieu d'utiliser un port aléatoire 
+- Couplé Docker : prérequis = avoir un démon Docker 
 - Tests plus longs 
-- customisation possible docker compose
-
+- Customisation possible des images style docker compose
 
 
 ## C4 modeles architecture 
 > who: Jérôme Gauthier 
-- c4model.com 4 niveaux d'abstraction 
-- zoom : context / container / component / code
-- outil agnostique as-code : mermaid, c4builder, structurizr, ...
-- cf exemple structurizr photo 
-- fichier dsl -> container docker structurizr -> localhost:8080
-- graphviz utilisé pour layout
+- c4model.com 4 niveaux d'abstraction. Zoom : context / container / component / code
+- outil agnostique as-code : `mermaid, c4builder, structurizr, ...`
+- cf exemple `structurizr` photo 
+- fichier dsl -> container docker structurizr -> `localhost:8080` 
+- (graphviz utilisé pour layout)
 - adapté pour plusieurs apps, pour contribuer, rétro modéliser 
-- moins adapté pour monolithes
-
+- moins adapté pour des applications monolithes
 
 
 ## duckentacle fabriquons le futur
 > who: Rémi Forax & José Paumard
-- dev.java
-- youtube road to 21
+- [dev.java](https://dev.java/)
+- youtube [road to 21](https://www.youtube.com/playlist?list=PLX8CzqL3ArzVHAHWowaXwYFlLk78D8RvL)
 
 ### unnamed classes & patterns jep (463) 445 458 456
 - jep 463 : classes implicites
-- var sans nom. ex. var de lambda non utilisée : _ au lieu d'un nom inutile `(_, _) ->`
-- classe sans nom : pas de déclaration public class ... dans le .java
+- variables non utilisées sans nom. ex. var de lambda non utilisée : _ au lieu d'un nom inutile `(_, _) ->`
+- classes sans nom : pas de déclaration public class ... dans le .java
 
 ### string template jep 465 -> 459
-- htmx librairie js pour traiter la vue sans js, côté serveur
-  - hx-trigger, hx-post, hx-get, hx-target, ...
-  - React force utilisation nodejs côté serveur 
-  - on veut rendering serveur side sans utiliser JavaScript.
-- string template processor (old jep)
-  - générer HTML/XML.. sans avoir besoin d'escape et sans PB d'injection 
-  - processeurs : `str (string), fmt (format), ComponentTemplateProcessor` return un `Renderer`.
-  - interface qui valide des fragments (objets inclus dans le string), et escape correctement les valeurs 
-- string templates
-  - reimplementation en cours, pas de preview en 23. pas en GA en LTS 25.
+- [htmx](https://htmx.org/) : librairie js pour traiter la vue sans js, côté serveur
+  - `hx-trigger, hx-post, hx-get, hx-target, ...`
+  - vs `React` qui force l'utilisation nodejs côté serveur 
+  - on veut un rendering serveur side sans utiliser de Javascript.
+- `String Template Processor` (old JEP)
+  - But : générer du HTML/XML.. sans avoir besoin d'escape et sans risquer des pb d'injection 
+  - Choix d'un processeur : `str (string), fmt (string format), ComponentTemplateProcessor` return un `Renderer`.
+  - = Interface qui valide des fragments (objets inclus dans le string), et escape correctement les valeurs 
+- `String Templates` (new JEP)
+  - __reimplementation en cours__, pas de preview en 23. pas en GA en LTS 25.
   - `public static Renderer render(StringTemplate tpl) {}`
   - Ex. XMLDom,...
   -`"$### ..."`
-  - avantage auto complétion intégrée car intégré au code.
+  - avantage des templates dans le code : auto complétion intégrée dans l'IDE.
 
 ### constructions: statements before super jep 447 (panama)
 - java22 preview
