@@ -364,9 +364,8 @@ assistant.chat("my message")
 - juste un Time : bytecode ou autre, transfo binaire à l'exec. 2nd fois directement binaire 
 - aot + jit = java
 - bytecode : instr codée sur un octet (OpCode)
-- principe cf photo 
-- ex définition de bytecode photo
-- architecture cf photo 
+![bytecode1](2024_devoxx/bytecode_1.webp)
+![bytecode2](2024_devoxx/bytecode_2.webp)
 - ISA: architecture matérielle du processeur
 - ABI: def types de données, registres 
 - bien connaître ISA et ABI pour écrire le compilateur, spécifications x86-64 à connaître.
@@ -423,24 +422,3 @@ v1.add(v2)  // un cycle CPU
 ### gestion sécurité et ownership
 - clickhouse-server
 - conduktor-sql faire du SQL sur données Kafka en conservant acl et sécurité rbac
-- 
-
-
-
-
-
-
-## template
-> who:
-- 
-
-
-## template
-> who:
-- 
-
-
-## template
-> who:
-- 
-
