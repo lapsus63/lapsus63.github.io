@@ -75,7 +75,6 @@
 - var sans nom. ex. var de lambda non utilisée : _ au lieu d'un nom inutile `(_, _) ->`
 - classe sans nom : pas de déclaration public class ... dans le .java
 
-
 ### string template jep 465 -> 459
 - htmx librairie js pour traiter la vue sans js, côté serveur
   - hx-trigger, hx-post, hx-get, hx-target, ...
@@ -92,14 +91,12 @@
   -`"$### ..."`
   - avantage auto complétion intégrée car intégré au code.
 
-
 ### constructions: statements before super jep 447 (panama)
 - java22 preview
 - pas de calculs avant d'appeler le super, par exemple avec des arguments calculés 
 - bytecode: 11e instruction après stockage des paramètres en mémoire 
 - ex. pouvoir faire objets.requirenonnull avant appel au super
 - nécessaire pour valueTypes ex. Optionals, pour que le classe soit garantie non modifiable (project Valhalla)
-
 
 ### (foreign func) & memory api jep 454
 - dispo java22
@@ -110,6 +107,7 @@
 - java4: bytebuffer, limité 2go, pointeur vers bytebuffer géré par le gc; sun.misc.Unsafe
 - memory api : rapide, pas limité à 2go, octet par octet, ou via structures (+safe), libération mémoire manuelle
 - lecture/écriture :
+
 ```java
 Arena a = Arena.global(); // de base
 .ofAuto
@@ -127,11 +125,14 @@ s.getAtIndex(ValueLayout.long, index)
 - on libère toute l'aréna d'un coup, pas par segment.
 - Arena dans gc, mémoire adressée hors gc
 - shared et confined .close la mémoire est libérée, Arena tjrs dans le heap. confined utilisé que par thread qui l'a créée.
-- MemorySegment : mémoire continue, on heap:  ```java
+- MemorySegment : mémoire continue, on heap:
+
+```java
 MemorySegment.array()
 MemoryLayout.structlayout(ValueLayout.java_int.withname("x"), ...)
 ```
 - VarHandle pour calculer
+
 ```java
 MEM_LAYOUT.varHandle(MemoryLayout
    .PathElement.groupElement("x"))
@@ -190,8 +191,6 @@ return New JavaIsoVisitor(){
 - screenshot : pas le plus pertinent. Utile quand mise à jour de librairie, utilisation ponctuelle sans commit. `toMatchImageSnaphot`
 - tester les urls dans les CSS, `existSync`
 - puppeteer peut simuler différents navigateurs 
-- 
-
 
 
 ## BOF Gitlab past present future 
@@ -209,7 +208,6 @@ return New JavaIsoVisitor(){
 - evols project management (jira)
 - remote développent
 - investissement sur l'IA 
-
 
 
 
@@ -233,8 +231,6 @@ return New JavaIsoVisitor(){
 - loi portée : opérateurs d'importance vitale c doivent se protéger des attaques cyber.
 - ex TV5Monde 2015 écran noir revendication djihadiste, créée par pays de l'Est.
 - ex Ukraine
-- 
-
 
 
 
@@ -276,7 +272,8 @@ return New JavaIsoVisitor(){
 - maxTokens;
 - bien restreindre le SystemMessage pour éviter l'injection de prompt.
 - coûts: mémoire renvoyée au modèle à chaque appel, api stateless. fine tuning possible sur openAi directement mais plus grosse artillerie.
-- créer un SystemMessage pour identifier le type de personne qui va répondre 
+- créer un SystemMessage pour identifier le type de personne qui va répondre
+
 ```java
 chatMemory.add(systemMessage);
 chatMemory.add(UserMessage.from("input..."))
@@ -285,9 +282,11 @@ chatMemory.add(AiMessage.from("réponse..."))
 AiServiceWithMemory assistant = AiService.builder...;
 assistant.chat("my message")
 ```
+
 ### tools
 - `@Tool, aiService.tools()` sur methodes. nom méthode et description interprétées.
 - define tools pour trouver des méthodes à appeler si conditions réunies
+
 ### rag
 - `EmbeddingModel, InMemoryEmbeddedStored, EmbeddingStoreInjector`
 - injection de documentation 
@@ -307,7 +306,7 @@ assistant.chat("my message")
 - pas (que) pour architectes
 - choix librairie, etc.
 - conservation historique des ADR 
-![adr format](2024_devoxx/adr_format.webp)
+![adr format](/assets/2024_devoxx/adr_format.webp)
 - Beaucoup de formats existent.
 - +justifications (PB envisageable et pourquoi non bloquant, ...), +alternatives (défensif)
 - stockage : git markdown. 
@@ -353,7 +352,6 @@ assistant.chat("my message")
 
 
 
-
 ## propre vm avec compilation jit
 > who: Olivier Poncet 
 - https://github.com/ponceto/rpn-calculator-with-jit
@@ -366,8 +364,8 @@ assistant.chat("my message")
 - juste un Time : bytecode ou autre, transfo binaire à l'exec. 2nd fois directement binaire 
 - aot + jit = java
 - bytecode : instr codée sur un octet (OpCode)
-![bytecode1](2024_devoxx/bytecode_1.webp)
-![bytecode2](2024_devoxx/bytecode_2.webp)
+![bytecode1](/assets/2024_devoxx/bytecode_1.webp)
+![bytecode2](/assets/2024_devoxx/bytecode_2.webp)
 - ISA: architecture matérielle du processeur
 - ABI: def types de données, registres 
 - bien connaître ISA et ABI pour écrire le compilateur, spécifications x86-64 à connaître.
