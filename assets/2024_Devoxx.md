@@ -1,6 +1,6 @@
 # Devoxx 2024
 
-![crowd](2024_devoxx/devoxx_crowd.webp)
+![crowd](/assets/2024_devoxx/devoxx_crowd.webp)
 
 ## keynote 1 greatest mistakes
 > who: mark rendle
@@ -293,8 +293,8 @@ assistant.chat("my message")
 - injection de documentation 
 - ex. Feedbackanalyzer
 - https://github.com/LizeRaes/feedback-analyzer
-![feedback analyzer](2024_devoxx/feedback_analyzer.webp)
-![feedback_analysis](2024_devoxx/feedback_analysis.webp)
+![feedback analyzer](/assets/2024_devoxx/feedback_analyzer.webp)
+![feedback_analysis](/assets/2024_devoxx/feedback_analysis.webp)
 
 
 ## ADR
@@ -314,7 +314,7 @@ assistant.chat("my message")
 - ia peut aider à proposer solutions 
 - contexte : limites, coûts, charges, besoins 
 - conséquences : besoin de se former, utilisable de suite, risques, etc.
-![adr example](2024_devoxx/adr_example.webp)
+![adr example](/assets/2024_devoxx/adr_example.webp)
 
 
 ## Infra sans secrets
@@ -334,8 +334,8 @@ assistant.chat("my message")
 - sso single point of failure (mep double authent)
 - oauth2-proxy permet de se pluguer sur sso et mettre barrière entre sso et outils on premier (bdd,...)
 - boundary + vault
-![vault1](2024_devoxx/vault_1.webp)
-![vault2](2024_devoxx/vault_2.webp)
+![vault1](/assets/2024_devoxx/vault_1.webp)
+![vault2](/assets/2024_devoxx/vault_2.webp)
 
 
 ### secrets cicd
@@ -391,7 +391,7 @@ assistant.chat("my message")
 - stream et array : api découpe et traite dans deux threads, subdivisions succ. pls hypothèses : fct associatives, partage en deux pas garanti sur hashsets. avoir des coeurs dispos, ne pas utiliser i/o dans stream.
 - SIMD est différent. pas de multithread.
 - CPU SIMD. plusieurs unités [ALU reg1 reg2 et result] 1 LOAD = n UC chargent en mm temps
-![crowd](2024_devoxx/simd_1.webp)
+![crowd](/assets/2024_devoxx/simd_1.webp)
 - algo écrite sur vecteurs au lieu de nombres.
 - chaque CPU a son implémentation, connaître son CPU.
 - pas de concurrence, pas de multithread 
