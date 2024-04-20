@@ -278,7 +278,6 @@ return New JavaIsoVisitor(){
 chatMemory.add(systemMessage);
 chatMemory.add(UserMessage.from("input..."))
 chatMemory.add(AiMessage.from("réponse..."))
-
 AiServiceWithMemory assistant = AiService.builder...;
 assistant.chat("my message")
 ```
