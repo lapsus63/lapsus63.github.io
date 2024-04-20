@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Devoxx 2024</title>
+    <link rel="icon" type="image/x-icon" href="/assets/cheat-sheet.ico">
+    
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.1/dist/css/uikit.min.css" />
+    
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.1/dist/js/uikit-icons.min.js"></script>
+    
+    <!-- Lightweight client-side loader that feature-detects and load polyfills only when necessary -->
+    <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2/webcomponents-loader.min.js"></script>
+    <!-- Load the element definition -->
+    <script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@1/src/zero-md.min.js"></script>
+  </head>
+  <body>
+  
+  <div class="container">
+  <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-box-shadow-large uk-margin-top uk-align-center">
+  
+  <p align="right"><a href="index.html">◄ BACK</a></p>
+  
+  <!-- Simply set the `src` attribute to your MD file and win -->
+  <zero-md src="assets/2024-devoxx.md"><template><style class="markdown-style">
+      h2, h3, h4, h5, h6 { line-height: 2; border-radius: 2px; }
+      h1 { padding-left: 10px; }
+      h2 { padding-left: 10px; background: #0e67d0; color: white; font-weight: 600; }
+      h3 { padding-left: 30px; background: #1e87f0; color: white; font-weight: 400; }
+      h4 { padding-left: 50px; background: #1e87f0; color: white; font-weight: 400; }
+      h5 { padding-left: 60px; background: #1e87f0; color: white; font-weight: 400; }
+      h6 { padding-left: 70px; background: #1e87f0; color: white; font-weight: 400; }
+      ::selection { background: #39f; color: #fff; text-shadow: none; }
+    </style></template></zero-md>
+  
+  </div>
+  </div>
+  
+  </body>
+</html>
