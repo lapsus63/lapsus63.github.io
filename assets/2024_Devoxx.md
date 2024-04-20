@@ -3,7 +3,7 @@
 ![crowd](/assets/2024_devoxx/devoxx_crowd.webp)
 
 ## Keynote 1 - Greatest mistakes
-> who: mark rendle
+> Mark Rendle
 - bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
 - [youtube](https://www.youtube.com/watch?v=Y9clBHENy4Q)
 
@@ -15,7 +15,7 @@
 
 
 ## Cybersecurité
-> who: Sonia Seddiki
+> Sonia Seddiki
 - dns tunneling : ping ne passe pas mais dans résolu. ex attaque solarwings 2020.
 - échange de messages en fonction des IP résolues par le faux serveur, ou requête txt dans pour récupérer code malveillant, envoi credentials sur dns en Hexa puis ping dns avec URL contenant de Hexa.
 - steganographie dans du texte e2808b efbbbf : espaces sans chasse
@@ -23,7 +23,7 @@
 
 
 ## Vers une architecture simple
-> who: Bertrand Delacrétaz
+> Bertrand Delacrétaz
 - système compliqué difficile à remplacer 
 - ex de simplicité : cmd linux, Lego, l'instrumient Kazoo,... perdurent, mais équilibre à trouver, ne pas se limiter au passé trop simple.
 - 2e ex: rtp pour enregistrer flux audio en peu de ligne de code (en 1999) avec contraintes perso (15 sec max par fichier, enregistrement continu), stockage sur hdd
@@ -37,7 +37,7 @@
 
 
 ## Test Containers
-> who: Clarence Dimitri Charles 
+> Clarence Dimitri Charles 
 - lancer des tests intégration sans ressources partagées telles qu'une base oracle de dev.
 - librairie java permettant de provisionner une dB, d'autres services.
 - module officiel intégré à Spring boot 3, JUnit5
@@ -52,7 +52,7 @@
 
 
 ## C4 modeles architecture 
-> who: Jérôme Gauthier 
+> Jérôme Gauthier 
 - c4model.com 4 niveaux d'abstraction. Zoom : context / container / component / code
 - outil agnostique as-code : `mermaid, c4builder, structurizr, ...`
 - cf exemple `structurizr` photo 
@@ -63,7 +63,7 @@
 
 
 ## Duckentacle : Fabriquons le futur
-> who: Rémi Forax & José Paumard
+> Rémi Forax & José Paumard
 - [dev.java](https://dev.java/)
 - youtube [road to 21](https://www.youtube.com/playlist?list=PLX8CzqL3ArzVHAHWowaXwYFlLk78D8RvL)
 
@@ -144,7 +144,7 @@ var_handle.get(segment, 0, index)
 
 
 ## OpenRewrite
-> who: Frédéric Mencier
+> Frédéric Mencier
 - (!) données perdues, cf replay
 - [www moderne.io](https://www.moderne.io/)
 - [docs.openrewrite.org](https://docs.openrewrite.org/) ([recipes](https://docs.openrewrite.org/recipes))
@@ -171,7 +171,7 @@ return New JavaIsoVisitor(){
 
 
 ## Testing CSS
-> who: Fabien Zibi
+> Fabien Zibi
 - langage déclaratif, pas testable
 - SCSS -> CSS -> affichage browser
 - Vérifier le CSS généré (test auto sur fonctions scss)
@@ -187,7 +187,7 @@ return New JavaIsoVisitor(){
 
 
 ## BOF Gitlab past present future 
-> who: JP Baconnais, *
+> JP Baconnais, *
 - Depuis 2013 ; utilisé par 25k users
 - En 2014 100k users
 - La plateforme propose une 50aine de services (manage,plan,create,verify,packagé,release,configure,monitor,secure)
@@ -204,7 +204,7 @@ return New JavaIsoVisitor(){
 
 
 ## Keynote 1 - Etat du monde en 2100 : Rapport Meadows
-> who:Anatole Chouard 
+> Anatole Chouard 
 - youtube: [chez Anatole](https://www.youtube.com/c/chezanatole)
 - Club of Rome (Suisse), 1968, comprendre impacts sur le futur. dynamique des systèmes 
 - 5 systèmes : population, ressources, industrie, pollution, système alimentaire 
@@ -215,7 +215,7 @@ return New JavaIsoVisitor(){
 
 
 ## Keynote 2 - Cybersecurité 
-> who: guillaume Poupard (ancien directeur ansii, docaposte)
+> Guillaume Poupard (ancien directeur ansii, docaposte)
 - exemple zone de bon droit : Crimée, officiellement ukrainienne mais qui n'a pas possibilité d'aider les autres pays sur ce territoire. 
 - livre blanc sécurité et défense nationale, 2008. aborde cyber, toutes les menaces qui peuvent venir sur le France (pandémie,etc).
 - loi portée : opérateurs d'importance vitale c doivent se protéger des attaques cyber.
@@ -225,7 +225,7 @@ return New JavaIsoVisitor(){
 
 
 ## LangChain4j LLMs - Hands on lab
-> who: Marie Alice Blete Lize Raes Vincent Peres
+> Marie Alice Blete Lize Raes Vincent Peres
 - revoir présentation slides d'hier 
 - [Springboot exemple](https://github.com/langchain4j/langchain4j-examples/tree/main/spring-boot-example/src/main/java/dev/langchain4j/example)
 - readme indique liste providers compatibles autres que openai
@@ -286,7 +286,7 @@ assistant.chat("my message")
 
 
 ## ADR
-> who: Sylvain Aurat
+> Sylvain Aurat
 - architecture, important décision record, créé 2011
 - rendre compte, focaliser sur le pourquoi 
 - se protéger (turn-over, retrouver contexte)
@@ -306,7 +306,7 @@ assistant.chat("my message")
 
 
 ## Infra sans secrets
-> who: Thibault Lengagne
+> Thibault Lengagne
 - récupérer slides
 ### zéro credentials
 - plus de leak plus d'outils type git guardian, gitleaks... nécessaire 
@@ -342,7 +342,7 @@ assistant.chat("my message")
 
 
 ## Propre vm avec compilation JIT
-> who: Olivier Poncet 
+> Olivier Poncet 
 - https://github.com/ponceto/rpn-calculator-with-jit
 - jit : trafsfo lgg en lg machine à la volée 
 - avantages :
@@ -365,7 +365,7 @@ assistant.chat("my message")
 
 
 ## API Vector programmation parallèle SIMD
-> who: José Paumard 
+> José Paumard 
 - bit.ly/vector-api
 - en preview jep 469 8e incubation, stable et en version finale en Valhalla 
 - principe utilisé par le jit depuis java5
@@ -401,7 +401,7 @@ v1.add(v2)  // un cycle CPU
 
 
 ## Kafka SQL Parquet 
-> who: François Teychene
+> François Teychene
 ### duckdb:
 - jdbc:duckdb avec parquet : 7sec 1miliard de tuples
 - ex. `select * from fichier*.parquet`
