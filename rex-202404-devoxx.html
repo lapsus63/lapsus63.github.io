@@ -22,6 +22,7 @@
     <script type="text/javascript">
       window.onresize = function(event) {
         cont = document.getElementById("maincontainer");
+        console.log(document.documentElement.clientWidth, cont);
 
         if (document.documentElement.clientWidth < 850) {
           cont.style.width = '100%';
