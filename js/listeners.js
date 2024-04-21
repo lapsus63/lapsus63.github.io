@@ -1,5 +1,5 @@
 window.onload = function(event) {
-      cont = document.getElementsByClassname("uk-body")[0];
+      cont = document.getElementsByClassname("uk-card")[0];
       //if (screen.width < 850) {
       if (navigator.userAgentData.mobile) {
         cont.style.width = '100%';
