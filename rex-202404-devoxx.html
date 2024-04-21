@@ -29,7 +29,23 @@
   
   <!-- Simply set the `src` attribute to your MD file and win -->
   <zero-md src="assets/2024_Devoxx.md"><template>
-<link rel="stylesheet" href="/styles/zeromd-custom.css" class="markdown-style"/>
+
+
+
+<style class="markdown-style">
+      h2, h3, h4, h5, h6 { line-height: 2; border-radius: 2px; }
+      h1 { padding-left: 10px; }
+      h2 { padding-left: 10px; background: #0e67d0; color: white; font-weight: 600; }
+      h3 { padding-left: 30px; background: #1e87f0; color: white; font-weight: 400; }
+      h4 { padding-left: 50px; background: #1e87f0; color: white; font-weight: 400; }
+      h5 { padding-left: 60px; background: #1e87f0; color: white; font-weight: 400; }
+      h6 { padding-left: 70px; background: #1e87f0; color: white; font-weight: 400; }
+      img { max-width: 100%; }
+      blockquote { margin-left: 0; padding-left: 2em; border-left: solid 6px #eef; font-style: italic; }
+      pre { background-color: #eef; padding: 1em; overflow: auto; font-size: 20pt; /* border: */  border-radius: 10px; margin-right: 5px; box-shadow: 0 5px 5px rgba(0,0,0,.2); }
+      code { background-color: #eef; }
+      ::selection { background: #39f; color: #fff; text-shadow: none; }
+    </style>
 </template></zero-md>
   
   </div>
