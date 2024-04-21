@@ -23,12 +23,13 @@
       window.onresize = function(event) {
         cont = document.getElementById("maincontainer");
 
-        // cont.style.marginLeft = '0px';
-        // cont.style.marginRight = '0px';
-
-        // cont.style.marginLeft = 'auto';
-        // cont.style.marginRight = 'auto';
-        console.log(cont);
+        if (document.documentElement.clientWidth < 850) {
+          cont.style.marginLeft = '0px';
+          cont.style.marginRight = '0px';
+        } else {
+          cont.style.marginLeft = 'auto';
+          cont.style.marginRight = 'auto';
+        }
       };
     </script>
   </head>
