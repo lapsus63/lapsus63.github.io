@@ -2,6 +2,13 @@
 
 ![crowd](/assets/2024_devoxx/devoxx_crowd.webp)
 
+
+## Le programme suivi
+
+Un bon vieux tableau pour gérer les surbookings, rien de tel:
+
+![program](/assets/2024_devoxx/orga_devoxx.png)
+
 ## Keynote 1 - Greatest mistakes
 > Mark Rendle
 - bugs les plus couteux de l'histoire (date sur 2 chiffres, etc)
