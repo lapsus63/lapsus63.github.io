@@ -43,7 +43,7 @@
 - See Cheat sheets, Youtube tutorials, ... (links below)
 - SQL to Splunk (http://docs.splunk.com/Documentation/Splunk/latest/SearchReference/SQLtoSplunk): 
 
-![Sql2SplSyntax](splunk/Sql2SplSyntax.png)
+![Sql2SplSyntax](/assets/splunk/Sql2SplSyntax.png)
 
 ## To go further...
 
