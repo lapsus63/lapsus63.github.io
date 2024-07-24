@@ -126,3 +126,44 @@ git stash push -p -m "my temporary stash"
 # debug your work, unstash all, restash , ...
 git stash pop
 ```
+
+
+
+### Rewrite git history
+
+* [git-filter-repo](https://github.com/newren/git-filter-repo) : prérequis python ; 
+* [BFG repo cleaner](https://github.com/rtyley/bfg-repo-cleaner)
+* [Git filter branch](https://git-scm.com/docs/git-filter-branch]
+
+Overview:
+
+- Cloner le repo dans un repo bare (sans le code, uniquement les objets git)
+- Filter un chemin de l'historique, le fichier sera exclus du repo
+- Rejouer les commits et les tags (nouveaux commit ids générés, nouvel arbre, dates de commit conservées)
+- 
+
+Prérequis:
+
+- Déprotéger les branches et les tags
+- Désactiver les patterns de validation des push (push rules) ; ajouter le pattern `|(.*)` pour tout laisser passer.
+
+Instructions :
+
+```bash
+git clone --bare --mirror git://example.com/my-repo.git
+cd my-repo.git
+git filter-repo --path ssh/private_key/key.pem --invert-paths
+git remote remove origin
+git remote add origin git://example.com/my-repo.git
+git push origin --force 'refs/heads/*'
+git push origin --force 'refs/tags/*'
+git push origin --force 'refs/replace/*'
+```
+
+Mise à jour de son projet :
+
+- Gitlab proect > Settings > Repository cleanup : Uploader le fichier `filter-repo/commit-map`
+- Le splitter s'il fait plus de 10MB : `split -l 3000 filter-repo/commit-map filter-repo/commit-map-`
+- Se repositionner sur le dernier commit (nouvel ID) : `git reset --hard <commitid>`
+- Protéger à nouveau les branches et les tags
+- Réactiver les push rules
