@@ -152,7 +152,7 @@ Instructions :
 ```bash
 git clone --bare --mirror git://example.com/my-repo.git
 cd my-repo.git
-git filter-repo --path ssh/private_key/key.pem --invert-paths
+git filter-repo --path path/to/file1 --path path/to/file2 --invert-paths
 git remote remove origin
 git remote add origin git://example.com/my-repo.git
 git push origin --force 'refs/heads/*'
