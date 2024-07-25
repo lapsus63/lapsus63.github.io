@@ -140,12 +140,12 @@ Overview:
 - Cloner le repo dans un repo bare (sans le code, uniquement les objets git)
 - Filter un chemin de l'historique, le fichier sera exclus du repo
 - Rejouer les commits et les tags (nouveaux commit ids générés, nouvel arbre, dates de commit conservées)
-- 
 
 Prérequis:
 
 - Déprotéger les branches et les tags
 - Désactiver les patterns de validation des push (push rules) ; ajouter le pattern `|(.*)` pour tout laisser passer.
+- Ajouter git-filter-repo dans le path `PATH=$PATH:/path/to/git-filter-repo/`
 
 Instructions :
 
@@ -162,6 +162,8 @@ git push origin --force 'refs/replace/*'
 
 Mise à jour de son projet :
 
+- Cloner le projet dans un nouveau dossier local
+- Appliquer les fichiers corrigés depuis l'ancien projet
 - Gitlab proect > Settings > Repository cleanup : Uploader le fichier `filter-repo/commit-map`
 - Le splitter s'il fait plus de 10MB : `split -l 3000 filter-repo/commit-map filter-repo/commit-map-`
 - Se repositionner sur le dernier commit (nouvel ID) : `git reset --hard <commitid>`
