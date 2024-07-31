@@ -152,7 +152,10 @@ Instructions :
 ```bash
 git clone --bare --mirror git://example.com/my-repo.git
 cd my-repo.git
+# remove single files :
 git filter-repo --path path/to/file1 --path path/to/file2 --invert-paths
+# remove biggest files
+git filter-repo --strip-blobs-bigger-than 10M --prune-degenerate always --force
 git remote remove origin
 git remote add origin git://example.com/my-repo.git
 git push origin --force 'refs/heads/*'
@@ -169,3 +172,5 @@ Mise à jour de son projet :
 - Se repositionner sur le dernier commit (nouvel ID) : `git reset --hard <commitid>`
 - Protéger à nouveau les branches et les tags
 - Réactiver les push rules
+
+
