@@ -145,6 +145,20 @@ or `| eventcount summarize=false index=* | stats sum(count) as c by index | sort
 | eval GMT = strptime(GMTstr, "%Y-%m-%d %H:%M:%S %Z")
 ```
 
+### Timezone conversion
+
+```splunk
+| makeresults 
+| eval t=strptime("2024-11-15 14:00", "%F %H:%M"),
+  from_tz="Europe/Paris",
+  to_tz="UTC",
+  from_t=strptime(strftime(t, "%c.%6N " . from_tz), "%c.%6N %Z"),
+  to_t=strptime(strftime(t, "%c.%6N " . to_tz), "%c.%6N %Z"),
+  offset=round((from_t-to_t)/60/60),
+  converted=strftime(t + (from_t-to_t), "%c")
+```
+_[source](https://community.splunk.com/t5/Getting-Data-In/Is-there-any-timezone-conversion-function-in-splunk-to-convert/m-p/141159)_
+
 ## Dashboards
 
 - Collection of reports
