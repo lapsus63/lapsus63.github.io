@@ -302,9 +302,6 @@ public void scenarioOneTest() throws Exception {
 
 ### Maven cheat sheet
 
-### Java Keytool cheat sheet
-
-
 ```bash
 # Locate a libray in the dependency tree
 mvn dependency:tree -Dverbose -Dincludes=ch.qos.logback:logback-classic
@@ -314,6 +311,8 @@ mvn dependency:tree -Dverbose -Dincludes=ch.qos.logback:logback-classic
 # Check library updates from repository
 mvn versions:display-dependency-updates 
 ```
+
+### Java Keytool cheat sheet
 
 <p><details>
 	<summary>Listing</summary>
