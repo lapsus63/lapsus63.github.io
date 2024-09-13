@@ -300,7 +300,20 @@ public void scenarioOneTest() throws Exception {
 
 </details></p>
 
+### Maven cheat sheet
+
 ### Java Keytool cheat sheet
+
+
+```bash
+# Locate a libray in the dependency tree
+mvn dependency:tree -Dverbose -Dincludes=ch.qos.logback:logback-classic
+```
+
+```bash
+# Check library updates from repository
+mvn versions:display-dependency-updates 
+```
 
 <p><details>
 	<summary>Listing</summary>
