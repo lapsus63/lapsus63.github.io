@@ -312,6 +312,8 @@ mvn dependency:tree -Dverbose -Dincludes=ch.qos.logback:logback-classic
 mvn versions:display-dependency-updates 
 ```
 
+- [Merging integration and unit test reports with JaCoCo](https://stackoverflow.com/questions/33349864/merging-integration-and-unit-test-reports-with-jacoco)
+
 ### Java Keytool cheat sheet
 
 <p><details>
