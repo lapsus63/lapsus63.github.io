@@ -1,5 +1,14 @@
 # Gitlab CI
 
+### Prevent double pipelines on push + open merge requests
+
+```yaml
+# prevent double pipelines, but allow both branch and MR pipelines separately
+  rules:
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+```
+
 ### Gitlab CI files for multi-module project with maven and Spring
 
 <p>
