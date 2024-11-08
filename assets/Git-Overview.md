@@ -143,6 +143,7 @@ Overview:
 
 Prérequis:
 
+- Avoir une copie du projet en local pour récupérer les fichiers à corriger par la suite
 - Déprotéger les branches et les tags
 - Désactiver les patterns de validation des push (push rules) ; ajouter le pattern `|(.*)` pour tout laisser passer.
 - Ajouter git-filter-repo dans le path `PATH=$PATH:/path/to/git-filter-repo/`
