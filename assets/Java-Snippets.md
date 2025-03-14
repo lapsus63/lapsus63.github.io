@@ -637,4 +637,115 @@ public static void getQueueLength(String queueName) {
 	
 </details>
 </p>
+
+
+### CSV Writer
+ 
+<p><details>
+<summary>CSVWriterRepository.java</summary>
 	
+```java
+/* To be used with opencsv library */
+public final class CSVWriterRepository<T> extends CSVWriter {
+
+    public final static char CSV_SEPARATOR = ';';
+
+    public final static char QUOTE_CHAR = CSVWriter.NO_QUOTE_CHARACTER;
+
+    public final static char ESCAPE_CHAR = CSVWriter.NO_ESCAPE_CHARACTER;
+
+    public final static String LINE_END = CSVWriter.RFC4180_LINE_END;
+
+    public final static boolean APPLY_QUOTES_TO_ALL = false;
+
+    private final Class<T> entityType;
+
+    private List<Field> headerFields;
+
+    private final Path tempFile;
+
+    private final FileWriter fileWriter;
+
+    public static <T> CSVWriterRepository build(Class<T> entityType) throws IOException {
+        Path tempFile = Files.createTempFile(entityType.getSimpleName().toLowerCase(), ".tmp");
+        FileWriter writer = new FileWriter(tempFile.toFile());
+        return new CSVWriterRepository(entityType, tempFile, writer);
+    }
+
+    private CSVWriterRepository(Class<T> entityType, Path tempFile, FileWriter fileWriter) {
+        super(fileWriter, CSV_SEPARATOR, QUOTE_CHAR, ESCAPE_CHAR, LINE_END);
+        this.entityType = entityType;
+        this.tempFile = tempFile;
+        this.fileWriter = fileWriter;
+    }
+
+    public List<Field> getHeaderFields() {
+        if (headerFields == null) {
+            headerFields = Arrays.stream(entityType.getDeclaredFields())
+                    .filter(f -> f.isAnnotationPresent(CsvBindByName.class))
+                    .sorted((f1, f2) -> {
+                        int p1 = 0;
+                        int p2 = 0;
+                        if (f1.isAnnotationPresent(CsvBindByPosition.class)) {
+                            p1 = f1.getAnnotation(CsvBindByPosition.class).position();
+                        }
+                        if (f2.isAnnotationPresent(CsvBindByPosition.class)) {
+                            p2 = f2.getAnnotation(CsvBindByPosition.class).position();
+                        }
+                        if (p1 == 0 && p2 == 0) {
+                            return f1.getAnnotation(CsvBindByName.class).column().compareTo(f2.getAnnotation(CsvBindByName.class).column());
+                        }
+                        return Integer.compare(p1, p2);
+                    })
+                    .toList();
+        }
+        return headerFields;
+    }
+
+    public void appendHeader() {
+        writeNext(getHeaderFields().stream().map(f -> f.getAnnotation(CsvBindByName.class).column()).toArray(String[]::new), APPLY_QUOTES_TO_ALL);
+    }
+
+    public void appendData(T data) {
+        if (data == null) {
+            return;
+        }
+        List<String> line = new ArrayList<>();
+        getHeaderFields().forEach(field -> {
+            try {
+                field.setAccessible(true);
+                Object value = field.get(data);
+                if (value instanceof BigDecimal && field.isAnnotationPresent(CsvNumber.class)) {
+                    DecimalFormat decimalFormat = new DecimalFormat(field.getAnnotation(CsvNumber.class).value());
+                    decimalFormat.setRoundingMode(field.getAnnotation(CsvNumber.class).roundingMode());
+                    value = decimalFormat.format(value);
+                } else if (value instanceof TemporalAccessor && field.isAnnotationPresent(CsvDate.class)) {
+                    String format = field.getAnnotation(CsvDate.class).value();
+                    value = DateTimeFormatter.ofPattern(format).format((TemporalAccessor) value);
+                }
+                line.add(StringUtils.trimToEmpty(Objects.toString(value, null)));
+            } catch (IllegalAccessException e) {
+                log.error(String.format("Error while reading field %s", field.getName()), e);
+                line.add("");
+            }
+        });
+        writeNext(line.toArray(new String[0]), APPLY_QUOTES_TO_ALL);
+    }
+
+    public Path getTempFile() {
+        return tempFile;
+    }
+
+    @Override
+    public void close() throws IOException {
+        super.close();
+        if (fileWriter != null) {
+            fileWriter.close();
+        }
+    }
+
+}
+```
+</details>
+</p>
+
