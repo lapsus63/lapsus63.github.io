@@ -40,6 +40,13 @@ git rebase --onto topicA~5 topicA~3 topicA
 ```bash
 # --edit-todo: Edit the todo list during an interactive rebase.
 # --interactive: Make a list of the commits which are about to be rebased. Let the user edit that list before rebasing
+
+# Rename a commit in the past:
+git rebase -i <commit_id>~
+# note the tilde ~ at the end of the command, because you need to reapply commits on top of the previous commit
+# In the default editor, modify pick to edit or reword in the line you want to update
+git push -f
+# WARNING: Note that this will change the SHA-1 of that commit as well as all children -- in other words, this rewrites the history from that point forward. You can break repos doing this if you push using the command git push --force.
 ```
 
 ### Options utiles
