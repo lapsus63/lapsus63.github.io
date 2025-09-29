@@ -140,7 +140,7 @@ git stash pop
 
 * [git-filter-repo](https://github.com/newren/git-filter-repo) : prérequis python ; 
 * [BFG repo cleaner](https://github.com/rtyley/bfg-repo-cleaner)
-* [Git filter branch](https://git-scm.com/docs/git-filter-branch]
+* [Git filter branch](https://git-scm.com/docs/git-filter-branch)
 
 Overview:
 
@@ -175,7 +175,7 @@ Mise à jour de son projet :
 
 - Cloner le projet dans un nouveau dossier local
 - Appliquer les fichiers corrigés depuis l'ancien projet
-- Gitlab proect > Settings > Repository cleanup : Uploader le fichier `filter-repo/commit-map`
+- Gitlab project > Settings > Repository > Repository cleanup : Uploader le fichier `filter-repo/commit-map`
 - Le splitter s'il fait plus de 10MB : `split -l 3000 filter-repo/commit-map filter-repo/commit-map-`
 - Se repositionner sur le dernier commit (nouvel ID) : `git reset --hard <commitid>`
 - Protéger à nouveau les branches et les tags
