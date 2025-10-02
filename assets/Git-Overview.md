@@ -180,5 +180,10 @@ Mise à jour de son projet :
 - Se repositionner sur le dernier commit (nouvel ID) : `git reset --hard <commitid>`
 - Protéger à nouveau les branches et les tags
 - Réactiver les push rules
+- Lancer un "Prune" des objets détachés : Settings > General > Advanced > "Prune unreachable objects"
 
+Autre solution (à tester):
+
+- Repository > Repository Maintenance > Remove blobs
+- Lancer un "Prune" des objets détachés : Settings > General > Advanced > "Prune unreachable objects"
 
