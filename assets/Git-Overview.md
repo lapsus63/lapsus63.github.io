@@ -35,6 +35,18 @@ git cherry-pick -n develop..feature
 git rebase --onto topicA~5 topicA~3 topicA
 ```
 
+
+### Git Diff
+
+```bash
+# Show only unstaged changes:
+git diff
+# Show only staged changes:
+git diff --staged
+# Show everything that changed since the last commit:
+git diff HEAD
+```
+
 ### Rebase interactif
 
 ```bash
@@ -56,6 +68,7 @@ git push -f
 # --no-verify : ignorer les pre-commit hooks
 # --ignore-whitespace
 # --autosquash ; --no-autosquash
+# "git add :" : Add all changes from the repository root, including hidden files. It works from any directory in the project and is the safest way to add everything.
 ```
 
 
