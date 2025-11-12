@@ -84,6 +84,295 @@ C:\PSTools>psexec -s c:\jre\path\bin\jcmd.exe JAVA_PID Thread.dump >dump.txt
 -Djava.rmi.server.hostname=127.0.0.1
 ```
 
+
+### Telemetry with OpenTelemetry, Micrometer and Grafana
+
+
+
+<p><details>
+<summary>pom.xml</summary>
+```xml
+	<dependencyManagement>
+		<dependencies>
+			<!-- Force toutes les dépendances OpenTelemetry à la même version -->
+			<!-- import the OpenTelemetry BOMs before any other BOMs in your project. -->
+			<!-- https://opentelemetry.io/docs/zero-code/java/spring-boot-starter/getting-started/ -->
+			<dependency>
+				<groupId>io.opentelemetry.instrumentation</groupId>
+				<artifactId>opentelemetry-instrumentation-bom</artifactId>
+				<version>${otel-instrumentation.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<!-- Monitoring dependencies (versions gérées par le bom dans le dependencyManagement) -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-otlp</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<!-- permet d'exposer les métriques au format prometheus sur /actuator/prometheus -->
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-otlp</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<!-- Permet de lier les observations (traces, @Observed) à micrometer (métriques) -->
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-otel</artifactId>
+		</dependency>
+	</dependencies>
+```
+</details>
+
+
+<p><details>
+<summary>application.yaml</summary>
+```yaml
+# https://docs.spring.io/spring-boot/reference/actuator/observability.html
+# https://docs.spring.io/spring-boot/reference/actuator/tracing.html
+
+# Micrometer
+management:
+  health:
+    readinessState.enabled: true
+    livenessState.enabled: true
+  endpoint:
+    health:
+      probes.enabled: true
+      show-details: always
+  endpoints.web.exposure:
+    include: "*"
+    exclude: "caches"
+  observations:
+    # enable scanning of observability annotations like @Observed, @Timed, @Counted, @MeterTag and @NewSpan:
+    annotations.enabled: true
+    # desactiver des observations: management.observations.enable.denied.prefix: false
+    # If you need greater control over the prevention of observations, you can register beans of type ObservationPredicate
+    enable.all: true
+    key-values.env: ${SPRING_APP_ENVIRONMENT}
+    key-values.service.name: ${SPRING_APP_NAME}
+  otlp:
+    logs.export:
+      url: https://otel-collector-url.com/http/v1/logs
+    metrics.export:
+      enabled: true
+      connect-timeout: 10s # par defaut 1s
+      read-timeout: 30s # par defaut 10s
+      step: 60s
+      url: https://otel-collector-url.com/http/v1/metrics
+    tracing:
+      endpoint: https://otel-collector-url.com/http/v1/traces
+  tracing:
+    enabled: true
+    sampling.probability: 1.0
+
+# OpenTelemetry
+# https://opentelemetry.io/docs/languages/java/configuration/
+otel:
+  exporter:
+    otlp:
+      headers:
+        x-scope-orgid: default
+      endpoint: https://otel-collector-url.com:443
+      # http/protobuf pour la compatibilité maximale, la simplicité réseau, ou proxies HTTP.
+      # gRPC pour la performance maximale et que l'infra le supporte
+      protocol: grpc
+  instrumentation.micrometer.enabled: true
+  instrumentation.logback-appender.enabled: true
+  logs.exporter: otlp
+  metrics.exporter: otlp
+  resource:
+    attributes:
+      env: ${SPRING_APP_ENVIRONMENT}
+      service.name: ${SPRING_APP_NAME}
+  sdk.disabled: false
+  service.name: ${SPRING_APP_NAME}
+  traces.exporter: otlp
+
+application:
+  config:
+    otel:
+      metric-names-allowed:
+        - "http.server.requests"
+        - "logback.events"
+        - "method.observed"
+        - "process.start.time"
+        - "process.uptime"
+        - "spring.data.repository.invocations"
+        - "spring.batch.job.launch.count"
+      observation-uris-filtered:
+        - "/actuator/**"
+```
+</details>
+
+<p><details>
+<summary>OpenTelemetryConfig.java</summary>
+```java
+@Configuration
+@ConfigurationProperties(prefix = "application.config.otel")
+@Slf4j
+@Setter
+@Profile("opentelemetry")
+public class OpenTelemetryConfig {
+
+    private List<String> metricNamesAllowed;
+    private List<String> metricNamesFiltered;
+    private List<String> observationUrisFiltered;
+
+    @Bean
+    public ObservationRegistryCustomizer<ObservationRegistry> customizeObservation() {
+        PathMatcher pathMatcher = new AntPathMatcher("/");
+        return registry -> registry.observationConfig().observationPredicate((name, context) -> {
+            if (context instanceof ServerRequestObservationContext observationContext) {
+                String uri = observationContext.getCarrier().getRequestURI();
+                return observationUrisFiltered.stream().noneMatch(pattern -> pathMatcher.match(pattern, uri));
+            }
+            return true;
+        });
+    }
+
+    @Bean
+    public MeterFilter filterMetrics() {
+        return new MeterFilter() {
+            @Override
+            public MeterFilterReply accept(Meter.Id id) {
+                String name = id.getName();
+                if (metricNamesAllowed.contains(name)) {
+                    if (name.startsWith("http.server.requests") && id.getTags().stream().anyMatch(tag -> "uri".equals(tag.getKey()) && tag.getValue().startsWith("/actuator"))) {
+                        return MeterFilterReply.DENY;
+                    }
+                    return MeterFilterReply.NEUTRAL;
+                } else if (metricNamesFiltered.contains(name)) {
+                    return MeterFilterReply.DENY;
+                }
+                log.warn("Unkown metric name: {} {}", name, id.getTags());
+                return MeterFilterReply.NEUTRAL;
+            }
+        };
+    }
+}
+```
+</details>
+
+
+
+<p><details>
+<summary>OpenTelemetryUtils.java</summary>
+```java
+
+    public static void updateObservation(Map<String, String> tags) {
+        Observation obs = getObservationRegistry().getCurrentObservation();
+        if (obs != null) {
+            KeyValues kvs = tags.entrySet().stream().collect(
+                    KeyValues::empty,
+                    (keyValues, entry) -> keyValues.and(entry.getKey(), entry.getValue()),
+                    KeyValues::and
+            );
+            // Low cardinality tags will be added to metrics and traces, while high cardinality tags will only be added to traces.
+            obs.lowCardinalityKeyValues(kvs);
+        } else {
+            log.debug("No current observation found");
+        }
+    }
+
+    public static void updateEvent(AbstractEvent metricWrapper) {
+        try {
+            log.info(metricWrapper.getMessage());
+            updateObservation(metricWrapper.getTags());
+        } catch (Exception e) {
+            log.warn("Error while updating time based event {}", metricWrapper.getName(), e);
+        }
+    }
+
+    public static void updateCounter(AbstractCounter metricWrapper) {
+        String metricName = null;
+        try {
+            metricName = metricWrapper.getName();
+            Meter meter = getOpenTelemetryMeter();
+            if (meter == null) {
+                return;
+            }
+            LongCounter counter = meter.counterBuilder(metricName).build();
+            counter.add(metricWrapper.getIncrement(), metricWrapper.getAttributes());
+            log.trace("Counter {} updated: {}", metricName, metricWrapper.getTags().entrySet().stream()
+                    .map(e -> e.getKey() + "=" + e.getValue())
+                    .collect(Collectors.joining(" ", "", "")));
+            updateObservation(metricWrapper.getTags());
+        } catch (Exception e) {
+            log.warn("Error while updating counter {}", metricName, e);
+        }
+    }
+
+    public static void updateLongGauge(AbstractLongGauge metricWrapper) {
+        String metricName = null;
+        try {
+            metricName = metricWrapper.getName();
+            Meter meter = getOpenTelemetryMeter();
+            if (meter == null) {
+                return;
+            }
+            LongGauge gauge = meter.gaugeBuilder(metricName).ofLongs().build();
+            gauge.set(metricWrapper.getValue(), metricWrapper.getAttributes());
+            log.trace("Gauge {} updated with {}: {}", metricName, metricWrapper.getValue(), metricWrapper.getTags().entrySet().stream()
+                    .map(e -> e.getKey() + "=" + e.getValue())
+                    .collect(Collectors.joining(" ", "", "")));
+            updateObservation(metricWrapper.getTags());
+        } catch (Exception e) {
+            log.warn("Error while updating gauge {}", metricName, e);
+        }
+    }
+
+	// Application should implement ApplicationContextAware and call this method
+    public static void initContext(ApplicationContext applicationContext) {
+        context = applicationContext;
+    }
+
+    private static Meter getOpenTelemetryMeter() {
+        if (context == null) {
+            return null;
+        }
+        return context.getBean(OpenTelemetry.class).getMeter(OpenTelemetryUtils.class.getPackageName());
+    }
+
+    private static ObservationRegistry getObservationRegistry() {
+        return context.getBean(ObservationRegistry.class);
+    }
+
+    /**
+     * see <a href="https://www.w3.org/TR/trace-context/">W3C</a>
+     * 00: version
+     * trace-id: 16 bytes array (32 hex characters)
+     * span-id: 8 bytes array (16 hex characters)
+     * trace-flags: 1 byte array (2 hex characters)
+     * 01 : indique que cette trace est échantillonnée et devrait être enregistrée
+     * 00 : indique que la trace ne devrait pas être échantillonnée
+     * @return the current traceparent in the W3C Trace Context format.
+     */
+    public static String getTraceParent() {
+        Span currentSpan = Span.current();
+        if (currentSpan != null && currentSpan.getSpanContext().isValid()) {
+            String traceId = currentSpan.getSpanContext().getTraceId();
+            String spanId = currentSpan.getSpanContext().getSpanId();
+            return "00-" + traceId + "-" + spanId + "-01";
+        }
+        return "";
+    }
+```
+</details>
+
 ### Integration testing 
 
 <p><details>
