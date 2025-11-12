@@ -2,7 +2,8 @@
 
 ## Documentation
 
-- 
+- Official [documentation](https://docs.renovatebot.com/)
+- Customize [scheduling](https://docs.renovatebot.com/key-concepts/scheduling/) for each project
 
 ## Overview
 
