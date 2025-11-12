@@ -52,4 +52,64 @@ Allow to reuse complex prompts with a custom command.
 ```
 
 </details>
+
+* Repository-wide custom instructions, which apply to all requests made in the context of a repository: `.github/copilot-instructions.md`
+* Path-specific custom instructions, which apply to requests made in the context of files that match a specified path: `.github/instructions/NAME.instructions.md` ; use `*applyTo: "**/*.ts,**/*.tsx"` in the header.
+
+<p><details>
+<summary>.github/copilot-instructions.md</summary>
   
+```md
+# GitHub Copilot - Instructions par défaut
+
+Ce fichier définit les règles et bonnes pratiques à suivre pour l'utilisation de GitHub Copilot dans ce projet.
+
+## Langages et Frameworks
+- Utiliser **Java 17** pour le backend.
+- Utiliser **Spring Boot 3.4.2** pour l’API REST.
+- Utiliser **Angular 19** pour le frontend.
+
+## Conventions de nommage
+- Variables et méthodes : camelCase
+- Classes : PascalCase
+- Fichiers : kebab-case pour Angular, camelCase ou PascalCase pour Java
+
+## Tests
+- Générer des tests unitaires avec **JUnit 5** pour le backend.
+- Utiliser **Jasmine/Karma** pour les tests frontend Angular.
+
+## Annotations et bonnes pratiques Spring
+- Utiliser les annotations Spring appropriées : `@RestController`, `@Service`, `@Repository`, `@Entity`, etc.
+- Respecter l'architecture en couches : contrôleur, service, repository, modèle.
+
+## Documentation
+- Ajouter des commentaires clairs pour les méthodes complexes.
+- Documenter les endpoints REST dans les contrôleurs.
+
+## Sécurité et qualité
+- Valider les entrées utilisateur côté backend et frontend.
+- Utiliser des exceptions personnalisées pour la gestion des erreurs.
+- Respecter les bonnes pratiques de gestion des dépendances et de configuration.
+
+## CI/CD
+- Prévoir des scripts pour l'intégration continue et le déploiement.
+```
+
+</details>
+
+
+<p><details>
+<summary>.chatmodes/tech-debt-remediation-plan.chatmode.md</summary>
+
+```md
+---
+description: 'Generate technical debt remediation plans for code, tests, and documentation.'
+tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI', 'github']
+---
+# Technical Debt Remediation Plan
+Generate comprehensive technical debt remediation plans. Analysis only - no code modifications. Keep recommendations concise and actionable. Do not provide verbose explanations or unnecessary details.
+
+```
+  
+</details></p>
+
