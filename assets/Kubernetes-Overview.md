@@ -2,8 +2,10 @@
 
 ## Configuration de projet
 
-* Arborescence .k8s:
 
+<p>
+<details>
+<summary>Arborescence .k8s</summary>
 ```
 .k8s
 ├───base
@@ -22,6 +24,7 @@
     │       
     └───...
 ```
+</details>
 
 <p>
 <details>
