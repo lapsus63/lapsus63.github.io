@@ -9,6 +9,25 @@
       when: never
 ```
 
+### Gitlab CI configuration project files
+
+
+<p>
+<details>
+<summary>.gitlab/merge_request_templates/default.md</summary>
+
+```md
+### Things to check for approval
+- [ ] Pipeline
+- [ ] Code review
+- [ ] Documentation
+- [ ] Code quality Sonar
+- [ ] Changelog + commit message
+```
+	
+</details>
+
+
 ### Gitlab CI files for multi-module project with maven and Spring
 
 <p>
