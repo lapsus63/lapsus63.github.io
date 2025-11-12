@@ -271,7 +271,7 @@ spec:
 
 ```bash
 # Lister les différents types d'objets:
-k get pods|deployments|services|ingress|configmaps|secrets|externalsecrets|secretstores
+k get pods|deployments|services|ingresses|configmaps|secrets|externalsecrets|secretstores|replicasets
 
 # Afficher le statut des pods en temps réel
 k get pods --watch
@@ -296,3 +296,19 @@ k delete deployment
 # Consulter les logs sur les 5 dernieres minutes (tester aussi 1d, 2h, ...)
 k logs --since 5m -f <pod-name>
 ```
+
+
+<p>
+<details>
+<summary>wipeout.sh</summary>
+
+```sh
+kubectl get deployment      -o name | grep $APP_NAME | xargs kubectl delete 2>/dev/null || true
+kubectl get service         -o name | grep $APP_NAME | xargs kubectl delete 2>/dev/null || true
+kubectl get ingress         -o name | grep $APP_NAME | xargs kubectl delete 2>/dev/null || true
+kubectl get issuers         -o name | grep $APP_NAME | xargs kubectl delete 2>/dev/null || true
+kubectl get secrets         -o name | grep $APP_NAME | xargs kubectl delete 2>/dev/null || true
+kubectl get externalsecrets -o name | grep $APP_NAME | xargs kubectl delete 2>/dev/null || true
+```
+
+</details>
