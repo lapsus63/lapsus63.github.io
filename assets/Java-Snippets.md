@@ -1371,6 +1371,83 @@ public static void getQueueLength(String queueName) {
 </details>
 
 
+### Debug SQL queries and batch queries
+ 
+<p><details>
+<summary>DatasourceProxyBeanPostProcessor.java</summary>
+
+Implement the BeanPostProcessor:
+	
+```java
+
+    @Override
+    public Object postProcessBeforeInitialization(final Object bean, final String beanName) throws BeansException {
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(final Object bean, final String beanName) throws BeansException {
+        if (bean instanceof DataSource) {
+            ProxyFactory factory = new ProxyFactory(bean);
+            factory.setProxyTargetClass(true);
+            factory.addAdvice(new ProxyDataSourceInterceptor((DataSource) bean));
+            return factory.getProxy();
+        }
+        return bean;
+    }
+
+    private static class ProxyDataSourceInterceptor implements MethodInterceptor {
+
+        private final DataSource dataSource;
+
+        private static final int MAX_PARAM_DISPLAY = 10;
+
+        protected QueryLogEntryCreator queryLogEntryCreator = new DefaultQueryLogEntryCreator();
+
+        public ProxyDataSourceInterceptor(final DataSource dataSource) {
+            this.dataSource = ProxyDataSourceBuilder.create(dataSource).name("Batch-Insert-Logger").asJson().countQuery().listener(new QueryExecutionListener() {
+                @Override
+                public void beforeQuery(ExecutionInfo executionInfo, List<QueryInfo> list) {
+                }
+
+                @Override
+                public void afterQuery(ExecutionInfo execInfo, List<QueryInfo> queryInfoList) {
+
+                    QueryInfo queryInfo = queryInfoList.get(0);
+                    List<List<ParameterSetOperation>> paramList = queryInfo.getParametersList();
+                    List<List<ParameterSetOperation>> paramSubList = paramList.subList(0, Math.min(paramList.size(), MAX_PARAM_DISPLAY));
+                    queryInfo.setParametersList(paramSubList);
+                    String tableName = getTableName(queryInfo.getQuery());
+                    String logDetails = queryLogEntryCreator.getLogEntry(execInfo, queryInfoList, false, true, false).replaceAll("\r\n|\r|\n", " ");
+                    log.debug(tableName + ": " + logDetails);
+                }
+            }).build();
+        }
+
+        @Override
+        public Object invoke(final MethodInvocation invocation) throws Throwable {
+            Method proxyMethod = ReflectionUtils.findMethod(dataSource.getClass(), invocation.getMethod().getName());
+            if (proxyMethod != null) {
+                return proxyMethod.invoke(dataSource, invocation.getArguments());
+            }
+            return invocation.proceed();
+        }
+
+        public static String getTableName(String query) {
+            // Define the regex pattern to find the word after the given pattern
+            String regex = "\\s+from\\s+(\\w+)";
+            Pattern compiledPattern = Pattern.compile(regex);
+            Matcher matcher = compiledPattern.matcher(query);
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+            return "?";
+        }
+    }
+```
+</details>
+
+
 ### CSV Writer
  
 <p><details>
