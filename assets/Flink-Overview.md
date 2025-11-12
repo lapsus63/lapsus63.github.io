@@ -2,7 +2,7 @@
 
 ## Documentation
 
-- Workshopby Eric Carlier (Confluent) [https://docs.confluent.io/platform/current/streams/developer-guide/dsl-api.html](https://github.com/ericarlier/shoe-store-michelin)
+- Workshopby Eric Carlier (Confluent) [https://docs.confluent.io/platform/current/streams/developer-guide/dsl-api.html](https://docs.confluent.io/platform/current/streams/developer-guide/dsl-api.html)
 
 ## Overview
 
