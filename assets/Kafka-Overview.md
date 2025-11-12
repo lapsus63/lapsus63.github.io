@@ -146,7 +146,7 @@ Important settings:
 
 ## SCHEMA REGISTRY
 
-Schema definition is mandatory for public Topics. These Schemas must be validated by Data Architect ([doc](https://f4m.si-pages.michelin.com/iwantkafka/introduction/components/registry/))
+Schema definition is mandatory for public Topics. These Schemas must be validated by Data Architect
 
 From kafka-connect or postman :
 
