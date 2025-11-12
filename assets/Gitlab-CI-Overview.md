@@ -28,6 +28,574 @@
 </details>
 
 
+### Gitlab full CI/CD pipeline
+
+
+<p>
+<details>
+<summary>.gitlab-ci.yml</summary>
+
+
+```yaml
+
+include:
+  - project: path/to/commons_project/subfolder
+    file: filename.yml
+    ref: 1.2.0
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  VAULT_SERVER_URL: https://vault.server.com
+  SONAR_TAGS:
+    value: false
+    description: "Tag sonar project with project tags"
+  GIT_LEAKS_FULL_SCAN:
+    value: false
+    description: "Scan all files in the git history"
+  SKIP_TESTS:
+    value: false
+    description: "Manually skip testing"
+
+stages:
+  - prepare_ci
+  - build
+  - test
+  - publish
+  - deploy
+
+# https://docs.gitlab.com/ci/yaml/workflow/#switch-between-branch-pipelines-and-merge-request-pipelines
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+#######################################################################################################################
+##                                              BUILD AND TEST STEPS                                                 ##
+#######################################################################################################################
+
+load_cicd_variables:
+  stage: prepare_ci
+  image: docker.image
+  variables:
+    ARTIFACTORY_USER: $GITLAB_USER_LOGIN
+    VAULT_AUTH_PATH: gitlab
+    VAULT_AUTH_ROLE: vaul-role-np
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  secrets:
+    ARTIFACTORY_TOKEN:
+      vault:
+        engine:
+          name: generic
+          path: artifactory
+        path: user_token/$GITLAB_USER_LOGIN
+        field: access_token
+      file: false
+    AGE_PRIVATE_KEY:
+      vault: path/to/vault/AGE_PRIVATE_KEY@apps/app/kv/nonprod
+      file: false
+    ARTIFACTORY_URL:
+    DOCKER_PROD_REGISTRY:
+    DOCKER_TEAM_SNAPSHOT_REGISTRY:
+    DOCKER_TEAM_RELEASE_REGISTRY:
+    DOCKER_REGISTRY:
+    SONARQUBE_TOKEN:
+    SONARQUBE_URL:
+  script:
+    - echo "AGE_PRIVATE_KEY=$AGE_PRIVATE_KEY" > vault.env
+    - echo "ARTIFACTORY_TOKEN=$ARTIFACTORY_TOKEN" >> vault.env
+    - ...
+  rules:
+    - if: '$GITLAB_USER_LOGIN != "renovate"'
+      when: always
+  artifacts:
+    reports:
+      dotenv: vault.env
+    expire_in: 30 mins
+
+⛏ build-maven:
+  stage: build
+  extends: .maven-build
+  script:
+    # On a tag pipeline, update the version in the pom.xml with the tag name without the v prefix (v1.2.3 -> 1.2.3):
+    - if [ -n "$CI_COMMIT_TAG" ] && [[ "$CI_COMMIT_TAG" == v* ]]; then mvn $MAVEN_CLI_OPTS versions:set -DnewVersion="${CI_COMMIT_TAG#v}" -DgenerateBackupPoms=false; fi
+    - mvn $MAVEN_CLI_OPTS -Dskip.it=true -Dskip.ut=true clean package
+  artifacts:
+    expire_in: 4h
+    paths:
+      - $CI_PROJECT_DIR/target
+
+☔ test-maven-junit-sonar:
+  stage: build
+  needs:
+    - ⛏ build-maven
+  extends: .maven-test
+  script:
+    - mvn $MAVEN_CLI_OPTS -Duser.timezone=GMT -Duser.country=US -Duser.language=en org.jacoco:jacoco-maven-plugin:prepare-agent verify org.jacoco:jacoco-maven-plugin:report
+    - mvn $MAVEN_CLI_OPTS sonar:sonar $SONAR_OPTS -Dsonar.token=$SONARQUBE_TOKEN -Dsonar.verbose=true -Dsonar.qualitygate.wait="true"
+  rules:
+    - if: $SKIP_TESTS == "true"
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: on_success
+  artifacts:
+    when: always
+    expire_in: 4h
+    paths:
+      - $CI_PROJECT_DIR/target
+
+☔ test-maven-xray:
+  stage: build
+  image: docker.image.jfrog
+  needs:
+    - job: load_cicd_variables
+      optional: true
+    - ⛏ build-maven
+  variables:
+    JF_WATCHES: WATCH_LIST_NAME
+    JAR_FILE: target/$CI_PROJECT_NAME.jar
+    REPORT_FILE: xray_report.json
+  script:
+    - jf c add artifactory --artifactory-url=$ARTIFACTORY_URL --xray-url=$ARTIFACTORY_URL/xray --user=$ARTIFACTORY_USER --password=$ARTIFACTORY_TOKEN -interactive=false
+    - jf scan $JAR_FILE --watches=$JF_WATCHES --format=json | tee $REPORT_FILE
+  artifacts:
+    when: always
+    expire_in: 4h
+    paths:
+      - $CI_PROJECT_DIR/$REPORT_FILE
+  rules:
+    - if: '$GITLAB_USER_LOGIN == "renovate"'
+      when: never
+    - if: $SKIP_TESTS == "true"
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: on_success
+
+☔ test-git-leaks:
+  # default toml configuration: https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+  stage: build
+  image:
+    name: image.docker.gitleaks
+    entrypoint: [""]
+  variables:
+    REPORT_FILE: gl-secret-detection-report.json
+  script:
+    # "--exit-code 0" to prevent CI from failing when secrets are found (or use gitlab allow_failures: true)
+    # can current directory only
+    - gitleaks dir . -v -f json -r $REPORT_FILE
+  artifacts:
+    when: always
+    expire_in: 4h
+    paths:
+      - $CI_PROJECT_DIR/$REPORT_FILE
+  rules:
+    - if: $SKIP_TESTS == "true"
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: on_success
+
+☔ test-git-leaks-full-scan:
+  # default toml configuration: https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+  stage: build
+  image:
+    name: docker.image.gitleaks
+    entrypoint: [""]
+  variables:
+    REPORT_FILE: gl-secret-detection-report.json
+  script:
+    # "--exit-code 0" to prevent CI from failing when secrets are found (or use gitlab allow_failures: true)
+    # scan git repository:
+    - gitleaks git . --platform gitlab -v -f json -r $REPORT_FILE
+  artifacts:
+    when: always
+    expire_in: 4h
+    paths:
+      - $CI_PROJECT_DIR/$REPORT_FILE
+  rules:
+    - if: $GIT_LEAKS_FULL_SCAN == "true"
+      when: on_success
+    - when: never
+
+🔬 sonar-tags:
+  stage: test
+  extends: .set-sonarqube-project-tags
+  rules:
+    - if: $SONAR_TAGS == "true"
+      when: on_success
+    - when: never
+
+📦 generate-deploy-pipeline:
+  stage: publish
+  image: docker.image.url
+  script:
+    - sh generate-deploy-pipeline.sh .generated-deploy-pipeline.yml
+    - cat .generated-deploy-pipeline.yml
+  rules:
+    - if: '$GITLAB_USER_LOGIN == "renovate"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "web" || $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "trigger"'
+      when: on_success
+  artifacts:
+    paths:
+      - .generated-deploy-pipeline.yml
+
+#######################################################################################################################
+##                                              DOCKER STEPS                                                         ##
+#######################################################################################################################
+
+
+.prepare-registry-auth: &prepare-registry-auth |
+  echo "{\"auths\":{\"DOCKER_TEAM_SNAPSHOT_REGISTRY\":{\"username\":\"$ARTIFACTORY_USER\",\"password\":\"$ARTIFACTORY_TOKEN\"}}}" > /kaniko/.docker/config.json
+
+⛏ build-docker:
+  stage: build
+  needs:
+    - job: load_cicd_variables
+      optional: true
+    - ⛏ build-maven
+  image: docker.image.kaniko
+  variables:
+    DOCKERFILE_PATH: .k8s/Dockerfile
+    KANIKO_IMAGE_TARGET: "run"
+    IMAGE_TAR_FILE: $CI_PROJECT_NAME-image.tar
+  script:
+    - *prepare-registry-auth
+    - /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --target $KANIKO_IMAGE_TARGET
+      --skip-unused-stages
+      --dockerfile $DOCKERFILE_PATH
+      --snapshot-mode redo
+      --use-new-run
+      --no-push
+      --tarPath $IMAGE_TAR_FILE
+  rules:
+    - if: '$GITLAB_USER_LOGIN == "renovate"'
+      when: never
+    - when: on_success
+  artifacts:
+    when: on_success
+    expire_in: 4h
+    paths:
+      - $CI_PROJECT_DIR/$IMAGE_TAR_FILE
+
+☔ test-docker-xray:
+  stage: build
+  needs:
+    - job: load_cicd_variables
+      optional: true
+    - ⛏ build-docker
+  image: docker.image.jfrog
+  variables:
+    IMAGE_TAR_FILE: $CI_PROJECT_NAME-image.tar
+    JF_WATCHES: WATCH_LIST_NAME
+    REPORT_FILE: xray_report.json
+  script:
+    - jf c add artifactory --artifactory-url=$ARTIFACTORY_URL --xray-url=$ARTIFACTORY_URL/xray --user=$ARTIFACTORY_USER --password=$ARTIFACTORY_TOKEN -interactive=false
+    - jf scan $IMAGE_TAR_FILE --watches=$JF_WATCHES --format=json | tee $REPORT_FILE
+  allow_failure: true
+  rules:
+    - if: '$GITLAB_USER_LOGIN == "renovate"'
+      when: never
+    - if: $SKIP_TESTS == "true"
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: on_success
+  artifacts:
+    when: always
+    expire_in: 4h
+    paths:
+      - $CI_PROJECT_DIR/$IMAGE_TAR_FILE
+      - $CI_PROJECT_DIR/$REPORT_FILE
+
+🐳 push-docker-snapshot:
+  image:
+    name: image.docker.crane
+    entrypoint: [""]
+  stage: publish
+  variables:
+    IMAGE_TAR_FILE: $CI_PROJECT_NAME-image.tar
+    IMAGE_DESTINATION: $DOCKER_TEAM_SNAPSHOT_REGISTRY/app_name/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA
+    VAULT_AUTH_PATH: gitlab
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  secrets:
+    ARTIFACTORY_TOKEN:
+      vault:
+        engine:
+          name: generic
+          path: artifactory
+        path: user_token/$GITLAB_USER_LOGIN
+        field: access_token
+      file: false
+  script:
+    - crane auth login -u $ARTIFACTORY_USER -p $ARTIFACTORY_TOKEN $DOCKER_TEAM_SNAPSHOT_REGISTRY
+    - crane push $IMAGE_TAR_FILE $IMAGE_DESTINATION
+  rules:
+    - if: '$GITLAB_USER_LOGIN == "renovate"'
+      when: never
+    - if: '$CI_COMMIT_TAG && $SKIP_TESTS == "false"'
+      when: on_success
+    - when: manual
+
+🐳 push-docker-release:
+  image:
+    name: image.docker.crane
+    entrypoint: [""]
+  stage: publish
+  variables:
+    IMAGE_DESTINATION: $DOCKER_TEAM_RELEASE_REGISTRY/my_app/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+    IMAGE_TAR_FILE: $CI_PROJECT_NAME-image.tar
+  script:
+    - crane auth login -u $ARTIFACTORY_USER -p $ARTIFACTORY_TOKEN $DOCKER_TEAM_RELEASE_REGISTRY
+    - crane push $IMAGE_TAR_FILE $IMAGE_DESTINATION
+  rules:
+    - if: '$CI_COMMIT_TAG && $SKIP_TESTS == "false"'
+      when: on_success
+
+
+#######################################################################################################################
+##                                              PROMOTE STEPS                                                        ##
+#######################################################################################################################
+
+👨‍🎓 promote:
+  stage: publish
+  image:
+    name: image.docker.promote-artifact
+  needs:
+    - job: load_cicd_variables
+      optional: true
+    - 🐳 push-docker-release
+  variables:
+    PROMOTE_URL: "https://artifactory.url/api/plugins/execute/promote"
+    PROMOTE_TOKEN: $ARTIFACTORY_TOKEN
+    PROMOTE_FROM_REPO: "my_app-docker-release"
+    PROMOTE_IMAGES: "my_app/$CI_PROJECT_NAME:$CI_COMMIT_TAG"
+    PROMOTE_WATCH: "WATCH_LIST_NAME"
+    PROMOTE_FORCE: false
+    PROMOTE_DRY_RUN: false
+  script:
+    - /promote.sh
+  rules:
+    - if: $CI_COMMIT_TAG
+
+
+#######################################################################################################################
+##                                              RELEASE NOTES                                                        ##
+#######################################################################################################################
+
+📓 generate-note:
+  stage: publish
+  image: docker.image.url
+  variables:
+      CI_API_V4_URL: "gitlab.ci.api.url"
+  script:
+    - |
+      VERSION=$(echo $CI_COMMIT_REF_NAME | cut -d 'v' -f2)
+      echo VERSION=$VERSION
+      curl -H "PRIVATE-TOKEN: $CICD_API_PROJECT_TOKEN" "$CI_API_V4_URL/user"
+      # sed: remplacement des liens vers les commits par les liens vers les tickets JIRA
+      # la version doit être au format vX.Y.Z-xyz (ex: v1.2.3, v1.2.3-SNAPSHOT, v1.2.3-c01, ...) cf. https://semver.org/
+      curl -H "PRIVATE-TOKEN: $CICD_API_PROJECT_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/changelog?version=$VERSION" | sed -E 's/\[(XXX-[0-9]{3,})([^]]+)[^)]+\)/[\1\2](https:\/\/jira.server.url\/jra\/browse\/\1)/g' | jq -r .notes | tee release_notes.md
+  rules:
+    - if: $SKIP_TESTS == "true"
+      when: never
+    - when: on_success
+  artifacts:
+    paths:
+      - release_notes.md
+
+📓 publish-release-note:
+  stage: deploy
+  image: docker.image.release-cli-gitlab
+  script:
+    - echo "Creating release note for $CI_COMMIT_REF_NAME"
+  release:
+    name: '$CI_COMMIT_REF_NAME'
+    description: release_notes.md
+    tag_name: '$CI_COMMIT_REF_NAME'
+    ref: '$CI_COMMIT_SHA'
+  rules:
+    - if: $SKIP_TESTS == "true"
+      when: never
+    - if: $CI_COMMIT_TAG
+
+#######################################################################################################################
+##                                              DEPLOY STEPS                                                         ##
+#######################################################################################################################
+
+deploy-pipeline:
+  stage: deploy
+  variables:
+    PARENT_PIPELINE_ID: ${CI_PIPELINE_ID}
+    SKIP_TESTS: ${SKIP_TESTS}
+    DOCKER_REGISTRY: ${DOCKER_REGISTRY}
+  rules:
+    - if: '$GITLAB_USER_LOGIN == "renovate"'
+      when: never
+    - when: on_success
+  trigger:
+    include:
+      - artifact: .generated-deploy-pipeline.yml
+        job: 📦 generate-deploy-pipeline
+    strategy: depend
+
+```
+</details>
+
+
+<p>
+<details>
+<summary>generate-deploy-pipeline.sh</summary>
+```sh
+#!/bin/sh -xe
+
+OUTPUT_YML=$1
+
+# Pipeline header
+###############################################################################
+
+cat << EOF1 > ${OUTPUT_YML}
+
+# This file is auto-generated by generate-deploy-pipeline.sh
+
+include:
+  - project: path/to/commons_project/subfolder
+    file: commons_tools.yml
+    ref: 1.0.0
+
+default:
+  tags:
+    - runner-tags
+
+stages:
+  - 💈 prepare
+  - 🚀 deploy
+  - ✅ check
+
+.validate-readyness-liveness:
+  image: image.docker.kubectl
+  variables:
+    AGE_PRIVATE_KEY: \$AGE_PRIVATE_KEY
+    K8S_OVERLAY_PATH: .k8s/overlays
+    KUBE_CONFIG_PATH: kubectl_config
+  script:
+    - cd \$K8S_OVERLAY_PATH/\$ENVIRONMENT
+    - export SOPS_AGE_KEY=\$AGE_PRIVATE_KEY
+    - sops -d -i \$KUBE_CONFIG_PATH
+    - kubectl --kubeconfig \$KUBE_CONFIG_PATH get pods --no-headers | grep "$CI_PROJECT_NAME" | grep -v "Terminating" | awk '{print \$1}' | xargs -I {} kubectl --kubeconfig \$KUBE_CONFIG_PATH wait pod {} --for=condition=Ready --timeout=300s
+
+EOF1
+
+# Pipeline body
+###############################################################################
+
+# env_list contains always "dev" and "qua", and also "indus" and "prod" only when $CI_COMMIT_TAG is set
+if [ -z "$CI_COMMIT_TAG" ]; then
+  env_list="dev qua"
+else
+  env_list="dev qua indus prod"
+fi
+
+for ENV in $env_list; do
+echo "Generating pipeline for $ENV"
+
+IMAGE_TO_DEPLOY=\${DOCKER_TEAM_SNAPSHOT_REGISTRY}/app_name/\${CI_PROJECT_NAME}:\${CI_COMMIT_SHORT_SHA}
+DEFAULT_WHEN_MODE=manual
+
+if [ "dev" = "$ENV" ]; then
+  DEFAULT_WHEN_MODE=on_success
+fi
+if [ "qua" = "$ENV" ]; then
+  DEFAULT_WHEN_MODE=on_success
+fi
+if [ "indus" = "$ENV" ]; then
+  IMAGE_TO_DEPLOY=\${DOCKER_PROD_REGISTRY}/app_name/\${CI_PROJECT_NAME}:\${CI_COMMIT_TAG}
+fi
+if [ "prod" = "$ENV" ]; then
+  IMAGE_TO_DEPLOY=\${DOCKER_PROD_REGISTRY}/app_name/\${CI_PROJECT_NAME}:\${CI_COMMIT_TAG}
+fi
+
+cat << EOF2 >> ${OUTPUT_YML}
+💈 prepare-${ENV}:
+   stage: 💈 prepare
+   image: image.dosker.url
+   needs:
+     - pipeline: \${PARENT_PIPELINE_ID}
+       job: load_cicd_variables
+   id_tokens:
+     VAULT_ID_TOKEN:
+       aud: \${VAULT_SERVER_URL}
+   secrets:
+     ARTIFACTORY_TOKEN:
+       vault:
+         engine:
+           name: generic
+           path: artifactory
+         path: user_token/\${GITLAB_USER_LOGIN}
+         field: access_token
+       file: false
+   script:
+     - echo "Artifactory token refreshed!"
+     - echo "ARTIFACTORY_TOKEN=$ARTIFACTORY_TOKEN" > vault.env
+   rules:
+     - if: \$GITLAB_USER_LOGIN == "renovate"
+       when: never
+   artifacts:
+     reports:
+       dotenv: vault.env
+     expire_in: 30 mins
+
+🚀 deploy-${ENV}:
+   stage: 🚀 deploy
+   needs:
+     - pipeline: \${PARENT_PIPELINE_ID}
+       job: load_cicd_variables
+   extends: .deploy-k8s
+   variables:
+     ENVIRONMENT: ${ENV}
+     IMAGE_TO_DEPLOY: ${IMAGE_TO_DEPLOY}
+   rules:
+     - if: \$GITLAB_USER_LOGIN == "renovate"
+       when: never
+     - if: \$CI_COMMIT_TAG && ("indus" == "$ENV" || "prod" == "$ENV")
+       when: manual
+     - if: \$SKIP_TESTS == "true" && ("indus" == "$ENV" || "prod" == "$ENV")
+       when: never
+     - when: ${DEFAULT_WHEN_MODE}
+
+💫 validate-${ENV}:
+   stage: ✅ check
+   needs:
+     - 🚀 deploy-${ENV}
+     - pipeline: \${PARENT_PIPELINE_ID}
+       job: load_cicd_variables
+   extends: .validate-readyness-liveness
+   variables:
+     ENVIRONMENT: ${ENV}
+   rules:
+     - if: \$SKIP_TESTS == "false" && \$CI_COMMIT_TAG && ("indus" == "$ENV" || "prod" == "$ENV")
+     - if: \$SKIP_TESTS == "true" && ("indus" == "$ENV" || "prod" == "$ENV")
+       when: never
+     - when: on_success
+
+EOF2
+done
+
+```
+</details>
+
+
 ### Gitlab CI files for multi-module project with maven and Spring
 
 <p>
