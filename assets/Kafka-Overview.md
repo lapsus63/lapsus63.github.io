@@ -12,7 +12,6 @@
 ```bash
 export MY_TOPIC=ocr-topic
 export KAFKA_SERVERS=kafka-1:9092,kafka-2:9092,kafka-3:9092
-export ZOOKEEPER_SERVER=zookeeper:2181
 export REGISTRY_SERVER=http://schema-registry:8081
 ```
 
@@ -84,6 +83,41 @@ kafka-avro-console-producer --broker-list $KAFKA_SERVERS \
 # {"prop1": "my prop1 first value", "prop2": "my prop2 first value"}
 ```
 
+Important settings:
+
+```properties
+enable.idempotence=
+# recommended : true (make messages appear once)
+
+acks=
+# Nb validations que le producer demande pour valider l'envoi du message. 0 ou 1 : message non répliqué. all: répliqué partout
+# default: 1, recommended: all (prod)
+
+retries=
+# Ordre messages non garanti si retry nécessaire. Garantir l'ordre: max.in.flight.Request.per.connection=1 (par défaut = 5)
+# default: infinite
+# recommended: INT.MAX (actual value depends whether java lib or c++ librdkafka is used)
+
+bootstrap.servers=
+# liste des serveurs (2 ou 3) à utiliser en tant que point d'entrée aux brokers kafka
+
+key.serializer=
+value.serializer=
+# interface Serializer (StringSerializer.class, ...)
+
+compression.type=
+# none / snappy / gzip / lz4 //  Taille des messages limitée à 1M
+
+batch.size=
+# taille du batch ; 16Kb par défaut ; gestion du débit
+
+linger.ms=
+# temps d'attente avant d'envoyer un batch ; 0 par défaut; batch part dès qu'il est plein (faible latence = petites valeurs)
+
+buffer.memory=
+# default 32MB
+```
+
 ## CONSUMERS
 
 From kafka-connect :
@@ -105,6 +139,11 @@ kafka-consumer-groups --bootstrap-server $KAFKA_SERVERS \
     --group group2
 ```
 
+Important settings:
+
+```properties
+```
+
 ## SCHEMA REGISTRY
 
 Schema definition is mandatory for public Topics. These Schemas must be validated by Data Architect ([doc](https://f4m.si-pages.michelin.com/iwantkafka/introduction/components/registry/))
@@ -117,18 +156,6 @@ curl $REGISTRY_SERVER/subjects
 curl $REGISTRY_SERVER/subjects/$MY_TOPIC-value/versions
 curl $REGISTRY_SERVER/subjects/$MY_TOPIC-value/versions/{version_number}
 curl $REGISTRY_SERVER/subjects/$MY_TOPIC-value/versions/{version_number}/schema
-```
-
-
-## ZOOKEEPER
-
-From zookeeper bash:
-
-```bash
-# Show brokers
-/bin/zookeeper-shell localhost:2181 ls /brokers/ids
-/bin/zookeeper-shell localhost:2181 ls /brokers/topics #Gives the list of topics
-/bin/zookeeper-shell localhost:2181 get /brokers/ids/0 #Gives more detailed information of the broker id '0'
 ```
 
 ## REST PROXY
@@ -151,4 +178,60 @@ Contrôle des composants Kafka via une API REST :
 
 ```bash
 kafka-topics --describe --topic topic_name
+```
+
+## CONNECTORS
+
+Error management:
+
+```properties
+errors.tolerance=
+# Error handling. Recommended value : "all"
+
+errors.log.enable=
+# Error handling. Recommended value : "true"
+
+errors.log.include.messages=
+# Error handling. Recommended value : "true"
+
+errors.deadletterqueue.topic.name=
+# Error handling. Possible values : "FDW-sink-machine_state-dlq", ...
+
+errors.deadletterqueue.context.headers.enable=
+# Error handling. Recommended value : "true"
+```
+
+## CONNECTOR KafkaGen
+
+* Ex. `./kafkagen-x.x.x-windows.exe produce -f=message.json topic_name`
+* message.json:
+
+```json
+[
+ {
+    "key": "key",
+    "value": {
+      "param1": "param1",
+      "param2": "param2"
+    }
+ }
+]
+```
+
+* ~/.kafkagen/config.yml:
+
+```yaml
+kafkagen:
+ contexts:
+ - name: ctx-name
+   context:
+     bootstrap-servers: 
+     security-protocol: 
+     sasl-mechanism: 
+     sasl-jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username="******" password="******";
+     registry-url: 
+     registry-username: 
+     registry-password: 
+     group-id-prefix: 
+ current-context: ctx-name
 ```
