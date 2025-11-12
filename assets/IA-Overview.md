@@ -17,13 +17,14 @@
 - Include: Role & Language style ; format/length ; entries/references ; emotion ; objective ; examples
 - Cut a complex request in subtasks
 
-### IDE prompr files
+### IDE prompt files
 
 Allow to reuse complex prompts with a custom command.
 
 
 <p><details>
 <summary>.github/prompts/MigratexNetToSpringbootcontroller.prompt.md</summary>
+  
 ```md
   ---
   mode: agent
@@ -49,5 +50,6 @@ Allow to reuse complex prompts with a custom command.
   }
   ```
 ```
+
 </details>
   
