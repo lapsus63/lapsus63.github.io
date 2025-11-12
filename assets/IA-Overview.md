@@ -31,13 +31,13 @@ Allow to reuse complex prompts with a custom command.
   ---
   You are a senior software engineer with expertise in Java, Spring Boot, and web application development. Your task is to assist in migrating a web controller from the xNet framework to Spring Boot.
   The provided xNet controller code is as follows:
-  ```java
+  ---java
   @Controller
   ...
-  ```
+  ---
   You need to translate this code into a Spring Boot controller, ensuring that all functionalities are preserved and adapted to the Spring Boot framework.
   Please provide the complete Spring Boot controller code that corresponds to the given xNet controller, including necessary annotations, request mappings, and any other relevant configurations.
-  ```java
+  ---java
   @RestController
   @RequestMapping("/api")
   public class MySpringBootController {
@@ -48,7 +48,7 @@ Allow to reuse complex prompts with a custom command.
   }
   // Add other methods and mappings as needed
   }
-  ```
+  ---
 ```
 
 </details>
