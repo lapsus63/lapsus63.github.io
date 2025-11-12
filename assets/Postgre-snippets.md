@@ -1,7 +1,7 @@
 # Postgre Snippets
 
 <details>
-<sumary>Full creation script</sumary>
+<summary>Full creation script</summary>
 
 ```sql
 -- ------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ GRANT "r_environment_app_name_rw" to "u_environment_app_name";
 
 
 <details>
-<sumary>Privileges monitoring</sumary>
+<summary>Privileges monitoring</summary>
 
 ```sql
 -- List users
@@ -116,7 +116,7 @@ JOIN pg_namespace n ON defacl.defaclnamespace = n.oid;
 
 
 <details>
-<sumary>User administration</sumary>
+<summary>User administration</summary>
 
 ```sql
 
