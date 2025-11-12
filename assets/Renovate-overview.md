@@ -9,7 +9,7 @@
 
 <p>
 <details>
-<summary>renovate.jsonw</summary>
+<summary>renovate.json</summary>
 
 ```json
 {
