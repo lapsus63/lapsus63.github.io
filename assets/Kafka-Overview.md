@@ -15,6 +15,50 @@ export KAFKA_SERVERS=kafka-1:9092,kafka-2:9092,kafka-3:9092
 export REGISTRY_SERVER=http://schema-registry:8081
 ```
 
+### Implement Java Kafka Connector
+
+
+<p><details>
+<summary>KafkaConnector.java</summary>
+```java
+Properties p = new Properties();
+
+//common
+p.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ...);
+p.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, ...);
+p.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, ...);
+p.put(AbstractKafkaSchemaSerDeConfig.AUTO_REGISTER_SCHEMAS, false);
+
+//security
+p.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, ...);
+p.put(SchemaRegistryClientConfig.BASIC_AUTH_CREDENTIALS_SOURCE, ...));
+p.put(SchemaRegistryClientConfig.USER_INFO_CONFIG, ...);
+p.put(SaslConfigs.SASL_MECHANISM, ...);
+p.put(SaslConfigs.SASL_JAAS_CONFIG, ...);
+
+//consumer part:
+p.put("topic", ...);
+p.put("poll.delay", ...);
+p.put("retry.delay", ...);
+p.put(ConsumerConfig.GROUP_ID_CONFIG, ...);
+p.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, ...);
+p.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ...);
+p.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ...);
+p.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
+/* Fine tuning ; see also https://learn.conduktor.io/kafka/kafka-options-explorer/ */
+p.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, ...);
+p.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, ...);
+p.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, ...);
+p.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, ...);
+
+
+// producer part:
+p.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ...);
+p.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ...);
+p.put("avro.remove.java.properties", true);
+```
+</details>
+
 ### TOPICS
 
 From kafka-connect :
@@ -118,6 +162,56 @@ buffer.memory=
 # default 32MB
 ```
 
+### PRODUCER Java implementation
+
+
+<p><details>
+<summary>AbstractKafkaProducer.java</summary>
+```java
+    private final Environment env;
+    private final KafkaProducer<K, V> producer;
+
+    public AbstractKafkaProducer(Environment env, KafkaProducer<K, V> producer) {
+        this.env = env;
+        this.producer = producer;
+    }
+
+    @Observed
+    public void write(String topic, K key, V value) {
+        List<Header> headers = List.of(
+                new RecordHeader("traceparent", OpenTelemetryUtils.getTraceParent().getBytes(StandardCharsets.UTF_8)));
+        sendRecord(new ProducerRecord<>(topic, null, key, value, headers));
+    }
+
+    protected void sendRecord(ProducerRecord<K, V> producerRecord) {
+        try {
+            // Asynchronous (add .get() to make it synchronous)
+            producer.send(producerRecord, getDefaultCallback());
+        } catch (Exception e) { }
+    }
+
+    /**
+     * @return a default function to handle responses from Kafka API after a send event.
+     */
+    private Callback getDefaultCallback() {
+        return (RecordMetadata metadata, Exception e) -> {
+            if (e instanceof AuthenticationException) {
+                /* log... */
+            }
+            if (metadata == null) {
+                /* log... */
+            } else if (e != null && log.isErrorEnabled()) {
+                /* log... */
+            } else if (log.isDebugEnabled()) {
+                /* log... */
+            }
+        };
+    }
+```
+</details>
+
+
+
 ## CONSUMERS
 
 From kafka-connect :
@@ -143,6 +237,156 @@ Important settings:
 
 ```properties
 ```
+
+
+### CONSUMER Java implementation
+
+
+<p><details>
+<summary>AbstractKafkaConsumer.java</summary>
+```java
+@Getter
+public abstract class AbstractKafkaConsumer<K, V extends SpecificRecord> {
+
+    private final Consumer<K, V> consumer;
+    private final Map<TopicPartition, OffsetAndMetadata> offsets = new HashMap<>();
+
+    protected AbstractKafkaConsumer(Consumer<K, V> consumer) {
+        this.consumer = consumer;
+    }
+
+    protected abstract String getTopic();
+    protected abstract String getAutoOffsetReset();
+    protected abstract int getPollDelay();
+    protected abstract int getRetryDelay();
+    protected abstract boolean canProcess(ConsumerRecord<K, V> consumerRecord);    
+    public abstract void processRecord(ConsumerRecord<K, V> consumerRecord);
+    public abstract void flushBatch();
+
+    /**
+     * Listening of Kafka records in an infinite loop (entrypoint)
+     */
+    public void monitor() {
+        consumer.subscribe(Collections.singleton(getTopic()), new LogRebalanceListener<>(consumer, offsets));
+        boolean canMonitor = true;
+        while (canMonitor) {
+            try {
+                listenRecords();
+            } catch (InterruptException ie) {
+                /* Program killed */
+                canMonitor = false;
+            } catch (SslAuthenticationException sslEx) {
+                canMonitor = false;
+            } catch (Exception e) {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(getRetryDelay());
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+
+    private boolean isPaused(Consumer<K, V> consumer) {
+        return !consumer.paused().isEmpty();
+    }
+
+    /** Update map offset to the new valid offset positions */
+    private void updateOffsetsPosition(ConsumerRecord<K, V> consumerRecord) {
+        offsets.put(new TopicPartition(consumerRecord.topic(), consumerRecord.partition()), new OffsetAndMetadata(consumerRecord.offset() + 1));
+    }
+
+    private void rewind(Consumer<K, V> consumer) {
+        if (offsets.isEmpty()) {
+            // if this is the first time you don't have any offset committed yet, that's unfortunate that you get both no position and a failure, but here would be a path to handle this case
+            if ("earliest".equals(StringUtils.defaultIfBlank(getAutoOffsetReset(), "earliest"))) {
+                consumer.seekToBeginning(consumer.assignment());
+            } else if ("latest".equals(getAutoOffsetReset())) {
+                consumer.seekToEnd(consumer.assignment());
+            }
+        }
+        // if we already have committed position
+        for (Map.Entry<TopicPartition, OffsetAndMetadata> entry : offsets.entrySet()) {
+            if (entry.getValue() != null) {
+                consumer.seek(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    /**
+     * Iteration of infinite loop listening Kafka Topic
+     */
+    public void listenRecords() {
+        ConsumerRecords<K, V> records = consumer.poll(Duration.ofMillis(getPollDelay()));
+        if (isPaused(consumer)) {
+            consumer.resume(consumer.assignment());
+        }
+        for (ConsumerRecord<K, V> consumerRecord : records) {
+            try {
+                processAndUpdate(consumerRecord);
+            } catch (Exception e) {
+                break;
+            }
+        }
+        if (!records.isEmpty() && !isPaused(consumer)) {
+            flushAndCommit();
+        }
+    }
+
+    private void flushAndCommit() {
+        try {
+            flushBatch();
+            consumer.commitSync(offsets);
+        } catch (CommitFailedException e) { }
+    }
+
+    private void processAndUpdate(ConsumerRecord<K, V> consumerRecord) {
+        try {
+            if (canProcess(consumerRecord)) {
+                processRecord(consumerRecord);
+            }
+        } catch (Exception e) {
+            consumer.pause(consumer.assignment());
+            rewind(consumer);
+            throw e;
+        }
+        updateOffsetsPosition(consumerRecord);
+    }
+
+    public void stop() {
+        consumer.close();
+    }
+}  
+```
+</details>
+
+
+<p><details>
+<summary>LogRebalanceListener.java</summary>
+```java
+@Override
+public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
+    for (TopicPartition topicPartition : partitions) {
+        offsets.remove(topicPartition);
+    }
+}
+
+@Override
+public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
+    Map<TopicPartition, OffsetAndMetadata> committed = consumer.committed(new HashSet<>(partitions));
+    if (committed != null) {
+        for (Map.Entry<TopicPartition, OffsetAndMetadata> entry : committed.entrySet()) {
+            if (entry.getValue() != null) {
+                offsets.put(entry.getKey(), entry.getValue());
+            } else {
+                offsets.remove(entry.getKey());
+            }
+        }
+    }
+}
+```
+</details>
+
 
 ## SCHEMA REGISTRY
 
