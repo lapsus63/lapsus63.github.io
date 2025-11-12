@@ -169,6 +169,7 @@ buffer.memory=
 
 <p><details>
 <summary>AbstractKafkaProducer.java</summary>
+    
 ```java
     private final Environment env;
     private final KafkaProducer<K, V> producer;
@@ -210,6 +211,7 @@ buffer.memory=
         };
     }
 ```
+
 </details>
 
 
@@ -246,6 +248,7 @@ Important settings:
 
 <p><details>
 <summary>AbstractKafkaConsumer.java</summary>
+    
 ```java
 @Getter
 public abstract class AbstractKafkaConsumer<K, V extends SpecificRecord> {
@@ -360,11 +363,13 @@ public abstract class AbstractKafkaConsumer<K, V extends SpecificRecord> {
     }
 }  
 ```
+
 </details>
 
 
 <p><details>
 <summary>LogRebalanceListener.java</summary>
+    
 ```java
 @Override
 public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
@@ -387,6 +392,7 @@ public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
     }
 }
 ```
+
 </details>
 
 
