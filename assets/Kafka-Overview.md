@@ -20,6 +20,7 @@ export REGISTRY_SERVER=http://schema-registry:8081
 
 <p><details>
 <summary>KafkaConnector.java</summary>
+    
 ```java
 Properties p = new Properties();
 
@@ -57,6 +58,7 @@ p.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ...);
 p.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ...);
 p.put("avro.remove.java.properties", true);
 ```
+
 </details>
 
 ### TOPICS
