@@ -1,5 +1,8 @@
 # Postgre Snippets
 
+## User management
+
+<p>
 <details>
 <summary>Full creation script</summary>
 
@@ -63,9 +66,9 @@ GRANT "r_environment_app_name_rw" to "u_environment_app_name";
 ```
 
 </details>
+</p>
 
-
-
+<p>
 <details>
 <summary>Privileges monitoring</summary>
 
@@ -113,8 +116,9 @@ JOIN pg_namespace n ON defacl.defaclnamespace = n.oid;
 ```
   
 </details>
+</p>
 
-
+<p>
 <details>
 <summary>User administration</summary>
 
@@ -131,3 +135,4 @@ ALTER USER u_xxxxxx_ro WITH NOLOGIN; -- WITH LOGIN;
 ``
 
 </details>
+</p>
