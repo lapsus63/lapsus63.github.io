@@ -1558,3 +1558,20 @@ public final class CSVWriterRepository<T> extends CSVWriter {
 </details>
 </p>
 
+
+
+### Obsolescence management with OpenRewrite
+ 
+Exemples d'usages: 
+
+- Passer de spring-boot 3.x à 4.x
+- Convertir des technologies vieillissantes vers de nouvelles technologies (choisir des “recettes”)
+
+Guide d'utilisation:
+
+- Laisser son workspace entièrement en l'état (ne pas commencer à le modifier)
+- Configurer le pom.xml et choisir ses recettes:
+
+https://docs.openrewrite.org/recipes/java/spring/boot3/upgradespringboot_3_3​ 
+https://docs.openrewrite.org/recipes/java/spring/boot4/upgradespringboot_4_0-community-edition 
+- `mvn rewrite:run`
