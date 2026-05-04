@@ -188,15 +188,50 @@ Mise à jour de son projet :
 
 - Cloner le projet dans un nouveau dossier local
 - Appliquer les fichiers corrigés depuis l'ancien projet
+
+
 - Gitlab project > Settings > Repository > Repository cleanup : Uploader le fichier `filter-repo/commit-map`
 - Le splitter s'il fait plus de 10MB : `split -l 3000 filter-repo/commit-map filter-repo/commit-map-`
 - Se repositionner sur le dernier commit (nouvel ID) : `git reset --hard <commitid>`
+
+
 - Protéger à nouveau les branches et les tags
 - Réactiver les push rules
 - Lancer un "Prune" des objets détachés : Settings > General > Advanced > "Prune unreachable objects"
 
-Autre solution (à tester):
+**Autre solution avec gitlab > 17:**
 
-- Repository > Repository Maintenance > Remove blobs
-- Lancer un "Prune" des objets détachés : Settings > General > Advanced > "Prune unreachable objects"
+Remove data from a repository
+
+1. Lister les object ids correspondant au fichier à nettoyer :
+
+```bash
+git rev-list --objects --all | grep <mon_fichier> | awk '{print $1}'
+```
+
+2. Récupérer le blob Id à partir d'un commit particulier:
+
+```bash
+git ls-tree -r -t --long --full-name <commit_id> | grep <mon_fichier>
+```
+
+Afficher la dernière version de l'objet en cours: 
+
+```bash
+git ls-tree -r HEAD -- <mon_fichier> | awk '{print $3}'
+```
+
+Noter les Object Ids en écartant le dernier, et les intégrer dans Settings > Repository > Repository Maintenance > Remove Blobs
+Nettoyer le repo : `General Settings > Advanced > Houskeeping > Run Houskeeping`
+Nettoyer le repo : `General Settings > Advanced > Houskeeping > Prune unreachable objects`
+
+Si le commit n'a pas été supprimé, vérifier qu'il n'est pas référencé par un tag ou autre :
+
+```bash
+git for-each-ref --contains <BLOB_COMMIT_HASH>
+```
+
+Si c'est le cas, il faut revenir à la solution `git-filter-repo` (Les tags seront recréés sans le blob)
+
+
 
